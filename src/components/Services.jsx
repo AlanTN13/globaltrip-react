@@ -12,7 +12,7 @@ const Services = () => {
         },
         {
             title: t('services.s2'),
-            image: 'https://images.unsplash.com/photo-1586528116311-ad86d7264375?auto=format&fit=crop&q=80&w=800',
+            image: 'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=800',
             link: '/servicios'
         },
         {
@@ -22,12 +22,12 @@ const Services = () => {
         },
         {
             title: t('services.s4'),
-            image: 'https://images.unsplash.com/photo-1454165833767-027ffea9e7a7?auto=format&fit=crop&q=80&w=800',
+            image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800',
             link: '/servicios'
         },
         {
             title: t('services.s5'),
-            image: 'https://images.unsplash.com/photo-1591603517208-4187e914092d?auto=format&fit=crop&q=80&w=800',
+            image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&q=80&w=800',
             link: '/servicios'
         },
         {
@@ -50,12 +50,12 @@ const Services = () => {
                 </div>
 
                 {/* Grid de Cards (Estilo Central Cargo) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service, index) => (
                         <Link
                             key={index}
                             to={service.link}
-                            className="group relative h-80 rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                            className="group relative h-72 rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
                         >
                             {/* Background Image with Zoom */}
                             <img

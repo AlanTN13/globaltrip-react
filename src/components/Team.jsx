@@ -23,7 +23,7 @@ const Team = () => {
 
     return (
         <section className="py-24 bg-white">
-            <div className="container mx-auto px-6 max-w-7xl">
+            <div className="container mx-auto px-6 max-w-5xl">
                 {/* Header */}
                 <div className="text-center mb-20">
                     <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight uppercase">
