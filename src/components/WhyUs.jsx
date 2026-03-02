@@ -26,57 +26,61 @@ const WhyUs = () => {
                     </div>
                 </div>
 
-                {/* Content Block - More robust layout */}
-                <div className="grid lg:grid-cols-12 gap-12 items-center">
-                    {/* Image Side with Decorative Elements */}
-                    <div className="lg:col-span-6 relative">
-                        <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl"></div>
-                        <div className="absolute -bottom-10 -right-6 w-48 h-48 bg-blue-600/5 rounded-full blur-3xl"></div>
+                {/* Content Block - Massive Image & Aligned Text */}
+                <div className="grid lg:grid-cols-12 gap-16 items-stretch">
+                    {/* Image Side - Now stretches to match text height */}
+                    <div className="lg:col-span-7 relative group">
+                        <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-600/5 rounded-full blur-3xl"></div>
+                        <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-blue-600/10 rounded-full blur-3xl"></div>
 
-                        <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl bg-white p-3">
-                            <div className="rounded-xl overflow-hidden aspect-[4/3]">
-                                <img
-                                    src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1200"
-                                    alt="Logística Internacional Global Trip"
-                                    className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
-                                    onError={(e) => {
-                                        e.target.src = "https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1200";
-                                    }}
-                                />
-                            </div>
+                        <div className="relative z-10 h-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+                            <img
+                                src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1200"
+                                alt="Logística Internacional Global Trip"
+                                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                onError={(e) => {
+                                    e.target.src = "https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1200";
+                                }}
+                            />
+                            {/* Overlay sutil para elegancia */}
+                            <div className="absolute inset-0 bg-blue-900/5 group-hover:bg-transparent transition-colors duration-500"></div>
                         </div>
                     </div>
 
-                    {/* Text Content */}
-                    <div className="lg:col-span-6 flex flex-col">
-                        <div className="inline-block px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-md mb-6 w-fit">
-                            Expertise
-                        </div>
+                    {/* Text Content - Defines the height */}
+                    <div className="lg:col-span-5 flex flex-col justify-between py-2">
+                        <div>
+                            <div className="inline-block px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-md mb-6 w-fit shadow-lg shadow-blue-600/20">
+                                Expertise
+                            </div>
 
-                        <h3 className="text-3xl md:text-5xl font-black text-slate-900 mb-8 tracking-tighter leading-[1.1] uppercase">
-                            {t('whyUs.subtitle')}
-                        </h3>
+                            <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-6 tracking-tighter leading-[1.1] uppercase">
+                                {t('whyUs.subtitle')}
+                            </h3>
 
-                        <div className="space-y-8">
-                            <p className="text-slate-500 text-lg md:text-xl leading-relaxed font-medium">
+                            <p className="text-slate-500 text-base md:text-lg leading-relaxed font-medium mb-8">
                                 {t('whyUs.text')}
                             </p>
+                        </div>
 
-                            <div className="grid sm:grid-cols-2 gap-8 pt-4">
-                                <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
-                                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors">
-                                        <span className="material-symbols-outlined text-blue-600 group-hover:text-white transition-colors">public</span>
-                                    </div>
-                                    <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-2">{t('whyUs.label_scope')}</h4>
-                                    <p className="text-slate-500 text-sm font-bold">{t('whyUs.val_scope')}</p>
+                        <div className="hidden sm:grid grid-cols-2 gap-6 pt-4">
+                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-blue-600/10 transition-all duration-300 group flex flex-col h-full">
+                                <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300 mb-6">
+                                    <span className="material-symbols-outlined text-blue-600 group-hover:text-white transition-colors duration-300 text-3xl">public</span>
                                 </div>
+                                <div>
+                                    <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-2">{t('whyUs.label_scope')}</h4>
+                                    <p className="text-slate-500 text-sm font-bold leading-relaxed">{t('whyUs.val_scope')}</p>
+                                </div>
+                            </div>
 
-                                <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
-                                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors">
-                                        <span className="material-symbols-outlined text-blue-600 group-hover:text-white transition-colors">gavel</span>
-                                    </div>
+                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-blue-600/10 transition-all duration-300 group flex flex-col h-full">
+                                <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300 mb-6">
+                                    <span className="material-symbols-outlined text-blue-600 group-hover:text-white transition-colors duration-300 text-3xl">gavel</span>
+                                </div>
+                                <div>
                                     <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-2">{t('whyUs.label_mgmt')}</h4>
-                                    <p className="text-slate-500 text-sm font-bold">{t('whyUs.val_mgmt')}</p>
+                                    <p className="text-slate-500 text-sm font-bold leading-relaxed">{t('whyUs.val_mgmt')}</p>
                                 </div>
                             </div>
                         </div>

@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import WhyUs from '../components/WhyUs';
 import Services from '../components/Services';
 import Team from '../components/Team';
+import MapSection from '../components/MapSection';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
@@ -15,6 +16,7 @@ const Home = () => {
                 <WhyUs />
                 <Services />
                 <Team />
+                <MapSection />
             </main>
 
             <Footer />
