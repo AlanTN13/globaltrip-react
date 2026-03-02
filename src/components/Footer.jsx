@@ -9,7 +9,7 @@ const Footer = () => {
                     {/* Brand & Social */}
                     <div className="flex flex-col gap-6">
                         <div className="text-[#0b4e89] text-2xl font-black tracking-tighter">
-                            GlobalTrip
+                            Global Trip
                         </div>
                         <p className="text-slate-500 text-sm font-medium leading-relaxed max-w-xs">
                             Soluciones logísticas de clase mundial para empresas que buscan excelencia en sus operaciones internacionales.
@@ -78,7 +78,7 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="text-[13px] text-slate-400 font-medium text-center md:text-left w-full">
-                        © 2026 GlobalTrip Services. Todos los derechos reservados.
+                        © 2026 Global Trip Services. Todos los derechos reservados.
                     </div>
                 </div>
             </div>

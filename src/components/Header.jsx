@@ -25,7 +25,7 @@ const Header = () => {
             <Link to="/" className="flex items-center" onClick={() => window.scrollTo(0, 0)}>
                 <img
                     src="/logogt.png"
-                    alt="GlobalTrip Logo"
+                    alt="Global Trip Logo"
                     className="h-16 md:h-20 w-auto object-contain block"
                 />
             </Link>
