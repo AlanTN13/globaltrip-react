@@ -3,11 +3,10 @@ import { useEffect, useRef } from 'react';
 const CURSOR_SIZE = 32;
 const CURSOR_OFFSET_X = 6;
 const CURSOR_OFFSET_Y = 6;
-const FOLLOW_SPEED = 0.16;
+const CURSOR_ANGLE = -35;
 
 export default function CursorAvion() {
   const cursorRef = useRef(null);
-  const frameRef = useRef(null);
 
   useEffect(() => {
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
@@ -16,14 +15,10 @@ export default function CursorAvion() {
       return undefined;
     }
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let posX = mouseX;
-    let posY = mouseY;
-
     const moveMouse = (event) => {
-      mouseX = event.clientX;
-      mouseY = event.clientY;
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${event.clientX - CURSOR_OFFSET_X}px, ${event.clientY - CURSOR_OFFSET_Y}px) rotate(${CURSOR_ANGLE}deg)`;
+      }
     };
 
     const handleMouseLeave = () => {
@@ -38,36 +33,16 @@ export default function CursorAvion() {
       }
     };
 
-    const animate = () => {
-      posX += (mouseX - posX) * FOLLOW_SPEED;
-      posY += (mouseY - posY) * FOLLOW_SPEED;
-
-      const dx = mouseX - posX;
-      const dy = mouseY - posY;
-      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${posX - CURSOR_OFFSET_X}px, ${posY - CURSOR_OFFSET_Y}px) rotate(${angle}deg)`;
-      }
-
-      frameRef.current = window.requestAnimationFrame(animate);
-    };
-
     window.addEventListener('mousemove', moveMouse);
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
 
     handleMouseEnter();
-    frameRef.current = window.requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('mousemove', moveMouse);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
-
-      if (frameRef.current) {
-        window.cancelAnimationFrame(frameRef.current);
-      }
     };
   }, []);
 
@@ -81,7 +56,7 @@ export default function CursorAvion() {
       style={{
         width: `${CURSOR_SIZE}px`,
         opacity: 0,
-        transform: 'translate(-100px, -100px)',
+        transform: `translate(-100px, -100px) rotate(${CURSOR_ANGLE}deg)`,
         transformOrigin: `${CURSOR_OFFSET_X}px ${CURSOR_OFFSET_Y}px`,
         willChange: 'transform',
       }}
