@@ -51,16 +51,19 @@ const WhyUs = () => {
                     <div className="lg:col-span-5 flex flex-col justify-between py-2">
                         <div>
                             <div className="inline-block px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-md mb-6 w-fit shadow-lg shadow-blue-600/20">
-                                Expertise
+                                {t('whyUs.badge')}
                             </div>
 
                             <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-6 tracking-tighter leading-[1.1] uppercase">
                                 {t('whyUs.subtitle')}
                             </h3>
 
-                            <p className="text-slate-500 text-base md:text-lg leading-relaxed font-medium mb-8">
-                                {t('whyUs.text')}
-                            </p>
+                            <div className="text-slate-500 text-base md:text-lg leading-relaxed font-medium mb-8 space-y-2">
+                                <p className="text-slate-900 font-black text-xl md:text-2xl leading-tight">
+                                    {t('whyUs.highlight')}
+                                </p>
+                                <p>{t('whyUs.text')}</p>
+                            </div>
                         </div>
 
                         <div className="hidden sm:grid grid-cols-2 gap-6 pt-4">
