@@ -26,7 +26,7 @@ const Header = () => {
                 <img
                     src="/logogt.png"
                     alt="Global Trip Logo"
-                    className="h-16 md:h-20 w-auto object-contain block"
+                    className="h-20 md:h-24 w-auto object-contain block"
                 />
             </Link>
 

@@ -42,22 +42,13 @@ body {
   background-color: #ffffff;
   color: #111827;
   -webkit-font-smoothing: antialiased;
-  cursor: inherit;
 }
 
 @media (pointer: fine) {
-  html,
-  body,
-  a,
-  button,
-  [role="button"],
-  input[type="submit"],
-  input[type="button"],
-  label[for],
-  select,
-  summary,
-  .cursor-pointer {
-    cursor: none !important;
+  *,
+  *::before,
+  *::after {
+    cursor: url("/airplane-cursor.png") 34 8, auto !important;
   }
 }
 

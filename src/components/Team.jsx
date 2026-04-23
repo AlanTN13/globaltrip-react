@@ -7,17 +7,17 @@ const Team = () => {
         {
             name: 'Cindy Santillan',
             role: t('team.role1'),
-            image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800'
+            image: '/team/cindy-santillan.png'
         },
         {
             name: 'Matias Principato',
             role: t('team.role2'),
-            image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800'
+            image: '/team/matias-principato.jpeg'
         },
         {
             name: 'German Jimenez',
             role: t('team.role3'),
-            image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800'
+            image: '/team/german-jimenez.jpg'
         }
     ];
 
@@ -41,7 +41,7 @@ const Team = () => {
                                 <img
                                     src={member.image}
                                     alt={member.name}
-                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
                                 />
                                 {/* Soft Hover Overlay */}
                                 <div className="absolute inset-0 bg-[#0b4e89]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
