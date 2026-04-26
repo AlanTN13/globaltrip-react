@@ -51,7 +51,7 @@ const Header = () => {
                             type="button"
                             onClick={() => setLanguage(lang.code)}
                             style={{ cursor: 'pointer' }}
-                            className={`w-7 h-5 transition-all duration-300 transform hover:scale-125 overflow-hidden rounded-sm ${language === lang.code ? 'ring-2 ring-blue-600 ring-offset-2 opacity-100 scale-110' : 'opacity-40 grayscale hover:grayscale-0 hover:opacity-100'
+                            className={`w-7 h-5 transition-all duration-300 transform hover:scale-125 overflow-hidden rounded-sm ${language === lang.code ? 'ring-2 ring-[#0b0c49] ring-offset-2 opacity-100 scale-110' : 'opacity-40 grayscale hover:grayscale-0 hover:opacity-100'
                                 }`}
                         >
                             <img
@@ -63,7 +63,7 @@ const Header = () => {
                     ))}
                 </div>
 
-                <Link to="/contacto" className="hidden sm:inline-block bg-[#0b4e89] text-white px-8 py-3 rounded-xl font-bold text-[15px] hover:bg-blue-800 transition-colors">
+                <Link to="/contacto" className="hidden sm:inline-block bg-[#0b0c49] text-white px-8 py-3 rounded-xl font-bold text-[15px] hover:bg-[#161865] transition-colors">
                     {t('nav.contact')}
                 </Link>
             </div>

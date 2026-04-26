@@ -14,7 +14,7 @@ const Contact = () => {
                         alt="Background Contacto"
                         className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#0b4e89]/90 to-[#0b4e89]/70 backdrop-blur-[2px]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0b0c49]/90 to-[#0b0c49]/70 backdrop-blur-[2px]"></div>
 
                     <div className="relative z-10 flex flex-col items-center gap-4">
                         <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight">
@@ -33,8 +33,8 @@ const Contact = () => {
                         {/* Info Cards */}
                         <div className="grid md:grid-cols-2 gap-6 mb-20">
                             <div className="p-8 bg-white border border-slate-100 rounded-3xl shadow-sm flex items-start gap-6">
-                                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                                    <span className="material-symbols-outlined text-[#0b4e89]">location_on</span>
+                                <div className="w-12 h-12 rounded-2xl bg-[#0b0c49]/8 flex items-center justify-center flex-shrink-0">
+                                    <span className="material-symbols-outlined text-[#0b0c49]">location_on</span>
                                 </div>
                                 <div>
                                     <h4 className="text-[11px] font-black text-slate-900 tracking-widest uppercase mb-1">SEDE CENTRAL</h4>
@@ -42,8 +42,8 @@ const Contact = () => {
                                 </div>
                             </div>
                             <div className="p-8 bg-white border border-slate-100 rounded-3xl shadow-sm flex items-start gap-6">
-                                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                                    <span className="material-symbols-outlined text-[#0b4e89]">schedule</span>
+                                <div className="w-12 h-12 rounded-2xl bg-[#0b0c49]/8 flex items-center justify-center flex-shrink-0">
+                                    <span className="material-symbols-outlined text-[#0b0c49]">schedule</span>
                                 </div>
                                 <div>
                                     <h4 className="text-[11px] font-black text-slate-900 tracking-widest uppercase mb-1">OPERACIONES</h4>
@@ -54,7 +54,7 @@ const Contact = () => {
 
                         {/* Solicitar Asesoría Form */}
                         <div className="mb-12">
-                            <h2 className="text-3xl font-black text-[#0b4e89] tracking-tight mb-4">
+                            <h2 className="text-3xl font-black text-[#0b0c49] tracking-tight mb-4">
                                 Solicitar Asesoría
                             </h2>
                             <p className="text-slate-500 text-base font-medium leading-relaxed">
@@ -65,21 +65,21 @@ const Contact = () => {
                         <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
                             {/* Field */}
                             <div className="flex flex-col gap-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b4e89] ml-1">NOMBRE Y APELLIDO</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b0c49] ml-1">NOMBRE Y APELLIDO</label>
                                 <input className="w-full h-16 px-6 rounded-2xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-primary transition-all font-bold text-base" placeholder="Ej: Carlos Rodríguez" type="text" />
                             </div>
 
                             {/* Field */}
                             <div className="flex flex-col gap-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b4e89] ml-1">EMAIL CORPORATIVO</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b0c49] ml-1">EMAIL CORPORATIVO</label>
                                 <input className="w-full h-16 px-6 rounded-2xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-primary transition-all font-bold text-base" placeholder="c.rodriguez@empresa.com" type="email" />
                             </div>
 
                             {/* WhatsApp Field with code */}
                             <div className="flex flex-col gap-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b4e89] ml-1">WHATSAPP</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b0c49] ml-1">WHATSAPP</label>
                                 <div className="flex gap-4">
-                                    <div className="w-1/4 h-16 border border-slate-200 rounded-2xl flex items-center justify-between px-6 bg-white cursor-pointer hover:border-blue-100 transition-colors">
+                                    <div className="w-1/4 h-16 border border-slate-200 rounded-2xl flex items-center justify-between px-6 bg-white cursor-pointer hover:border-[#0b0c49]/20 transition-colors">
                                         <span className="font-bold text-slate-400">+54</span>
                                         <span className="material-symbols-outlined text-slate-300">keyboard_arrow_down</span>
                                     </div>
@@ -89,7 +89,7 @@ const Contact = () => {
 
                             {/* Field Select */}
                             <div className="flex flex-col gap-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b4e89] ml-1">SERVICIO DE INTERÉS</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b0c49] ml-1">SERVICIO DE INTERÉS</label>
                                 <div className="relative">
                                     <select className="w-full h-16 px-6 rounded-2xl bg-white border border-slate-200 text-slate-900 focus:outline-none focus:border-primary transition-all font-bold text-base appearance-none cursor-pointer">
                                         <option value="">Seleccione una opción</option>
@@ -105,7 +105,7 @@ const Contact = () => {
                             </div>
 
                             {/* Submit Button */}
-                            <button className="mt-4 w-full h-18 bg-[#0b4e89] hover:bg-black text-white font-black text-lg rounded-2xl shadow-xl shadow-blue-900/10 flex items-center justify-center gap-4 transition-all duration-300 active:scale-[0.98]" type="submit">
+                            <button className="mt-4 w-full h-18 bg-[#0b0c49] hover:bg-[#161865] text-white font-black text-lg rounded-2xl shadow-xl shadow-[#0b0c49]/10 flex items-center justify-center gap-4 transition-all duration-300 active:scale-[0.98]" type="submit">
                                 Enviar Solicitud
                                 <span className="material-symbols-outlined !text-2xl">send</span>
                             </button>

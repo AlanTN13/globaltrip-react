@@ -6,9 +6,9 @@ const MapSection = () => {
             <div className="container mx-auto max-w-7xl">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight uppercase">
-                        NUESTRAS <span className="text-blue-600">OFICINAS</span>
+                        NUESTRAS <span className="text-[#0b0c49]">OFICINAS</span>
                     </h2>
-                    <div className="w-16 h-1 bg-blue-600 mx-auto mt-4"></div>
+                    <div className="w-16 h-1 bg-[#0b0c49] mx-auto mt-4"></div>
                 </div>
 
                 <div className="grid lg:grid-cols-12 gap-12 items-center">
@@ -31,11 +31,11 @@ const MapSection = () => {
                             rel="noopener noreferrer"
                             className="flex items-start gap-5 group hover:-translate-y-1 transition-transform duration-300"
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-600/20 group-hover:bg-blue-700 transition-colors">
+                            <div className="w-12 h-12 rounded-2xl bg-[#0b0c49] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#0b0c49]/20 group-hover:bg-[#161865] transition-colors">
                                 <span className="material-symbols-outlined text-white">location_on</span>
                             </div>
                             <div>
-                                <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-widest mb-1 group-hover:text-blue-600 transition-colors">Dirección</h4>
+                                <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-widest mb-1 group-hover:text-[#0b0c49] transition-colors">Dirección</h4>
                                 <p className="text-sm text-slate-500 font-bold leading-relaxed">
                                     Maipú 231 - 5th floor - Office: B<br />
                                     C.A.B.A - Buenos Aires, Argentina (C1084ABE)
@@ -47,11 +47,11 @@ const MapSection = () => {
                             href="tel:+5491139872891"
                             className="flex items-start gap-5 group hover:-translate-y-1 transition-transform duration-300"
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center flex-shrink-0 shadow-lg group-hover:bg-blue-600 transition-colors">
+                            <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center flex-shrink-0 shadow-lg group-hover:bg-[#0b0c49] transition-colors">
                                 <span className="material-symbols-outlined text-white">call</span>
                             </div>
                             <div>
-                                <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-widest mb-1 group-hover:text-blue-600 transition-colors">Teléfono Oficina</h4>
+                                <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-widest mb-1 group-hover:text-[#0b0c49] transition-colors">Teléfono Oficina</h4>
                                 <p className="text-sm text-slate-500 font-bold leading-relaxed">
                                     (+54 9 11) 3987-2891
                                 </p>
@@ -81,11 +81,11 @@ const MapSection = () => {
                             href="mailto:info@globaltriplog.com"
                             className="flex items-start gap-5 group hover:-translate-y-1 transition-transform duration-300"
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-[#0b4e89]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0b4e89] transition-colors border border-blue-100">
-                                <span className="material-symbols-outlined text-[#0b4e89]/70 group-hover:text-white">mail</span>
+                            <div className="w-12 h-12 rounded-2xl bg-[#0b0c49]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0b0c49] transition-colors border border-[#0b0c49]/15">
+                                <span className="material-symbols-outlined text-[#0b0c49]/70 group-hover:text-white">mail</span>
                             </div>
                             <div>
-                                <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-widest mb-1 group-hover:text-blue-600 transition-colors">Email</h4>
+                                <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-widest mb-1 group-hover:text-[#0b0c49] transition-colors">Email</h4>
                                 <p className="text-sm text-slate-500 font-bold leading-relaxed">
                                     info@globaltriplog.com
                                 </p>

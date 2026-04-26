@@ -13,13 +13,13 @@ const WhyUs = () => {
                         {t('whyUs.title')}
                     </h2>
                     {/* Thin accent line */}
-                    <div className="w-20 h-[2px] bg-blue-600 mt-4 mb-8"></div>
+                    <div className="w-20 h-[2px] bg-[#0b0c49] mt-4 mb-8"></div>
 
                     {/* Category bar - Inspired by Puma reference */}
                     <div className="hidden md:flex flex-wrap items-center justify-center gap-6 text-[11px] font-black text-slate-400 tracking-[0.25em] uppercase">
                         {t('whyUs.categories').map((cat, i) => (
                             <React.Fragment key={i}>
-                                <span className="hover:text-blue-600 transition-colors cursor-default">{cat}</span>
+                                <span className="hover:text-[#0b0c49] transition-colors cursor-default">{cat}</span>
                                 {i < t('whyUs.categories').length - 1 && <span className="text-slate-200 font-light">/</span>}
                             </React.Fragment>
                         ))}
@@ -30,8 +30,8 @@ const WhyUs = () => {
                 <div className="grid lg:grid-cols-12 gap-16 items-stretch">
                     {/* Image Side - Now stretches to match text height */}
                     <div className="lg:col-span-7 relative group">
-                        <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-600/5 rounded-full blur-3xl"></div>
-                        <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-blue-600/10 rounded-full blur-3xl"></div>
+                        <div className="absolute -top-10 -left-10 w-40 h-40 bg-[#0b0c49]/5 rounded-full blur-3xl"></div>
+                        <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-[#0b0c49]/10 rounded-full blur-3xl"></div>
 
                         <div className="relative z-10 h-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
                             <img
@@ -43,14 +43,14 @@ const WhyUs = () => {
                                 }}
                             />
                             {/* Overlay sutil para elegancia */}
-                            <div className="absolute inset-0 bg-blue-900/5 group-hover:bg-transparent transition-colors duration-500"></div>
+                            <div className="absolute inset-0 bg-[#0b0c49]/5 group-hover:bg-transparent transition-colors duration-500"></div>
                         </div>
                     </div>
 
                     {/* Text Content - Defines the height */}
                     <div className="lg:col-span-5 flex flex-col justify-between py-2">
                         <div>
-                            <div className="inline-block px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-md mb-6 w-fit shadow-lg shadow-blue-600/20">
+                            <div className="inline-block px-4 py-1.5 bg-[#0b0c49] text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-md mb-6 w-fit shadow-lg shadow-[#0b0c49]/20">
                                 {t('whyUs.badge')}
                             </div>
 
@@ -67,9 +67,9 @@ const WhyUs = () => {
                         </div>
 
                         <div className="hidden sm:grid grid-cols-2 gap-6 pt-4">
-                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-blue-600/10 transition-all duration-300 group flex flex-col h-full">
-                                <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300 mb-6">
-                                    <span className="material-symbols-outlined text-blue-600 group-hover:text-white transition-colors duration-300 text-3xl">public</span>
+                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-[#0b0c49]/10 transition-all duration-300 group flex flex-col h-full">
+                                <div className="w-14 h-14 rounded-2xl bg-[#0b0c49]/8 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0b0c49] transition-colors duration-300 mb-6">
+                                    <span className="material-symbols-outlined text-[#0b0c49] group-hover:text-white transition-colors duration-300 text-3xl">public</span>
                                 </div>
                                 <div>
                                     <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-2">{t('whyUs.label_scope')}</h4>
@@ -77,9 +77,9 @@ const WhyUs = () => {
                                 </div>
                             </div>
 
-                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-blue-600/10 transition-all duration-300 group flex flex-col h-full">
-                                <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300 mb-6">
-                                    <span className="material-symbols-outlined text-blue-600 group-hover:text-white transition-colors duration-300 text-3xl">gavel</span>
+                            <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-[#0b0c49]/10 transition-all duration-300 group flex flex-col h-full">
+                                <div className="w-14 h-14 rounded-2xl bg-[#0b0c49]/8 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0b0c49] transition-colors duration-300 mb-6">
+                                    <span className="material-symbols-outlined text-[#0b0c49] group-hover:text-white transition-colors duration-300 text-3xl">gavel</span>
                                 </div>
                                 <div>
                                     <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-2">{t('whyUs.label_mgmt')}</h4>

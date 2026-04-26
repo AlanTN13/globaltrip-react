@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
+import ServicesLanding from './pages/ServicesLanding';
 import WhatsAppWidget from './components/WhatsAppWidget';
 
 import { LanguageProvider } from './context/LanguageContext';
@@ -16,6 +17,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/contacto" element={<Contact />} />
+              <Route path="/servicios" element={<ServicesLanding />} />
             </Routes>
           </main>
         </div>

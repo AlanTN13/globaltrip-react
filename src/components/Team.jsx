@@ -29,7 +29,7 @@ const Team = () => {
                     <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight uppercase">
                         {t('team.title')}
                     </h2>
-                    <div className="w-16 h-1 bg-blue-600 mx-auto mt-4"></div>
+                    <div className="w-16 h-1 bg-[#0b0c49] mx-auto mt-4"></div>
                 </div>
 
                 {/* Team Grid Style Silver Freight */}
@@ -43,8 +43,9 @@ const Team = () => {
                                     alt={member.name}
                                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
                                 />
+                                <div className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-[#0b0c49]/18 group-hover:border-[#0b0c49]/35 transition-colors duration-500"></div>
                                 {/* Soft Hover Overlay */}
-                                <div className="absolute inset-0 bg-[#0b4e89]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="absolute inset-0 bg-[#0b0c49]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </div>
 
                             {/* Info */}
@@ -52,7 +53,7 @@ const Team = () => {
                                 <h3 className="text-2xl font-black text-slate-900 mb-2 tracking-tight">
                                     {member.name}
                                 </h3>
-                                <div className="w-8 h-[2px] bg-blue-600 mx-auto mb-4 opacity-30 group-hover:w-16 transition-all duration-500"></div>
+                                <div className="w-8 h-[2px] bg-[#0b0c49] mx-auto mb-4 opacity-30 group-hover:w-16 transition-all duration-500"></div>
                                 <p className="text-slate-500 font-bold text-sm uppercase tracking-[0.15em]">
                                     {member.role}
                                 </p>

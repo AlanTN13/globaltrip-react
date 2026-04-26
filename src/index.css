@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 @theme {
-  --color-primary: #0b4e89;
+  --color-primary: #0b0c49;
   --color-background-light: #ffffff;
   --color-text-main: #111827;
   --color-text-light: #4b5563;
@@ -48,7 +48,7 @@ body {
   *,
   *::before,
   *::after {
-    cursor: url("/airplane-cursor.png") 34 8, auto !important;
+    cursor: url("/avion-2-cursor.png") 14 10, auto !important;
   }
 }
 
