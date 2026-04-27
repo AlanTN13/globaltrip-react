@@ -138,6 +138,24 @@ export const translations = {
             role2: "Gerencia Comercial",
             role3: "Gerencia Aduana"
         },
+        footer: {
+            description: "Soluciones logísticas de clase mundial para empresas que buscan excelencia en sus operaciones internacionales.",
+            usefulLinks: "Enlaces útiles",
+            quickContact: "Contacto rápido",
+            copyright: "© 2026 Global Trip Services. Todos los derechos reservados.",
+            subscription: {
+                title: "Suscripción",
+                description: "Reciba actualizaciones sobre normativas y comercio exterior.",
+                placeholder: "Email",
+                button: "Suscribirme",
+                submitting: "Enviando suscripción",
+                pending: "Guardando suscripción...",
+                success: "Gracias por suscribirte.",
+                errorInvalid: "Ingresá un email válido.",
+                errorGeneric: "No pudimos registrar tu email. Intentá nuevamente.",
+                errorMissingConfig: "La suscripción no está configurada todavía."
+            }
+        },
         whatsapp: {
             welcome: "Hola, Bienvenido a",
             company: "Global Trip",
@@ -284,6 +302,24 @@ export const translations = {
             role2: "Commercial Management",
             role3: "Customs Management"
         },
+        footer: {
+            description: "World-class logistics solutions for companies seeking excellence in their international operations.",
+            usefulLinks: "Useful links",
+            quickContact: "Quick contact",
+            copyright: "© 2026 Global Trip Services. All rights reserved.",
+            subscription: {
+                title: "Subscription",
+                description: "Receive updates on regulations and foreign trade.",
+                placeholder: "Email",
+                button: "Subscribe",
+                submitting: "Sending subscription",
+                pending: "Saving subscription...",
+                success: "Thank you for subscribing.",
+                errorInvalid: "Please enter a valid email.",
+                errorGeneric: "We could not save your email. Please try again.",
+                errorMissingConfig: "The subscription form is not configured yet."
+            }
+        },
         whatsapp: {
             welcome: "Hello, Welcome to",
             company: "Global Trip",
@@ -429,6 +465,24 @@ export const translations = {
             role1: "Gerência Operacional e Administrativa",
             role2: "Gerência Comercial",
             role3: "Gerência Aduaneira"
+        },
+        footer: {
+            description: "Soluções logísticas de classe mundial para empresas que buscam excelência em suas operações internacionais.",
+            usefulLinks: "Links úteis",
+            quickContact: "Contato rápido",
+            copyright: "© 2026 Global Trip Services. Todos os direitos reservados.",
+            subscription: {
+                title: "Assinatura",
+                description: "Receba atualizações sobre regulamentações e comércio exterior.",
+                placeholder: "Email",
+                button: "Assinar",
+                submitting: "Enviando assinatura",
+                pending: "Salvando assinatura...",
+                success: "Obrigado por se inscrever.",
+                errorInvalid: "Digite um email válido.",
+                errorGeneric: "Não foi possível registrar seu email. Tente novamente.",
+                errorMissingConfig: "A assinatura ainda não está configurada."
+            }
         },
         whatsapp: {
             welcome: "Olá, Bem-vindo à",

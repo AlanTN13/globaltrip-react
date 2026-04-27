@@ -106,6 +106,47 @@ El proyecto usa **Manrope** como fuente principal y **Material Symbols** para lo
 - `npm run preview` - Preview del build de producción
 - `npm run lint` - Ejecuta el linter
 
+## 📬 Suscripción con Google Sheets
+
+La suscripción del footer puede guardar emails en Google Sheets usando Google Apps Script.
+
+### 1. Crear la hoja
+
+Crea una Google Sheet con una pestaña llamada `newsletter` y estas columnas:
+
+- `email`
+- `created_at`
+
+### 2. Crear el Apps Script
+
+Usa como base el archivo:
+
+- `google-apps-script/newsletter-webhook.gs`
+
+Pégalo en [Google Apps Script](https://script.google.com), vinculado a esa hoja.
+
+### 3. Publicar como Web App
+
+Publica el script como **Web App** con esta configuración:
+
+- Ejecutar como: tu cuenta
+- Acceso: cualquiera con el link
+
+### 4. Configurar la URL en el frontend
+
+Copia `.env.example` a `.env` y reemplaza la URL:
+
+```bash
+VITE_NEWSLETTER_WEBHOOK_URL=https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec
+```
+
+### 5. Comportamiento
+
+- El footer valida formato básico del email.
+- Envía `POST` con JSON al Apps Script.
+- Si sale bien, muestra mensaje de éxito sin salir de la página.
+- Si falla, muestra un error breve.
+
 ## 📱 Responsive
 
 El sitio está optimizado para:
