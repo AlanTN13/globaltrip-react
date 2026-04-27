@@ -156,6 +156,40 @@ export const translations = {
                 errorMissingConfig: "La suscripción no está configurada todavía."
             }
         },
+        contactPage: {
+            heroTitle: "Contacto",
+            heroSubtitle: "Lideramos su estrategia de comercio exterior",
+            officeLabel: "Sede central",
+            officeValue: "Torre Logística, Distrito Financiero",
+            hoursLabel: "Operaciones",
+            hoursValue: "Lun - Vie, 09:00 - 18:00 (GMT-3)",
+            formTitle: "Solicitar Asesoría",
+            formText: "Nuestro equipo de expertos analizará su requerimiento para ofrecerle una solución a medida.",
+            nameLabel: "Nombre y apellido",
+            namePlaceholder: "Ej: Carlos Rodríguez",
+            emailLabel: "Email corporativo",
+            emailPlaceholder: "c.rodriguez@empresa.com",
+            whatsappLabel: "WhatsApp",
+            whatsappPlaceholder: "000 000 000",
+            serviceLabel: "Servicio de interés",
+            servicePlaceholder: "Seleccione una opción",
+            services: {
+                import: "Importación / Exportación",
+                fletes: "Fletes Internacionales",
+                aduana: "Despacho de Aduana",
+                consultoria: "Consultoría Técnica"
+            },
+            submit: "Enviar Solicitud",
+            submitting: "Enviando solicitud",
+            pending: "Guardando consulta...",
+            success: "Recibimos tu consulta. Te contactaremos pronto.",
+            errorName: "Ingresá tu nombre y apellido.",
+            errorEmail: "Ingresá un email válido.",
+            errorWhatsapp: "Ingresá un número de WhatsApp.",
+            errorService: "Seleccioná un servicio de interés.",
+            errorGeneric: "No pudimos registrar tu consulta. Intentá nuevamente.",
+            errorMissingConfig: "El formulario de contacto no está configurado todavía."
+        },
         whatsapp: {
             welcome: "Hola, Bienvenido a",
             company: "Global Trip",
@@ -320,6 +354,40 @@ export const translations = {
                 errorMissingConfig: "The subscription form is not configured yet."
             }
         },
+        contactPage: {
+            heroTitle: "Contact",
+            heroSubtitle: "We lead your foreign trade strategy",
+            officeLabel: "Head office",
+            officeValue: "Logistics Tower, Financial District",
+            hoursLabel: "Operations",
+            hoursValue: "Mon - Fri, 09:00 - 18:00 (GMT-3)",
+            formTitle: "Request Advisory",
+            formText: "Our team of experts will review your request to offer you a tailored solution.",
+            nameLabel: "Full name",
+            namePlaceholder: "Ex: Carlos Rodriguez",
+            emailLabel: "Corporate email",
+            emailPlaceholder: "c.rodriguez@company.com",
+            whatsappLabel: "WhatsApp",
+            whatsappPlaceholder: "000 000 000",
+            serviceLabel: "Service of interest",
+            servicePlaceholder: "Select an option",
+            services: {
+                import: "Import / Export",
+                fletes: "International Freight",
+                aduana: "Customs Brokerage",
+                consultoria: "Technical Consulting"
+            },
+            submit: "Send Request",
+            submitting: "Sending request",
+            pending: "Saving inquiry...",
+            success: "We received your inquiry. We will contact you soon.",
+            errorName: "Please enter your full name.",
+            errorEmail: "Please enter a valid email.",
+            errorWhatsapp: "Please enter a WhatsApp number.",
+            errorService: "Please select a service.",
+            errorGeneric: "We could not save your inquiry. Please try again.",
+            errorMissingConfig: "The contact form is not configured yet."
+        },
         whatsapp: {
             welcome: "Hello, Welcome to",
             company: "Global Trip",
@@ -483,6 +551,40 @@ export const translations = {
                 errorGeneric: "Não foi possível registrar seu email. Tente novamente.",
                 errorMissingConfig: "A assinatura ainda não está configurada."
             }
+        },
+        contactPage: {
+            heroTitle: "Contato",
+            heroSubtitle: "Lideramos sua estratégia de comércio exterior",
+            officeLabel: "Sede central",
+            officeValue: "Torre Logística, Distrito Financeiro",
+            hoursLabel: "Operações",
+            hoursValue: "Seg - Sex, 09:00 - 18:00 (GMT-3)",
+            formTitle: "Solicitar Assessoria",
+            formText: "Nossa equipe de especialistas analisará sua solicitação para oferecer uma solução sob medida.",
+            nameLabel: "Nome e sobrenome",
+            namePlaceholder: "Ex: Carlos Rodríguez",
+            emailLabel: "Email corporativo",
+            emailPlaceholder: "c.rodriguez@empresa.com",
+            whatsappLabel: "WhatsApp",
+            whatsappPlaceholder: "000 000 000",
+            serviceLabel: "Serviço de interesse",
+            servicePlaceholder: "Selecione uma opção",
+            services: {
+                import: "Importação / Exportação",
+                fletes: "Fretes Internacionais",
+                aduana: "Despacho Aduaneiro",
+                consultoria: "Consultoria Técnica"
+            },
+            submit: "Enviar Solicitação",
+            submitting: "Enviando solicitação",
+            pending: "Salvando consulta...",
+            success: "Recebemos sua consulta. Entraremos em contato em breve.",
+            errorName: "Digite seu nome e sobrenome.",
+            errorEmail: "Digite um email válido.",
+            errorWhatsapp: "Digite um número de WhatsApp.",
+            errorService: "Selecione um serviço.",
+            errorGeneric: "Não foi possível registrar sua consulta. Tente novamente.",
+            errorMissingConfig: "O formulário de contato ainda não está configurado."
         },
         whatsapp: {
             welcome: "Olá, Bem-vindo à",

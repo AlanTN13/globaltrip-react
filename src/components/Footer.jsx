@@ -39,7 +39,10 @@ const Footer = () => {
                     'Content-Type': 'text/plain;charset=utf-8',
                     Accept: 'application/json, text/plain, */*'
                 },
-                body: JSON.stringify({ email: normalizedEmail })
+                body: JSON.stringify({
+                    type: 'newsletter',
+                    email: normalizedEmail
+                })
             });
 
             const responseText = await response.text();
