@@ -11,7 +11,9 @@ const Contact = () => {
         nombre: '',
         email: '',
         whatsapp: '',
-        servicio: ''
+        condicionIva: '',
+        servicio: '',
+        detalle: ''
     });
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState('');
@@ -19,10 +21,16 @@ const Contact = () => {
 
     const contactWebhookUrl = import.meta.env.VITE_NEWSLETTER_WEBHOOK_URL;
     const serviceOptions = [
-        { value: 'import', label: t('contactPage.services.import') },
-        { value: 'fletes', label: t('contactPage.services.fletes') },
-        { value: 'aduana', label: t('contactPage.services.aduana') },
-        { value: 'consultoria', label: t('contactPage.services.consultoria') }
+        { value: 'despachantes', label: t('contactPage.services.despachantes') },
+        { value: 'freight', label: t('contactPage.services.freight') },
+        { value: 'courier', label: t('contactPage.services.courier') },
+        { value: 'seguros', label: t('contactPage.services.seguros') },
+        { value: 'asesoramiento', label: t('contactPage.services.asesoramiento') },
+        { value: 'compras_china', label: t('contactPage.services.comprasChina') }
+    ];
+    const ivaOptions = [
+        { value: 'responsable_inscripto', label: t('contactPage.ivaOptions.responsableInscripto') },
+        { value: 'monotributista', label: t('contactPage.ivaOptions.monotributista') }
     ];
 
     const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -43,7 +51,9 @@ const Contact = () => {
         const nombre = formData.nombre.trim();
         const email = formData.email.trim();
         const whatsapp = formData.whatsapp.trim();
+        const condicionIva = formData.condicionIva;
         const servicio = formData.servicio;
+        const detalle = formData.detalle.trim();
 
         setSuccess('');
         setError('');
@@ -63,8 +73,18 @@ const Contact = () => {
             return;
         }
 
+        if (!condicionIva) {
+            setError(t('contactPage.errorIva'));
+            return;
+        }
+
         if (!servicio) {
             setError(t('contactPage.errorService'));
+            return;
+        }
+
+        if (!detalle) {
+            setError(t('contactPage.errorDetail'));
             return;
         }
 
@@ -74,6 +94,7 @@ const Contact = () => {
         }
 
         const selectedService = serviceOptions.find((option) => option.value === servicio);
+        const selectedIva = ivaOptions.find((option) => option.value === condicionIva);
 
         setLoading(true);
 
@@ -89,7 +110,9 @@ const Contact = () => {
                     nombre,
                     email: email.toLowerCase(),
                     whatsapp: `${CONTACT_COUNTRY_CODE} ${whatsapp}`,
-                    servicio: selectedService ? selectedService.label : servicio
+                    condicionIva: selectedIva ? selectedIva.label : condicionIva,
+                    servicio: selectedService ? selectedService.label : servicio,
+                    detalle
                 })
             });
 
@@ -112,7 +135,9 @@ const Contact = () => {
                 nombre: '',
                 email: '',
                 whatsapp: '',
-                servicio: ''
+                condicionIva: '',
+                servicio: '',
+                detalle: ''
             });
             setSuccess(t('contactPage.success'));
         } catch (submitError) {
@@ -134,7 +159,7 @@ const Contact = () => {
                         alt="Background Contacto"
                         className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#0b0c49]/90 to-[#0b0c49]/70 backdrop-blur-[2px]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.12),_transparent_38%),linear-gradient(135deg,rgba(0,59,142,0.94)_0%,rgba(0,59,142,0.84)_45%,rgba(0,59,142,0.72)_100%)] backdrop-blur-[2px]"></div>
 
                     <div className="relative z-10 flex flex-col items-center gap-4">
                         <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight">
@@ -221,6 +246,28 @@ const Contact = () => {
                             </div>
 
                             <div className="flex flex-col gap-3">
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b0c49] ml-1">{t('contactPage.ivaLabel')}</label>
+                                <div className="relative">
+                                    <select
+                                        className="w-full h-16 px-6 rounded-2xl bg-white border border-slate-200 text-slate-900 focus:outline-none focus:border-primary transition-all font-bold text-base appearance-none cursor-pointer"
+                                        value={formData.condicionIva}
+                                        onChange={handleChange('condicionIva')}
+                                        disabled={loading}
+                                    >
+                                        <option value="">{t('contactPage.ivaPlaceholder')}</option>
+                                        {ivaOptions.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
+                                        <span className="material-symbols-outlined text-slate-300">keyboard_arrow_down</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-3">
                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b0c49] ml-1">{t('contactPage.serviceLabel')}</label>
                                 <div className="relative">
                                     <select
@@ -240,6 +287,17 @@ const Contact = () => {
                                         <span className="material-symbols-outlined text-slate-300">keyboard_arrow_down</span>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="flex flex-col gap-3">
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0b0c49] ml-1">{t('contactPage.detailLabel')}</label>
+                                <textarea
+                                    className="w-full min-h-[180px] px-6 py-5 rounded-2xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-primary transition-all font-medium text-base resize-y"
+                                    placeholder={t('contactPage.detailPlaceholder')}
+                                    value={formData.detalle}
+                                    onChange={handleChange('detalle')}
+                                    disabled={loading}
+                                />
                             </div>
 
                             <button

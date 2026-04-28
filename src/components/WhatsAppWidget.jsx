@@ -5,13 +5,22 @@ const WhatsAppWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { t } = useLanguage();
 
-    const phoneNumber = "59899123456"; // REPLACE WITH ACTUAL NUMBER
+    const phoneNumber = "5491131411755";
     const message = "Hola! vengo de la web y me gustaría realizar una consulta.";
 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    const isHoverable = typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     return (
-        <div className="fixed bottom-6 right-6 z-[200] flex flex-col items-end gap-4">
+        <div
+            className="fixed bottom-6 right-6 z-[200] flex flex-col items-end gap-4"
+            onMouseEnter={() => {
+                if (isHoverable) setIsOpen(true);
+            }}
+            onMouseLeave={() => {
+                if (isHoverable) setIsOpen(false);
+            }}
+        >
             {/* Popup Window */}
             {isOpen && (
                 <div className="mb-2 w-72 md:w-80 overflow-hidden rounded-3xl bg-white shadow-2xl animate-fade-in-up border border-slate-100">
@@ -25,7 +34,10 @@ const WhatsAppWidget = () => {
                             </div>
                             <span className="font-bold">WhatsApp</span>
                         </div>
-                        <button onClick={() => setIsOpen(false)} className="hover:rotate-90 transition-transform duration-300">
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            className="hover:rotate-90 transition-transform duration-300"
+                        >
                             <span className="material-symbols-outlined !text-xl cursor-pointer">close</span>
                         </button>
                     </div>
@@ -63,7 +75,11 @@ const WhatsAppWidget = () => {
 
             {/* Main Floating Button */}
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                    if (!isHoverable) {
+                        setIsOpen((current) => !current);
+                    }
+                }}
                 className="relative bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 z-[202] cursor-pointer"
             >
                 <div className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20"></div>

@@ -1,5 +1,3 @@
-import { useLanguage } from '../context/LanguageContext';
-
 const MapSection = () => {
     return (
         <section className="relative w-full bg-slate-50 py-24 px-6">

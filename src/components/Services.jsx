@@ -9,13 +9,13 @@ const Services = () => {
         {
             id: serviceDetails[0].id,
             title: t('services.s1'),
-            image: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800',
+            image: 'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=800',
             link: `/servicios#${serviceDetails[0].id}`
         },
         {
             id: serviceDetails[1].id,
             title: t('services.s2'),
-            image: 'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=800',
+            image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800',
             link: `/servicios#${serviceDetails[1].id}`
         },
         {
@@ -33,7 +33,7 @@ const Services = () => {
         {
             id: serviceDetails[4].id,
             title: t('services.s5'),
-            image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&q=80&w=800',
+            image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800',
             link: `/servicios#${serviceDetails[4].id}`
         },
         {

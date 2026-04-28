@@ -22,7 +22,7 @@ const Hero = () => {
             {/* Content centered over video/image */}
             <div className="relative z-10 container mx-auto px-6 text-center text-white pt-20">
                 <div className="flex flex-col items-center animate-fade-in-up">
-                    <span className="text-[#7f88ff] font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6 opacity-90">
+                    <span className="mb-6 inline-flex rounded-full border border-white/15 bg-[#0b0c49]/75 px-5 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-white shadow-lg shadow-black/20 backdrop-blur-sm md:text-xs">
                         {t('hero.welcome')}
                     </span>
 

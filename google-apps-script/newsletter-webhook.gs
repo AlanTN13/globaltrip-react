@@ -61,7 +61,9 @@ function handleContacto_(body) {
   const nombre = String(body.nombre || '').trim();
   const email = String(body.email || '').trim().toLowerCase();
   const whatsapp = String(body.whatsapp || '').trim().replace(/^\+/, '');
+  const condicionIva = String(body.condicionIva || '').trim();
   const servicio = String(body.servicio || '').trim();
+  const detalle = String(body.detalle || '').trim();
 
   if (!nombre) {
     return jsonOutput_({
@@ -84,6 +86,13 @@ function handleContacto_(body) {
     });
   }
 
+  if (!condicionIva) {
+    return jsonOutput_({
+      ok: false,
+      error: 'invalid_condicion_iva'
+    });
+  }
+
   if (!servicio) {
     return jsonOutput_({
       ok: false,
@@ -91,9 +100,16 @@ function handleContacto_(body) {
     });
   }
 
+  if (!detalle) {
+    return jsonOutput_({
+      ok: false,
+      error: 'invalid_detalle'
+    });
+  }
+
   const sheet = getSheet_(SHEET_NAMES.contacto);
   const now = getDateParts_();
-  sheet.appendRow([nombre, email, whatsapp, servicio, now.fecha, now.hora]);
+  sheet.appendRow([nombre, email, whatsapp, condicionIva, servicio, detalle, now.fecha, now.hora]);
 
   return jsonOutput_({
     ok: true,

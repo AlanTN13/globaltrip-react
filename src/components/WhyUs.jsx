@@ -69,20 +69,24 @@ const WhyUs = () => {
                         <div className="hidden sm:grid grid-cols-2 gap-6 pt-4">
                             <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-[#0b0c49]/10 transition-all duration-300 group flex flex-col h-full">
                                 <div className="w-14 h-14 rounded-2xl bg-[#0b0c49]/8 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0b0c49] transition-colors duration-300 mb-6">
-                                    <span className="material-symbols-outlined text-[#0b0c49] group-hover:text-white transition-colors duration-300 text-3xl">public</span>
+                                    <span className="material-symbols-outlined text-[#0b0c49] group-hover:text-white transition-colors duration-300 text-3xl">directions_boat</span>
                                 </div>
-                                <div>
-                                    <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-2">{t('whyUs.label_scope')}</h4>
+                                <div className="flex flex-col flex-1">
+                                    <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-1 min-h-[40px] md:min-h-[48px] flex items-start">
+                                        {t('whyUs.label_scope')}
+                                    </h4>
                                     <p className="text-slate-500 text-sm font-bold leading-relaxed">{t('whyUs.val_scope')}</p>
                                 </div>
                             </div>
 
                             <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-[#0b0c49]/10 transition-all duration-300 group flex flex-col h-full">
                                 <div className="w-14 h-14 rounded-2xl bg-[#0b0c49]/8 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0b0c49] transition-colors duration-300 mb-6">
-                                    <span className="material-symbols-outlined text-[#0b0c49] group-hover:text-white transition-colors duration-300 text-3xl">gavel</span>
+                                    <span className="material-symbols-outlined text-[#0b0c49] group-hover:text-white transition-colors duration-300 text-3xl">public</span>
                                 </div>
-                                <div>
-                                    <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-2">{t('whyUs.label_mgmt')}</h4>
+                                <div className="flex flex-col flex-1">
+                                    <h4 className="font-black text-slate-900 text-xs uppercase tracking-[0.2em] mb-1 min-h-[40px] md:min-h-[48px] flex items-start">
+                                        {t('whyUs.label_mgmt')}
+                                    </h4>
                                     <p className="text-slate-500 text-sm font-bold leading-relaxed">{t('whyUs.val_mgmt')}</p>
                                 </div>
                             </div>
