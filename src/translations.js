@@ -143,6 +143,7 @@ export const translations = {
             usefulLinks: "Enlaces útiles",
             quickContact: "Contacto rápido",
             copyright: "© 2026 Global Trip Services. Todos los derechos reservados.",
+            poweredBy: "Powered by",
             subscription: {
                 title: "Suscripción",
                 description: "Reciba actualizaciones sobre normativas y comercio exterior.",
@@ -353,6 +354,7 @@ export const translations = {
             usefulLinks: "Useful links",
             quickContact: "Quick contact",
             copyright: "© 2026 Global Trip Services. All rights reserved.",
+            poweredBy: "Powered by",
             subscription: {
                 title: "Subscription",
                 description: "Receive updates on regulations and foreign trade.",
@@ -563,6 +565,7 @@ export const translations = {
             usefulLinks: "Links úteis",
             quickContact: "Contato rápido",
             copyright: "© 2026 Global Trip Services. Todos os direitos reservados.",
+            poweredBy: "Powered by",
             subscription: {
                 title: "Assinatura",
                 description: "Receba atualizações sobre regulamentações e comércio exterior.",
