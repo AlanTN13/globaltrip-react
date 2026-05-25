@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLanguage } from '../context/LanguageContext';
+import { trackEvent } from '../lib/gtm';
 
 const CONTACT_COUNTRY_CODE = '54';
 
@@ -89,6 +90,10 @@ const Contact = () => {
         }
 
         if (!contactWebhookUrl) {
+            trackEvent('contact_form_submit_error', {
+                location: 'contact_form',
+                label: 'missing_webhook_config'
+            });
             setError(t('contactPage.errorMissingConfig'));
             return;
         }
@@ -131,6 +136,10 @@ const Contact = () => {
                 throw new Error(payload.error || 'request_failed');
             }
 
+            trackEvent('contact_form_submit_success', {
+                location: 'contact_form',
+                label: selectedService ? selectedService.label : 'contact_submission'
+            });
             setFormData({
                 nombre: '',
                 email: '',
@@ -142,6 +151,10 @@ const Contact = () => {
             setSuccess(t('contactPage.success'));
         } catch (submitError) {
             console.error('Contact form submission failed', submitError);
+            trackEvent('contact_form_submit_error', {
+                location: 'contact_form',
+                label: submitError instanceof Error ? submitError.message : 'request_failed'
+            });
             setError(t('contactPage.errorGeneric'));
         } finally {
             setLoading(false);

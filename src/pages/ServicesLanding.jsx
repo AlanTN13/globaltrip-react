@@ -2,18 +2,19 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLanguage } from '../context/LanguageContext';
+import { trackEvent } from '../lib/gtm';
 
 const ServicesLanding = () => {
   const { t } = useLanguage();
   const landing = t('servicesLanding');
   const whatsappPhone = '5491131411755';
   const serviceImages = [
-    'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1000',
-    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1000',
-    'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&q=80&w=1000',
+    '/services-images/despachantes-de-aduana.png',
+    '/services-images/freight-forwarder.png',
+    '/services-images/courier-internacional.png',
     'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1000',
-    'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000',
-    'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1000',
+    '/services-images/asesoramiento-comercio-exterior.png',
+    '/services-images/agente-compras-china.png',
   ];
 
   return (
@@ -108,6 +109,10 @@ const ServicesLanding = () => {
                           href={whatsappUrl}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => trackEvent('whatsapp_click', {
+                            location: 'services_landing',
+                            label: service.title
+                          })}
                           className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#25D366] px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white transition-all hover:bg-[#1fb85a]"
                         >
                           {landing.whatsapp_cta}

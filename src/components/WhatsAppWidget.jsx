@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { trackEvent } from '../lib/gtm';
 
 const WhatsAppWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,12 @@ const WhatsAppWidget = () => {
 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     const isHoverable = typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const handleWhatsAppClick = () => {
+        trackEvent('whatsapp_click', {
+            location: 'whatsapp_widget',
+            label: 'widget_cta'
+        });
+    };
 
     return (
         <div
@@ -62,6 +69,7 @@ const WhatsAppWidget = () => {
                             href={whatsappUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={handleWhatsAppClick}
                             className="flex items-center justify-center gap-3 bg-[#25D366] text-white py-3 px-6 rounded-full font-bold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all w-full"
                         >
                             {t('whatsapp.button')}

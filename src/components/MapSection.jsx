@@ -1,3 +1,5 @@
+import { trackEvent } from '../lib/gtm';
+
 const MapSection = () => {
     return (
         <section className="relative w-full bg-slate-50 py-24 px-6">
@@ -43,6 +45,10 @@ const MapSection = () => {
 
                         <a
                             href="tel:+5491139872891"
+                            onClick={() => trackEvent('click_phone', {
+                                location: 'map_section',
+                                label: 'office_phone'
+                            })}
                             className="flex items-start gap-5 group hover:-translate-y-1 transition-transform duration-300"
                         >
                             <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center flex-shrink-0 shadow-lg group-hover:bg-[#0b0c49] transition-colors">
@@ -60,6 +66,10 @@ const MapSection = () => {
                             href="https://wa.me/5491131411755"
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackEvent('whatsapp_click', {
+                                location: 'map_section',
+                                label: 'office_whatsapp'
+                            })}
                             className="flex items-start gap-5 group hover:-translate-y-1 transition-transform duration-300"
                         >
                             <div className="w-12 h-12 rounded-2xl bg-[#25D366] flex items-center justify-center flex-shrink-0 shadow-lg shadow-green-600/20 group-hover:bg-green-600 transition-colors">
@@ -77,6 +87,10 @@ const MapSection = () => {
 
                         <a
                             href="mailto:info@globaltriplog.com"
+                            onClick={() => trackEvent('click_email', {
+                                location: 'map_section',
+                                label: 'office_email'
+                            })}
                             className="flex items-start gap-5 group hover:-translate-y-1 transition-transform duration-300"
                         >
                             <div className="w-12 h-12 rounded-2xl bg-[#0b0c49]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0b0c49] transition-colors border border-[#0b0c49]/15">
