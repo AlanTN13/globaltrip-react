@@ -9,12 +9,30 @@ const ServicesLanding = () => {
   const landing = t('servicesLanding');
   const whatsappPhone = '5491131411755';
   const serviceImages = [
-    '/services-images/despachantes-de-aduana.png',
-    '/services-images/freight-forwarder.png',
-    '/services-images/courier-internacional.png',
-    'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1000',
-    '/services-images/asesoramiento-comercio-exterior.png',
-    '/services-images/agente-compras-china.png',
+    {
+      src: '/services-images/despachantes-de-aduana.png',
+      className: 'object-center',
+    },
+    {
+      src: '/services-images/freight-forwarder.png',
+      className: 'object-center',
+    },
+    {
+      src: '/services-images/courier-internacional.png',
+      className: 'object-[center_22%]',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1000',
+      className: 'object-center',
+    },
+    {
+      src: '/services-images/asesoramiento-comercio-exterior.png',
+      className: 'object-center',
+    },
+    {
+      src: '/services-images/agente-compras-china.png',
+      className: 'object-[center_18%]',
+    },
   ];
 
   return (
@@ -88,9 +106,9 @@ const ServicesLanding = () => {
                   <div className="grid lg:grid-cols-12 lg:items-stretch">
                     <div className="relative min-h-[280px] lg:col-span-5">
                       <img
-                        src={serviceImages[index]}
+                        src={serviceImages[index].src}
                         alt={service.title}
-                        className="absolute inset-0 h-full w-full object-cover"
+                        className={`absolute inset-0 h-full w-full object-cover ${serviceImages[index].className}`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
                     </div>

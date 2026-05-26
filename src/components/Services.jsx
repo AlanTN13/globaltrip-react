@@ -9,38 +9,44 @@ const Services = () => {
         {
             id: serviceDetails[0].id,
             title: t('services.s1'),
-            image: 'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=800',
+            image: '/services-images/despachantes-de-aduana.png',
+            imageClassName: 'object-center',
             link: `/servicios#${serviceDetails[0].id}`
         },
         {
             id: serviceDetails[1].id,
             title: t('services.s2'),
-            image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800',
+            image: '/services-images/freight-forwarder.png',
+            imageClassName: 'object-center',
             link: `/servicios#${serviceDetails[1].id}`
         },
         {
             id: serviceDetails[2].id,
             title: t('services.s3'),
-            image: 'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&q=80&w=800',
+            image: '/services-images/courier-internacional.png',
+            imageClassName: 'object-[center_22%]',
             link: `/servicios#${serviceDetails[2].id}`
         },
         {
             id: serviceDetails[3].id,
             title: t('services.s4'),
             image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800',
+            imageClassName: 'object-center',
             link: `/servicios#${serviceDetails[3].id}`
         },
         {
             id: serviceDetails[4].id,
             title: t('services.s5'),
-            image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800',
+            image: '/services-images/asesoramiento-comercio-exterior.png',
+            imageClassName: 'object-center',
             link: `/servicios#${serviceDetails[4].id}`
         },
         {
             id: serviceDetails[5].id,
             title: t('services.s6'),
             subtitle: t('services.s6_sub'),
-            image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=800',
+            image: '/services-images/agente-compras-china.png',
+            imageClassName: 'object-[center_18%]',
             link: `/servicios#${serviceDetails[5].id}`
         }
     ];
@@ -68,7 +74,7 @@ const Services = () => {
                             <img
                                 src={service.image}
                                 alt={service.title}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${service.imageClassName}`}
                             />
 
                             {/* Gradient Overlay */}
