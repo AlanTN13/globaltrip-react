@@ -314,7 +314,7 @@ export const newsPosts = [
     category: 'aduana',
     publishedAt: '2026-05-21',
     coverImage:
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1600',
+      'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=1600',
     excerpt:
       'La Disposición ANMAT 2991/2026 estableció nuevos requisitos mínimos de inspección para establecimientos que operan con productos controlados, con impacto sobre importadores de químicos, farmacéuticos y mercadería sensible.',
     sourceName: 'Cámara Argentina de Comercio - Novedades COMEX',
