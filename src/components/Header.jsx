@@ -27,6 +27,7 @@ const Header = () => {
                     src="/logogt.png"
                     alt="Global Trip Logo"
                     className="h-20 md:h-24 w-auto object-contain block"
+                    decoding="async"
                 />
             </Link>
 
@@ -58,6 +59,8 @@ const Header = () => {
                                 src={lang.flag}
                                 alt={lang.alt}
                                 className="w-full h-full object-cover pointer-events-none"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </button>
                     ))}

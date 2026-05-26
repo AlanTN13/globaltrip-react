@@ -38,6 +38,8 @@ const WhyUs = () => {
                                 src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1200"
                                 alt="Logística Internacional Global Trip"
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                     e.target.src = "https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1200";
                                 }}

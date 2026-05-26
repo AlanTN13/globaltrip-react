@@ -42,6 +42,8 @@ const Team = () => {
                                     src={member.image}
                                     alt={member.name}
                                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                                 <div className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-[#0b0c49]/18 group-hover:border-[#0b0c49]/35 transition-colors duration-500"></div>
                                 {/* Soft Hover Overlay */}

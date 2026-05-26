@@ -109,6 +109,8 @@ const ServicesLanding = () => {
                         src={serviceImages[index].src}
                         alt={service.title}
                         className={`absolute inset-0 h-full w-full object-cover ${serviceImages[index].className}`}
+                        loading="lazy"
+                        decoding="async"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
                     </div>

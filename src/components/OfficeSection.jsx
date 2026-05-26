@@ -43,6 +43,8 @@ const OfficeSection = () => {
                                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
                                 alt="Global Trip Central Office"
                                 className="w-full aspect-[4/3] object-cover rounded-[2.5rem]"
+                                loading="lazy"
+                                decoding="async"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
                         </div>

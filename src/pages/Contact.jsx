@@ -171,6 +171,8 @@ const Contact = () => {
                         src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=2000"
                         alt="Background Contacto"
                         className="absolute inset-0 w-full h-full object-cover"
+                        loading="eager"
+                        decoding="async"
                     />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.12),_transparent_38%),linear-gradient(135deg,rgba(0,59,142,0.94)_0%,rgba(0,59,142,0.84)_45%,rgba(0,59,142,0.72)_100%)] backdrop-blur-[2px]"></div>
 

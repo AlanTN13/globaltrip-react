@@ -226,6 +226,8 @@ const Footer = () => {
                                 src="/logo-powered-globaltrip.png"
                                 alt="NexOps"
                                 className="h-6 w-auto object-contain"
+                                loading="lazy"
+                                decoding="async"
                             />
                             <span className="text-[14px] font-black tracking-tight text-slate-900">
                                 NexOps

@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 
+const HERO_IMAGE =
+    'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1800';
+
 const Hero = () => {
     const { t } = useLanguage();
 
@@ -9,12 +12,11 @@ const Hero = () => {
             {/* Background Image Overlay */}
             <div className="absolute inset-0 z-0">
                 <img
-                    src="/hero-bg.jpg"
+                    src={HERO_IMAGE}
                     alt="Global Logistics Background"
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                        e.target.src = "https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=2000";
-                    }}
+                    fetchPriority="high"
+                    decoding="async"
                 />
                 <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
             </div>
