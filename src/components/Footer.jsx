@@ -1,79 +1,10 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
 import { trackEvent } from '../lib/gtm';
+import NewsletterSignup from './NewsletterSignup';
 
 const Footer = () => {
     const { t } = useLanguage();
-    const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState('');
-    const [error, setError] = useState('');
-
-    const newsletterWebhookUrl = import.meta.env.VITE_NEWSLETTER_WEBHOOK_URL;
-
-    const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-
-    const handleNewsletterSubmit = async (e) => {
-        e.preventDefault();
-
-        const normalizedEmail = email.trim();
-        setSuccess('');
-        setError('');
-
-        if (!isValidEmail(normalizedEmail)) {
-            setError(t('footer.subscription.errorInvalid'));
-            return;
-        }
-
-        if (!newsletterWebhookUrl) {
-            setError(t('footer.subscription.errorMissingConfig'));
-            return;
-        }
-
-        setLoading(true);
-
-        try {
-            const response = await fetch(newsletterWebhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                    Accept: 'application/json, text/plain, */*'
-                },
-                body: JSON.stringify({
-                    type: 'newsletter',
-                    email: normalizedEmail
-                })
-            });
-
-            const responseText = await response.text();
-            let payload = {};
-
-            if (responseText) {
-                try {
-                    payload = JSON.parse(responseText);
-                } catch {
-                    payload = { ok: response.ok };
-                }
-            }
-
-            if (!response.ok || payload.ok === false) {
-                throw new Error(payload.error || 'request_failed');
-            }
-
-            setEmail('');
-            trackEvent('newsletter_submit_success', {
-                location: 'footer_newsletter',
-                label: 'newsletter_form'
-            });
-            setSuccess(t('footer.subscription.success'));
-        } catch (submitError) {
-            console.error('Newsletter subscription failed', submitError);
-            setError(t('footer.subscription.errorGeneric'));
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <footer className="bg-slate-50 pt-20 pb-12 px-6 md:px-12 border-t border-slate-100">
@@ -154,57 +85,12 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-6">
-                        <h4 className="text-[12px] font-black text-slate-900 tracking-widest uppercase">{t('footer.subscription.title')}</h4>
-                        <p className="text-slate-500 text-[14px] font-medium leading-relaxed max-w-sm">
-                            {t('footer.subscription.description')}
-                        </p>
-                        <form className="relative" onSubmit={handleNewsletterSubmit}>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                    if (success) setSuccess('');
-                                    if (error) setError('');
-                                }}
-                                placeholder={t('footer.subscription.placeholder')}
-                                className={`w-full h-12 pl-4 pr-12 rounded-xl bg-white border text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-primary font-medium text-sm transition-all ${error ? 'border-red-300' : 'border-slate-200'
-                                    }`}
-                                aria-label={t('footer.subscription.placeholder')}
-                                disabled={loading}
-                            />
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="absolute right-1 top-1 w-10 h-10 bg-[#0b0c49] text-white rounded-lg flex items-center justify-center hover:bg-[#161865] transition-colors disabled:cursor-not-allowed disabled:opacity-70"
-                                aria-label={loading ? t('footer.subscription.submitting') : t('footer.subscription.button')}
-                            >
-                                {loading ? (
-                                    <span className="w-4 h-4 rounded-full border-2 border-white/35 border-t-white animate-spin" />
-                                ) : (
-                                    <span className="material-symbols-outlined !text-[18px]">send</span>
-                                )}
-                            </button>
-                        </form>
-                        <div className="min-h-[20px]">
-                            {loading ? (
-                                <p className="text-[13px] font-semibold text-slate-500">
-                                    {t('footer.subscription.pending')}
-                                </p>
-                            ) : null}
-                            {success ? (
-                                <p className="text-[13px] font-semibold text-emerald-600">
-                                    {success}
-                                </p>
-                            ) : null}
-                            {error ? (
-                                <p className="text-[13px] font-semibold text-red-500">
-                                    {error}
-                                </p>
-                            ) : null}
-                        </div>
-                    </div>
+                    <NewsletterSignup
+                        source="footer_newsletter"
+                        title={t('footer.subscription.title')}
+                        description={t('footer.subscription.description')}
+                        className="flex flex-col gap-6"
+                    />
                 </div>
 
                 <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">

@@ -4,6 +4,8 @@ import RouteTracker from './components/RouteTracker';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import ServicesLanding from './pages/ServicesLanding';
+import NewsHome from './pages/NewsHome';
+import NewsArticle from './pages/NewsArticle';
 import WhatsAppWidget from './components/WhatsAppWidget';
 
 import { LanguageProvider } from './context/LanguageContext';
@@ -20,6 +22,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/contacto" element={<Contact />} />
               <Route path="/servicios" element={<ServicesLanding />} />
+              <Route path="/noticias" element={<NewsHome />} />
+              <Route path="/noticias/:slug" element={<NewsArticle />} />
             </Routes>
           </main>
         </div>

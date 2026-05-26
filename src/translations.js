@@ -203,6 +203,56 @@ export const translations = {
             errorGeneric: "No pudimos registrar tu consulta. Intentá nuevamente.",
             errorMissingConfig: "El formulario de contacto no está configurado todavía."
         },
+        newsPage: {
+            heroAlt: "Noticias Global Trip",
+            eyebrow: "Actualidad en comercio exterior",
+            title: "Noticias, análisis y novedades para operar con más criterio",
+            intro: "Reunimos novedades del sector, señales regulatorias y contenido práctico para ayudarte a tomar mejores decisiones en importación, exportación y logística internacional.",
+            featuredLabel: "Nota destacada",
+            latestEyebrow: "Últimas publicaciones",
+            latestTitle: "Lo más reciente",
+            readArticle: "Leer nota completa",
+            readMore: "Seguir leyendo",
+            backToNews: "Volver a noticias",
+            sourceLabel: "Fuente",
+            openSource: "Ver fuente oficial",
+            relatedEyebrow: "Seguí explorando",
+            relatedTitle: "Más noticias de Global Trip",
+            filters: {
+                all: "Todas"
+            },
+            categories: {
+                economia: "Economía",
+                importacion: "Importación",
+                exportacion: "Exportación",
+                logistica: "Logística",
+                destacadas: "Destacadas"
+            },
+            results: {
+                single: "resultado",
+                plural: "resultados"
+            },
+            newsletter: {
+                eyebrow: "Suscribite al newsletter",
+                title: "Recibí novedades operativas sin salir de tu bandeja",
+                description: "Te enviamos actualizaciones sobre normativa, importación, exportación y señales del contexto para que sigas tu operación con información útil."
+            },
+            empty: {
+                title: "No encontramos noticias para este filtro.",
+                description: "Probá con otra categoría o volvé en unos días para ver nuevas publicaciones."
+            },
+            notFound: {
+                eyebrow: "Contenido no disponible",
+                title: "La noticia que buscás no está publicada.",
+                description: "Puede que haya sido movida, reemplazada o que la URL no sea correcta."
+            },
+            articleSidebar: {
+                eyebrow: "Acompañamiento experto",
+                title: "¿Querés bajar esto a tu operación real?",
+                description: "Nuestro equipo puede ayudarte a traducir estas novedades en decisiones concretas de aduana, logística y comercio exterior.",
+                cta: "Hablar con Global Trip"
+            }
+        },
         whatsapp: {
             welcome: "Hola, Bienvenido a",
             company: "Global Trip",
@@ -414,6 +464,56 @@ export const translations = {
             errorGeneric: "We could not save your inquiry. Please try again.",
             errorMissingConfig: "The contact form is not configured yet."
         },
+        newsPage: {
+            heroAlt: "Global Trip News",
+            eyebrow: "Foreign trade updates",
+            title: "News, analysis, and updates to operate with more clarity",
+            intro: "We gather sector updates, regulatory signals, and practical content to help you make better decisions in importing, exporting, and international logistics.",
+            featuredLabel: "Featured story",
+            latestEyebrow: "Latest posts",
+            latestTitle: "Most recent updates",
+            readArticle: "Read full article",
+            readMore: "Continue reading",
+            backToNews: "Back to news",
+            sourceLabel: "Source",
+            openSource: "Open official source",
+            relatedEyebrow: "Keep exploring",
+            relatedTitle: "More news from Global Trip",
+            filters: {
+                all: "All"
+            },
+            categories: {
+                economia: "Economy",
+                importacion: "Import",
+                exportacion: "Export",
+                logistica: "Logistics",
+                destacadas: "Featured"
+            },
+            results: {
+                single: "result",
+                plural: "results"
+            },
+            newsletter: {
+                eyebrow: "Join the newsletter",
+                title: "Receive operational updates straight in your inbox",
+                description: "We share regulatory updates, import and export changes, and market signals so you can follow your operation with useful information."
+            },
+            empty: {
+                title: "We couldn't find news for this filter.",
+                description: "Try another category or check back soon for new posts."
+            },
+            notFound: {
+                eyebrow: "Content unavailable",
+                title: "The article you are looking for is not published.",
+                description: "It may have been moved, replaced, or the URL may be incorrect."
+            },
+            articleSidebar: {
+                eyebrow: "Expert guidance",
+                title: "Do you want to turn this into an operational decision?",
+                description: "Our team can help you translate these updates into concrete customs, logistics, and foreign trade actions.",
+                cta: "Talk to Global Trip"
+            }
+        },
         whatsapp: {
             welcome: "Hello, Welcome to",
             company: "Global Trip",
@@ -624,6 +724,56 @@ export const translations = {
             errorDetail: "Conte-nos o motivo ou os detalhes da sua consulta.",
             errorGeneric: "Não foi possível registrar sua consulta. Tente novamente.",
             errorMissingConfig: "O formulário de contato ainda não está configurado."
+        },
+        newsPage: {
+            heroAlt: "Notícias Global Trip",
+            eyebrow: "Atualizações em comércio exterior",
+            title: "Notícias, análises e novidades para operar com mais clareza",
+            intro: "Reunimos novidades do setor, sinais regulatórios e conteúdo prático para ajudar você a tomar melhores decisões em importação, exportação e logística internacional.",
+            featuredLabel: "Matéria em destaque",
+            latestEyebrow: "Publicações recentes",
+            latestTitle: "O mais recente",
+            readArticle: "Ler matéria completa",
+            readMore: "Continuar lendo",
+            backToNews: "Voltar para notícias",
+            sourceLabel: "Fonte",
+            openSource: "Ver fonte oficial",
+            relatedEyebrow: "Continue explorando",
+            relatedTitle: "Mais notícias da Global Trip",
+            filters: {
+                all: "Todas"
+            },
+            categories: {
+                economia: "Economia",
+                importacion: "Importação",
+                exportacion: "Exportação",
+                logistica: "Logística",
+                destacadas: "Destaques"
+            },
+            results: {
+                single: "resultado",
+                plural: "resultados"
+            },
+            newsletter: {
+                eyebrow: "Assine a newsletter",
+                title: "Receba atualizações operacionais direto na sua caixa de entrada",
+                description: "Enviamos novidades sobre regulamentação, importação, exportação e sinais do contexto para que você acompanhe sua operação com informação útil."
+            },
+            empty: {
+                title: "Não encontramos notícias para este filtro.",
+                description: "Experimente outra categoria ou volte em alguns dias para ver novas publicações."
+            },
+            notFound: {
+                eyebrow: "Conteúdo indisponível",
+                title: "A notícia que você procura não está publicada.",
+                description: "Ela pode ter sido movida, substituída ou a URL pode estar incorreta."
+            },
+            articleSidebar: {
+                eyebrow: "Acompanhamento especializado",
+                title: "Quer transformar isso em uma decisão operacional?",
+                description: "Nossa equipe pode ajudar você a traduzir essas novidades em ações concretas de aduana, logística e comércio exterior.",
+                cta: "Falar com a Global Trip"
+            }
         },
         whatsapp: {
             welcome: "Olá, Bem-vindo à",
