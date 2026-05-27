@@ -48,6 +48,7 @@ const Footer = () => {
                     <div className="flex flex-col gap-6">
                         <h4 className="text-[12px] font-black text-slate-900 tracking-widest uppercase">{t('footer.usefulLinks')}</h4>
                         <nav className="flex flex-col gap-4">
+                            <Link to="/trabaja-con-nosotros" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.about')}</Link>
                             <Link to="/servicios" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.services')}</Link>
                             <Link to="/noticias" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.news')}</Link>
                             <Link to="/contacto" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.contact')}</Link>

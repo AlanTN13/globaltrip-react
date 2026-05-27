@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import RouteTracker from './components/RouteTracker';
 import Home from './pages/Home';
+import About from './pages/About';
 import Contact from './pages/Contact';
 import ServicesLanding from './pages/ServicesLanding';
 import NewsHome from './pages/NewsHome';
@@ -20,6 +21,7 @@ function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/trabaja-con-nosotros" element={<About />} />
               <Route path="/contacto" element={<Contact />} />
               <Route path="/servicios" element={<ServicesLanding />} />
               <Route path="/noticias" element={<NewsHome />} />

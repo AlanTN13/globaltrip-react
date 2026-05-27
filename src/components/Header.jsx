@@ -46,6 +46,9 @@ const Header = () => {
                         <Link className="text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" to="/">
                             {t('nav.home')}
                         </Link>
+                        <Link className="text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" to="/trabaja-con-nosotros">
+                            {t('nav.about')}
+                        </Link>
                         <a className="cursor-pointer text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" onClick={scrollToServices} href="/#servicios-bloque">
                             {t('nav.services')}
                         </a>
@@ -116,6 +119,13 @@ const Header = () => {
                         >
                             {t('nav.services')}
                         </a>
+                        <Link
+                            className="rounded-2xl px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-[#0b0c49]"
+                            to="/trabaja-con-nosotros"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            {t('nav.about')}
+                        </Link>
                         <Link
                             className="rounded-2xl px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-[#0b0c49]"
                             to="/noticias"

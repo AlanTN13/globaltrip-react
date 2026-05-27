@@ -2,6 +2,7 @@ export const translations = {
     es: {
         nav: {
             home: "Inicio",
+            about: "Trabajá con nosotros",
             services: "Servicios",
             news: "Noticias",
             contact: "Contacto"
@@ -203,6 +204,23 @@ export const translations = {
             errorGeneric: "No pudimos registrar tu consulta. Intentá nuevamente.",
             errorMissingConfig: "El formulario de contacto no está configurado todavía."
         },
+        aboutPage: {
+            heroAlt: "Carreras en Global Trip",
+            eyebrow: "Trabajá con nosotros",
+            heroTitle: "Sumate a Global Trip",
+            heroText: "Oportunidades para perfiles con iniciativa, ganas de aprender y entusiasmo por el comercio exterior.",
+            content: {
+                eyebrow: "Oportunidad laboral",
+                firstParagraph: "Si te interesa trabajar en comercio exterior y formar parte de un equipo dinámico, en Global Trip estamos abiertos a sumar perfiles con iniciativa y ganas de aprender.",
+                secondParagraph: "Nos dedicamos a freight forwarding, despachos de aduana y courier internacional, acompañando a empresas en sus operaciones de importación y exportación.",
+                thirdParagraphPrefix: "Podés enviar tu CV a",
+                thirdParagraphSuffix: "indicando el puesto de interés."
+            },
+            bottomBanner: {
+                label: "Contacto",
+                text: "Te esperamos"
+            }
+        },
         newsPage: {
             heroAlt: "Noticias Global Trip",
             eyebrow: "Actualidad en comercio exterior",
@@ -263,6 +281,7 @@ export const translations = {
     en: {
         nav: {
             home: "Home",
+            about: "Careers",
             services: "Services",
             news: "News",
             contact: "Contact"
@@ -464,6 +483,23 @@ export const translations = {
             errorGeneric: "We could not save your inquiry. Please try again.",
             errorMissingConfig: "The contact form is not configured yet."
         },
+        aboutPage: {
+            heroAlt: "Global Trip careers",
+            eyebrow: "Work with us",
+            heroTitle: "Join Global Trip",
+            heroText: "Opportunities for people with initiative, a willingness to learn, and enthusiasm for foreign trade.",
+            content: {
+                eyebrow: "Career opportunity",
+                firstParagraph: "If you are interested in working in foreign trade and becoming part of a dynamic team, at Global Trip we are open to adding people with initiative and a willingness to learn.",
+                secondParagraph: "We work in freight forwarding, customs brokerage, and international courier, supporting companies in their import and export operations.",
+                thirdParagraphPrefix: "You can send your resume to",
+                thirdParagraphSuffix: "indicating the position of interest."
+            },
+            bottomBanner: {
+                label: "Contact",
+                text: "We look forward to hearing from you"
+            }
+        },
         newsPage: {
             heroAlt: "Global Trip News",
             eyebrow: "Foreign trade updates",
@@ -524,6 +560,7 @@ export const translations = {
     pt: {
         nav: {
             home: "Início",
+            about: "Trabalhe conosco",
             services: "Serviços",
             news: "Notícias",
             contact: "Contato"
@@ -724,6 +761,23 @@ export const translations = {
             errorDetail: "Conte-nos o motivo ou os detalhes da sua consulta.",
             errorGeneric: "Não foi possível registrar sua consulta. Tente novamente.",
             errorMissingConfig: "O formulário de contato ainda não está configurado."
+        },
+        aboutPage: {
+            heroAlt: "Carreiras na Global Trip",
+            eyebrow: "Trabalhe conosco",
+            heroTitle: "Junte-se à Global Trip",
+            heroText: "Oportunidades para perfis com iniciativa, vontade de aprender e entusiasmo pelo comércio exterior.",
+            content: {
+                eyebrow: "Oportunidade profissional",
+                firstParagraph: "Se você tem interesse em trabalhar com comércio exterior e fazer parte de uma equipe dinâmica, na Global Trip estamos abertos a somar perfis com iniciativa e vontade de aprender.",
+                secondParagraph: "Trabalhamos com freight forwarding, despacho aduaneiro e courier internacional, apoiando empresas em suas operações de importação e exportação.",
+                thirdParagraphPrefix: "Você pode enviar seu currículo para",
+                thirdParagraphSuffix: "indicando a vaga de interesse."
+            },
+            bottomBanner: {
+                label: "Contato",
+                text: "Esperamos por você"
+            }
         },
         newsPage: {
             heroAlt: "Notícias Global Trip",
