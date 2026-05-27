@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import RouteTracker from './components/RouteTracker';
 import Home from './pages/Home';
@@ -25,6 +25,8 @@ function App() {
               <Route path="/contacto" element={<Contact />} />
               <Route path="/servicios" element={<ServicesLanding />} />
               <Route path="/noticias" element={<NewsHome />} />
+              <Route path="/noticias/contact" element={<Navigate to="/contacto" replace />} />
+              <Route path="/noticias/contact/" element={<Navigate to="/contacto" replace />} />
               <Route path="/noticias/:slug" element={<NewsArticle />} />
             </Routes>
           </main>

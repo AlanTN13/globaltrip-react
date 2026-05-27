@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/noticias/contact",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    {
+      "source": "/noticias/contact/",
+      "destination": "/contacto",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
