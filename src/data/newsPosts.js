@@ -1,6 +1,99 @@
 export const newsPosts = [
   {
     featured: true,
+    title: 'Control de alimentos: el SENASA asume las funciones operativas del INAL',
+    category: 'aduana',
+    publishedAt: '2026-08-03',
+    coverImage:
+      'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1600',
+    excerpt:
+      'El Decreto 697/2026 reorganizó el Sistema Nacional de Control de Alimentos, concentró en el SENASA las tareas operativas y modificó procedimientos de importación y exportación.',
+    sourceName: 'Boletín Oficial - Decreto 697/2026',
+    sourceUrl:
+      'https://www.boletinoficial.gob.ar/detalleAviso/primera/345309/20260803',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'El Gobierno nacional reorganizó el Sistema Nacional de Control de Alimentos mediante el Decreto 697/2026, vigente desde el 3 de agosto. La medida redistribuye las funciones que ejercía el Instituto Nacional de Alimentos (INAL) entre el SENASA y el Ministerio de Salud.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Aunque la comunicación oficial presenta la reforma como la disolución del INAL, el decreto no utiliza expresamente esa fórmula. La reorganización se instrumenta eliminando sus competencias anteriores y asignando las tareas operativas al SENASA, mientras Salud conserva la rectoría y la regulación sanitaria.',
+      },
+      {
+        type: 'heading',
+        text: 'Cómo se distribuyen las funciones',
+      },
+      {
+        type: 'list',
+        items: [
+          'El SENASA registrará productos y establecimientos y administrará el registro único correspondiente.',
+          'También fiscalizará establecimientos, depósitos, transportes, alimentos nacionales e importados, envases y materiales en contacto con alimentos.',
+          'Podrá aplicar sanciones y emitir los certificados sanitarios requeridos para determinadas exportaciones.',
+          'El Ministerio de Salud conservará la definición de lineamientos sanitarios, rotulado, composición, ingredientes, aditivos, contaminantes y límites microbiológicos o toxicológicos.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Las modificaciones al Código Alimentario Argentino deberán ser aprobadas conjuntamente por el Ministerio de Salud y la Secretaría de Agricultura, Ganadería y Pesca. Los proyectos deberán resolverse dentro de los 45 días hábiles posteriores a su notificación.',
+      },
+      {
+        type: 'heading',
+        text: 'Importaciones con declaración jurada simplificada',
+      },
+      {
+        type: 'paragraph',
+        text: 'El decreto amplía el régimen simplificado para productos certificados por Australia, Canadá, Suiza, la Unión Europea, Estados Unidos, Nueva Zelanda, Israel, Japón y Reino Unido, además de los países incorporados mediante acuerdos de integración o reciprocidad sanitaria.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Cuando exista una autorización de comercialización, certificado de libre venta o documento equivalente emitido por la autoridad competente de esos mercados, se considerarán satisfechas las exigencias del Código Alimentario Argentino. El esquema comprende alimentos, aditivos, coadyuvantes tecnológicos, ingredientes y envases.',
+      },
+      {
+        type: 'paragraph',
+        text: 'La principal ampliación frente al régimen de 2025 es la incorporación expresa de insumos utilizados por la industria alimenticia. De todos modos, seguirán prevaleciendo las prohibiciones y los límites máximos fijados por la normativa argentina.',
+      },
+      {
+        type: 'heading',
+        text: 'Qué ocurre con los demás países',
+      },
+      {
+        type: 'paragraph',
+        text: 'Los productos que no accedan al tratamiento simplificado deberán demostrar el cumplimiento del Código Alimentario Argentino y tramitar los registros y declaraciones correspondientes. El SENASA realizará una verificación analítica y la mercadería no podrá circular ni comercializarse hasta obtener el resultado.',
+      },
+      {
+        type: 'paragraph',
+        text: 'La adhesión de un país a las normas del Codex Alimentarius no habilita por sí sola el procedimiento simplificado. China, por ejemplo, no figura individualmente en el Anexo III y sus productos no acceden automáticamente a la declaración jurada por el solo cumplimiento del Codex.',
+      },
+      {
+        type: 'heading',
+        text: 'Controles y registros vigentes',
+      },
+      {
+        type: 'list',
+        items: [
+          'Como regla general, los alimentos para venta directa estarán sujetos a controles posteriores al ingreso a plaza.',
+          'Podrá ordenarse un control previo ante deterioro, inconsistencias documentales o indicios comprobados de riesgo sanitario.',
+          'Las habilitaciones y los registros existentes seguirán vigentes y no requerirán reinscripción por el cambio de autoridad.',
+          'El SENASA administrará una base única con datos de productos, establecimientos, inspecciones, laboratorios, infracciones y sanciones.',
+        ],
+      },
+      {
+        type: 'heading',
+        text: 'Cambios para las exportaciones',
+      },
+      {
+        type: 'paragraph',
+        text: 'Los alimentos destinados al exterior deberán cumplir únicamente los requisitos del país comprador. La autoridad argentina no podrá exigir condiciones superiores y, cuando el destino lo requiera, el exportador podrá solicitar el certificado sanitario ante la autoridad nacional competente.',
+      },
+      {
+        type: 'paragraph',
+        text: 'La norma ya está vigente, pero faculta al SENASA y a ARCA a dictar disposiciones complementarias. Antes de operar será necesario verificar los circuitos aplicables a registros, declaraciones juradas, intervenciones sanitarias y documentación mientras se completa la transición administrativa y tecnológica.',
+      },
+    ],
+  },
+  {
+    featured: true,
     title: 'Estados Unidos aplicará a la Argentina su arancel general más bajo',
     category: 'exportacion',
     publishedAt: '2026-07-24',
