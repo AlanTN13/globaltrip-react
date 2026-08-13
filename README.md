@@ -105,6 +105,12 @@ El proyecto usa **Manrope** como fuente principal y **Material Symbols** para lo
 - `npm run build` - Crea el build de producción
 - `npm run preview` - Preview del build de producción
 - `npm run lint` - Ejecuta el linter
+- `npm run news:validate` - Valida todas las noticias y sus identificadores de origen
+- `npm run news:test` - Prueba validación, fallback, orden y noticia destacada
+- `npm run news:add -- /ruta/noticia.json` - Incorpora una noticia normalizada y validada
+
+La estructura y el flujo de automatización están documentados en
+[`docs/news-automation.md`](docs/news-automation.md).
 
 ## 📬 Suscripción con Google Sheets
 

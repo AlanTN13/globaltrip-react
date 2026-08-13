@@ -1,0 +1,57 @@
+{
+  "featured": true,
+  "title": "Compras puerta a puerta: unifican beneficios con el régimen courier",
+  "category": "importacion",
+  "publishedAt": "2026-07-17",
+  "coverImage": "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1600",
+  "excerpt": "El Decreto 604/2026 equiparó el tratamiento tributario de los envíos postales y courier, amplió la franquicia hasta USD 400 FOB y habilitó exportaciones comerciales por correo sin límite de valor.",
+  "sourceName": "Infobae - Economía",
+  "sourceUrl": "https://www.infobae.com/economia/2026/07/17/el-gobierno-unifico-el-sistema-para-realizar-compras-en-el-exterior-que-cambia-en-el-regimen-puerta-a-puerta/",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "El Gobierno modificó el régimen de compras en el exterior mediante el Decreto 604/2026. La medida alineó los beneficios tributarios de los envíos gestionados por el operador postal —conocidos como puerta a puerta— con los que ya regían para los Prestadores de Servicios Postales y Courier."
+    },
+    {
+      "type": "paragraph",
+      "text": "El objetivo es reducir las diferencias que existían según el canal de ingreso de la mercadería, dar mayor previsibilidad a los consumidores y simplificar los procedimientos aduaneros vinculados al comercio electrónico transfronterizo."
+    },
+    {
+      "type": "heading",
+      "text": "Qué cambia para las compras en el exterior"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Los envíos postales de hasta USD 400 FOB quedan exentos del derecho de importación y de la tasa de estadística.",
+        "El beneficio podrá utilizarse en un máximo de cinco envíos por año y por persona.",
+        "Si se supera el límite, el excedente tributará según el régimen general de importación para consumo.",
+        "El operador postal quedará autorizado para representar al destinatario en el trámite aduanero, salvo indicación previa en contrario."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Hasta ahora, el régimen puerta a puerta contemplaba una franquicia de USD 50 por envío y permitía hasta 12 operaciones anuales por persona. En cambio, el sistema courier ya contaba con el beneficio de USD 400 FOB y un límite de cinco envíos al año. El nuevo decreto elimina esa diferencia tributaria."
+    },
+    {
+      "type": "heading",
+      "text": "Exportaciones comerciales por correo"
+    },
+    {
+      "type": "paragraph",
+      "text": "La norma también reglamentó las exportaciones comerciales realizadas por vía postal y dispuso que no tendrán un límite económico. ARCA deberá establecer las pautas operativas para implementar el nuevo esquema, que busca facilitar las ventas internacionales de productores, comercios y empresas de menor escala."
+    },
+    {
+      "type": "heading",
+      "text": "Envíos personales y controles aduaneros"
+    },
+    {
+      "type": "paragraph",
+      "text": "Los envíos sin finalidad comercial destinados a ayuda familiar u obsequios mantendrán la exención de tributos a la exportación, excepto las tasas por servicios, siempre que no superen un valor acumulado de USD 5.000 mensuales por remitente. La Aduana conservará sus facultades de control y podrá disponer la apertura de los paquetes cuando sea necesario verificar la mercadería."
+    }
+  ],
+  "slug": "compras-puerta-a-puerta-unifican-beneficios-con-el-regimen-courier",
+  "seoTitle": "Compras puerta a puerta: unifican beneficios con el régimen courier",
+  "metaDescription": "El Decreto 604/2026 equiparó el tratamiento tributario de los envíos postales y courier, amplió la franquicia hasta USD 400 FOB y habilitó exportaciones comerciales por correo sin límite de valor.",
+  "gmailMessageId": "legacy:compras-puerta-a-puerta-unifican-beneficios-con-el-regimen-courier"
+}

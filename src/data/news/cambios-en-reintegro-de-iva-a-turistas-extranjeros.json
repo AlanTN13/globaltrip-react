@@ -1,0 +1,36 @@
+{
+  "title": "Cambios en reintegro de IVA a turistas extranjeros",
+  "category": "economia",
+  "publishedAt": "2026-05-07",
+  "coverImage": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=1600",
+  "excerpt": "La RG 5843/2026 actualizó el régimen de devolución de IVA para turistas del exterior con el objetivo de incentivar el consumo y simplificar el procedimiento para comercios adheridos.",
+  "sourceName": "Cámara Argentina de Comercio - Novedades COMEX",
+  "sourceUrl": "https://www.cac.com.ar/informes/novedades-comex?utm_source=chatgpt.com",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "La RG 5843/2026 modificó el régimen de devolución de IVA para turistas extranjeros por compras de productos nacionales. El cambio busca incentivar el consumo y hacer más simple la operatoria para los comercios que participan del esquema."
+    },
+    {
+      "type": "paragraph",
+      "text": "Aunque no impacta directamente en el despacho aduanero tradicional, sí tiene efectos sobre actividades vinculadas al comercio, la formalización y la relación con visitantes del exterior, especialmente en rubros con alta exposición al turismo internacional."
+    },
+    {
+      "type": "heading",
+      "text": "Qué deberían revisar los comercios adheridos"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nuevas condiciones y procedimientos de devolución.",
+        "Ajustes en sistemas internos de facturación y registración.",
+        "Requisitos documentales para mantener la adhesión.",
+        "Impacto comercial en ventas orientadas a turistas del exterior."
+      ]
+    }
+  ],
+  "slug": "cambios-en-reintegro-de-iva-a-turistas-extranjeros",
+  "seoTitle": "Cambios en reintegro de IVA a turistas extranjeros",
+  "metaDescription": "La RG 5843/2026 actualizó el régimen de devolución de IVA para turistas del exterior con el objetivo de incentivar el consumo y simplificar el procedimiento para comercios adheridos.",
+  "gmailMessageId": "legacy:cambios-en-reintegro-de-iva-a-turistas-extranjeros"
+}
