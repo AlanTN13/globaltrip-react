@@ -25,7 +25,8 @@ La automatización externa debe preparar un JSON con esta forma:
 }
 ```
 
-`coverImage` es opcional. Si se omite, la UI usa el fallback actual. `featured` también
+`coverImage` es opcional y debe ser una URL `https` o una ruta pública absoluta. Si se
+omite, la UI usa el fallback actual. `featured` también
 es opcional y, cuando se incluye, debe ser booleano. Las categorías admitidas son
 `aduana`, `economia`, `exportacion`, `importacion` y `logistica`. Los bloques de
 contenido admiten `paragraph`, `heading`, `quote` (con `text`) y `list` (con `items`).
@@ -50,3 +51,26 @@ npm run build
 El commit, deploy, verificación y marcado del correo como procesado deben ocurrir en ese
 orden y fuera de estos scripts. El correo solo debe marcarse después de verificar el
 deploy exitoso.
+
+## Criterio de selección de portada
+
+El normalizador externo debe enviar los candidatos a `npm run news:cover -- entrada.json`
+con URL pública, MIME type, ancho, alto, tamaño, nombre de archivo, origen (`attachment`
+o `inline`) y, cuando exista, `contentId` y texto alternativo. El comando usa
+`scripts/news-cover.mjs` y devuelve una decisión JSON auditable. No se debe copiar el
+primer adjunto o la primera imagen inline directamente a `coverImage`.
+
+La selección aplica este orden:
+
+1. imagen explícita válida enviada con el contenido;
+2. imagen generada o preparada a partir de `ANEXO — LINEAMIENTOS PARA LA IMAGEN`;
+3. fallback del frontend, únicamente cuando no existe una opción mejor.
+
+Se rechazan candidatos menores a 640 × 360 px o 50 KB, proporciones extremas típicas
+de banners o íconos y nombres/metadatos asociados a firmas, logos, branding, redes
+sociales, píxeles de seguimiento o separadores. Una imagen inline puede ser válida,
+pero nunca por el solo hecho de ser inline: debe superar los mismos controles.
+
+`extractImageGuidelines()` conserva el texto del anexo para usarlo como instrucción
+principal al preparar la imagen. `selectNewsCover()` devuelve la estrategia aplicada,
+la portada elegida y los descartes con sus motivos para permitir auditoría del flujo.
