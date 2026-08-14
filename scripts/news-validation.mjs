@@ -26,6 +26,7 @@ const REQUIRED_STRING_FIELDS = [
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const CONTENT_TYPES = new Set(['paragraph', 'heading', 'list', 'quote']);
+const COVER_IMAGE_PATTERN = /^(?:https:\/\/|\/)[^\s]+$/;
 
 const isNonEmptyString = (value) => typeof value === 'string' && value.trim().length > 0;
 
@@ -101,6 +102,8 @@ export const validateNewsPost = (post, label = 'noticia') => {
 
   if (post.coverImage != null && !isNonEmptyString(post.coverImage)) {
     errors.push(`${label}: coverImage debe ser un texto no vacío cuando está presente`);
+  } else if (isNonEmptyString(post.coverImage) && !COVER_IMAGE_PATTERN.test(post.coverImage)) {
+    errors.push(`${label}: coverImage debe ser una URL https o una ruta pública absoluta`);
   }
 
   if (post.featured != null && typeof post.featured !== 'boolean') {

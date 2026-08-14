@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "news:add": "node scripts/add-news.mjs",
+    "news:cover": "node scripts/select-news-cover.mjs",
     "news:test": "node --test scripts/news.test.mjs",
     "news:validate": "node scripts/validate-news.mjs",
     "preview": "vite preview"
