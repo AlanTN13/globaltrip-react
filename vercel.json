@@ -18,6 +18,10 @@
   ],
   "rewrites": [
     {
+      "source": "/noticias/:slug",
+      "destination": "/noticias/:slug.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
