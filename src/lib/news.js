@@ -29,7 +29,7 @@ export const sortNewsPosts = (posts) =>
 export const getAllNewsPosts = (posts) => sortNewsPosts(posts.map(normalizeNewsPost));
 
 export const getFeaturedNewsPost = (posts) =>
-  getAllNewsPosts(posts).find((post) => post.featured) || getAllNewsPosts(posts)[0] || null;
+  getAllNewsPosts(posts)[0] || null;
 
 export const getRelatedNewsPosts = (posts, currentSlug, limit = 3) =>
   getAllNewsPosts(posts).filter((post) => post.slug !== currentSlug).slice(0, limit);

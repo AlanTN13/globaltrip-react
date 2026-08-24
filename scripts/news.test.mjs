@@ -55,13 +55,13 @@ test('rechaza slug y gmailMessageId duplicados', () => {
   assert.ok(errors.some((error) => error.includes('gmailMessageId duplicado')));
 });
 
-test('mantiene orden por fecha y selección de destacada del frontend', () => {
+test('mantiene orden por fecha y usa la noticia más reciente como destacada', () => {
   const posts = [
     { ...validPost, slug: 'vieja', publishedAt: '2026-01-01', featured: true },
     { ...validPost, slug: 'nueva', publishedAt: '2026-08-13', featured: false },
   ];
   assert.deepEqual(getAllNewsPosts(posts).map((post) => post.slug), ['nueva', 'vieja']);
-  assert.equal(getFeaturedNewsPost(posts).slug, 'vieja');
+  assert.equal(getFeaturedNewsPost(posts).slug, 'nueva');
 });
 
 test('extrae el anexo de lineamientos para preparar una portada', () => {
