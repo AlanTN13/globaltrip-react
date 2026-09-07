@@ -128,3 +128,51 @@ test('mail worker sends production only, escapes HTML, tracks delivery and prese
   rows.push([randomUUID(),...rows[2].slice(1)]);
   context.processAltaNotifications(); assert.equal(sent.length,2);
 });
+
+test('final confirmed production write sends immediately; failed writes, previews and duplicates never send', async () => {
+  const rows = [[...HEADERS]], tracking = [['ID de alta','Estado','Destinatarios','Inicio (UTC)','Enviado (UTC)']];
+  let held=false, flushed=false, writeFail=false, mailFail=false, quota=10;
+  const sent=[];
+  const makeSheet = data => ({getLastRow:()=>data.length,getMaxRows:()=>1000,getSheetId:()=>0,getRange:(r,c,n=1,w=1)=>{
+    const range={getValues:()=>data.slice(r-1,r-1+n).map(row=>row.slice(c-1,c-1+w)),getValue:()=>data[r-1][c-1],getRow:()=>r,setNumberFormat:()=>{},setValues:values=>{
+      assert.ok(held);
+      if(data===rows){if(writeFail)throw Error('write failed');flushed=false;}
+      values.forEach((row,i)=>{data[r-1+i]=[...row];});
+    }};
+    range.createTextFinder=text=>({matchEntireCell(){return this;},findAll:()=>data.flatMap((row,i)=>i>=r-1&&i<r-1+n&&row[c-1]===text?[{getRow:()=>i+1}]:[]),findNext(){return this.findAll()[0]||null;}});
+    return range;
+  }});
+  const source=makeSheet(rows),outbox=makeSheet(tracking);
+  const context=vm.createContext({
+    console:{error:()=>{}},
+    PropertiesService:{getScriptProperties:()=>({getProperty:key=>({ALTA_CLIENTES_SECRET:secret,ALTA_CLIENTES_SHEET_ID:'sheet',ALTA_CLIENTES_MAIL_TO:'one@example.com,two@example.com,three@example.com'})[key]})},
+    Utilities:{Charset:{UTF_8:'utf8'},computeHmacSha256Signature:(text,key)=>[...createHmac('sha256',key).update(text).digest()],formatDate:()=> '07/09/2026'},
+    ContentService:{MimeType:{JSON:'json'},createTextOutput:text=>({setMimeType:()=>JSON.parse(text)})},
+    LockService:{getScriptLock:()=>({tryLock:()=>{if(held)return false;held=true;return true;},releaseLock:()=>{held=false;}})},
+    SpreadsheetApp:{openById:()=>({getId:()=> 'sheet',getSheetByName:name=>name==='Hoja 1'?source:outbox}),flush:()=>{flushed=true;}},
+    CacheService:{getScriptCache:()=>({get:()=>null,put:()=>{}})},
+    MailApp:{getRemainingDailyQuota:()=>quota,sendEmail:mail=>{
+      assert.ok(held);assert.ok(flushed);assert.equal(tracking.at(-1)[1],'ENVIANDO');
+      assert.ok(rows.some(row=>row[0]===tracking.at(-1)[0]));
+      context.processAltaNotifications(); // A competing fallback cannot send under this lock.
+      if(mailFail)throw Error('mail outcome unknown');sent.push(mail);
+    }}
+  });
+  vm.runInContext(await readFile(new URL('../google-apps-script/alta-clientes.gs',import.meta.url),'utf8'),context);
+  const send=(id,data=fixture,environment='production')=>{
+    const message=JSON.stringify({requestId:id,data,timestamp:Date.now(),environment,clientKey:'a'.repeat(64)});
+    return context.doPost({postData:{contents:JSON.stringify({message,signature:sign(message)})}});
+  };
+  assert.equal(context.doGet().ok,false);assert.equal(sent.length,0);
+  assert.equal(send(randomUUID(),{...fixture,email:'invalid'}).ok,false);assert.equal(sent.length,0);
+  writeFail=true;assert.equal(send(randomUUID()).ok,false);assert.equal(sent.length,0);writeFail=false;
+  assert.equal(send(randomUUID(),fixture,'preview').ok,true);assert.equal(sent.length,0);
+  const id=randomUUID();assert.equal(send(id).ok,true);assert.equal(sent.length,1);
+  assert.equal(tracking[1][1],'ENVIADO');assert.equal(sent[0].to,'one@example.com,two@example.com,three@example.com');
+  assert.equal(send(id).duplicate,true);assert.equal(send(randomUUID()).duplicate,true);
+  context.processAltaNotifications();assert.equal(sent.length,1);
+  mailFail=true;assert.equal(send(randomUUID(),{...fixture,nombre:'Mail failure'}).ok,true);
+  assert.equal(tracking.at(-1)[1],'REVISAR');mailFail=false;context.processAltaNotifications();assert.equal(sent.length,1);
+  quota=0;assert.equal(send(randomUUID(),{...fixture,nombre:'Quota fallback'}).ok,true);assert.equal(sent.length,1);
+  quota=10;context.processAltaNotifications();assert.equal(sent.length,2);assert.equal(held,false);
+});

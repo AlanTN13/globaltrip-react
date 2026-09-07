@@ -85,6 +85,12 @@ function doPost(e) {
       SpreadsheetApp.flush();
       const saved = range.getValues()[0];
       if (saved[0] !== body.requestId || saved[HEADERS.length - 1] !== hash) return output_({ ok: false, error: 'write_unconfirmed' });
+      // The final row is flushed and verified before any mail is attempted.
+      // Keep the same lock as the fallback worker to prevent competing sends.
+      if (body.environment === 'production') {
+        try { notifySavedRegistration_(saved); }
+        catch { console.error('Registration saved; notification needs review or fallback processing'); }
+      }
       return output_({ ok: true, registrationId: body.requestId, duplicate: false });
     } finally { lock.releaseLock(); }
   } catch { return output_({ ok: false, error: 'persistence_unconfirmed' }); }
@@ -93,7 +99,7 @@ function hmac_(value, secret) { return Utilities.computeHmacSha256Signature(valu
 function equal_(a, b) { if (typeof a !== 'string' || a.length !== b.length) return false; let difference = 0; for (let i = 0; i < a.length; i++) difference |= a.charCodeAt(i) ^ b.charCodeAt(i); return difference === 0; }
 function output_(payload) { return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON); }
 
-// Runs separately from the web request: a mail failure never loses a saved registration.
+// Send after final persistence; the timer is a fallback. Mail failure never loses a saved registration.
 // Configure ALTA_CLIENTES_MAIL_TO in Script Properties; never use form input as recipients.
 const MAIL_HEADERS = ['ID de alta', 'Estado', 'Destinatarios', 'Inicio (UTC)', 'Enviado (UTC)'];
 
@@ -159,29 +165,44 @@ function processAltaNotifications_(environment, onlyId) {
         if (sent >= 20 || Date.now() - started > 45000) return;
         // Quota exhaustion leaves the registration pending for a later timer execution.
         if (MailApp.getRemainingDailyQuota() < recipients.length) return;
-        const message = registrationMail_(row, book.getId(), source.getSheetId());
-        const mailRow = outbox.getLastRow() + 1;
-        if (mailRow > outbox.getMaxRows()) outbox.insertRowsAfter(outbox.getMaxRows(), 100);
-        const tracking = [row[0], 'ENVIANDO', recipients.join(', '), new Date().toISOString(), ''];
-        outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
-        SpreadsheetApp.flush();
-        try {
-          MailApp.sendEmail({ to: recipients.join(','), name: 'GlobalTrip', subject: message.subject, body: message.body, htmlBody: message.htmlBody });
-          tracking[1] = 'ENVIADO';
-          tracking[4] = new Date().toISOString();
-          outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
-          SpreadsheetApp.flush();
-          seen.add(row[0]);
-          sent++;
-        } catch {
-          tracking[1] = 'REVISAR';
-          outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
-          SpreadsheetApp.flush();
-          throw new Error('Mail delivery needs review in Avisos de alta; registration remains saved');
-        }
+        sendRegistrationMail_(row, book, source, outbox, recipients);
+        seen.add(row[0]);
+        sent++;
       }
     }
   } finally { lock.releaseLock(); }
+}
+
+// Called only while the registration handler holds the script lock.
+function notifySavedRegistration_(row) {
+  const recipients = mailRecipients_();
+  const book = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('ALTA_CLIENTES_SHEET_ID'));
+  const outbox = book.getSheetByName('Avisos de alta');
+  verifyMailSchema_(outbox);
+  const tracked = outbox.getLastRow() > 1 ? outbox.getRange(2, 1, outbox.getLastRow() - 1, 1).getValues() : [];
+  if (tracked.some(entry => entry[0] === row[0]) || MailApp.getRemainingDailyQuota() < recipients.length) return;
+  sendRegistrationMail_(row, book, book.getSheetByName('Hoja 1'), outbox, recipients);
+}
+
+function sendRegistrationMail_(row, book, source, outbox, recipients) {
+  const message = registrationMail_(row, book.getId(), source.getSheetId());
+  const mailRow = outbox.getLastRow() + 1;
+  if (mailRow > outbox.getMaxRows()) outbox.insertRowsAfter(outbox.getMaxRows(), 100);
+  const tracking = [row[0], 'ENVIANDO', recipients.join(', '), new Date().toISOString(), ''];
+  outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
+  SpreadsheetApp.flush();
+  try {
+    MailApp.sendEmail({ to: recipients.join(','), name: 'GlobalTrip', subject: message.subject, body: message.body, htmlBody: message.htmlBody });
+    tracking[1] = 'ENVIADO';
+    tracking[4] = new Date().toISOString();
+    outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
+    SpreadsheetApp.flush();
+  } catch {
+    tracking[1] = 'REVISAR';
+    outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
+    SpreadsheetApp.flush();
+    throw new Error('Mail delivery needs review in Avisos de alta; registration remains saved');
+}
 }
 
 function registrationMail_(row, sheetId, tabId) {
