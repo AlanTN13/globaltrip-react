@@ -77,10 +77,14 @@ export default function ClientRegistration() {
     const options = key === 'condicionIva' ? IVA_OPTIONS : key === 'asesor' ? ADVISOR_OPTIONS : ['importador', 'vieneDeCurso'].includes(key) ? ['Sí', 'No'] : null;
     const props = { id: key, name: key, value: data[key], onChange: change(key), required: true, 'aria-invalid': !!errors[key], 'aria-describedby': [hints[key] && key + '-hint', errors[key] && key + '-error'].filter(Boolean).join(' ') || undefined };
     return <div className={`alta-field ${['nombre', 'domicilio', 'contactoOperacion', 'contactoAdministracion', 'importador'].includes(key) ? 'alta-wide' : ''}`} key={key}>
-      <label htmlFor={key}>{labels[key]} <span aria-hidden="true">*</span></label>
-      {hints[key] && <p id={key + '-hint'} className="alta-hint">{hints[key]}</p>}
-      {options ? <select {...props}><option value="">Seleccioná una opción</option>{options.map(option => <option key={option}>{option}</option>)}</select> : <input {...props} type={key === 'email' ? 'email' : key === 'telefono' ? 'tel' : 'text'} inputMode={key === 'cuit' ? 'numeric' : undefined} autoComplete={({ nombre: 'organization', telefono: 'tel', email: 'email', domicilio: 'street-address' })[key] || 'off'} maxLength={['domicilio', 'contactoOperacion', 'contactoAdministracion'].includes(key) ? 500 : 200} />}
-      {errors[key] && <p id={key + '-error'} className="alta-field-error">{errors[key]}</p>}
+      <div className="alta-field-heading">
+        <label htmlFor={key}>{labels[key]} <span aria-hidden="true">*</span></label>
+        {hints[key] && <p id={key + '-hint'} className="alta-hint">{hints[key]}</p>}
+      </div>
+      <div className="alta-field-control">
+        {options ? <select {...props}><option value="">Seleccioná una opción</option>{options.map(option => <option key={option}>{option}</option>)}</select> : <input {...props} type={key === 'email' ? 'email' : key === 'telefono' ? 'tel' : 'text'} inputMode={key === 'cuit' ? 'numeric' : undefined} autoComplete={({ nombre: 'organization', telefono: 'tel', email: 'email', domicilio: 'street-address' })[key] || 'off'} maxLength={['domicilio', 'contactoOperacion', 'contactoAdministracion'].includes(key) ? 500 : 200} />}
+        {errors[key] && <p id={key + '-error'} className="alta-field-error">{errors[key]}</p>}
+      </div>
     </div>;
   };
   return <div className="alta-page" lang="es">

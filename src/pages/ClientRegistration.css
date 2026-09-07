@@ -23,11 +23,13 @@
 .alta-step-heading > p:last-child { font-size:12px; color:#676d80; margin-bottom:28px; }
 .alta-page fieldset { border:0; padding:0; min-width:0; }
 .alta-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px 18px; }
-.alta-field { display:flex; flex-direction:column; gap:8px; min-width:0; }
+.alta-field { display:grid; grid-template-rows:subgrid; grid-row:span 2; row-gap:8px; min-width:0; }
+.alta-field-heading { display:flex; flex-direction:column; gap:4px; }
+.alta-field-control { display:flex; flex-direction:column; gap:8px; align-self:start; min-width:0; }
 .alta-wide { grid-column:1/-1; }
 .alta-field label { font-size:12px; font-weight:800; line-height:1.6; }
 .alta-field label span { color:#7b8194; }
-.alta-hint { font-size:11px; color:#676d80; line-height:1.6; margin-top:-4px; }
+.alta-hint { font-size:11px; color:#676d80; line-height:1.6; }
 .alta-field input,.alta-field select { border:1px solid #d7dce7; border-radius:11px; padding:12px; width:100%; min-height:49px; background:#fff; font-size:16px; color:#171a36; }
 .alta-page :is(input,select,button,a):focus-visible { outline:3px solid #929ad5; outline-offset:3px; }
 .alta-field [aria-invalid=true] { border-color:#be3843; }
