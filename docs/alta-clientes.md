@@ -74,7 +74,7 @@ Las pruebas automatizadas cubren condicionales, normalización, errores, firma, 
 
 ## Aviso interno por correo
 
-La pantalla del cliente confirma la persistencia; el correo se procesa de forma independiente, normalmente en el siguiente minuto. `setupAltaNotifications` prepara la pestaña «Avisos de alta» y crea un único activador de `processAltaNotifications`. Usa MailApp con permiso de envío solamente, más el permiso para administrar el activador. El remitente es la cuenta que instala el activador.
+Al confirmar el último paso, el receptor escribe, hace flush y verifica la fila definitiva; recién entonces intenta enviar el aviso antes de devolver la confirmación al navegador. Navegar entre pasos no guarda ni envía correos. El mismo bloqueo serializa el envío inmediato y el proceso de respaldo para evitar duplicados. Un fallo del mail no revierte el alta ni produce un falso error de persistencia. El activador queda como respaldo para filas todavía sin intento de envío, por ejemplo ante falta de cuota. `setupAltaNotifications` prepara la pestaña «Avisos de alta» y crea un único activador de `processAltaNotifications`. Usa MailApp con permiso de envío solamente, más el permiso para administrar el activador. El remitente es la cuenta que ejecuta la app web y el activador.
 
 El procesador solo toma filas `production`; el destinatario se obtiene de `ALTA_CLIENTES_MAIL_TO`, nunca de campos enviados por el cliente. El correo incluye los 13 datos de la ficha, fecha de Argentina y enlace a la hoja, con el diseño aprobado y sin leyendas de prueba. El texto libre se escapa para HTML. No envía un correo al cliente ni copia direcciones de su ficha.
 
