@@ -18,6 +18,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    },
+    {
       "source": "/noticias/:slug",
       "destination": "/noticias/:slug.html"
     },
@@ -25,5 +29,7 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "headers": [{ "source": "/alta-cliente/:path*", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Referrer-Policy", "value": "same-origin" }] }],
+  "functions": { "api/alta-clientes.js": { "maxDuration": 30 } }
 }

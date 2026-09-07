@@ -25,3 +25,7 @@ dist-ssr
 
 # Vercel
 .vercel
+# Private integration setup and QA artifacts
+.alta-private/
+.vercel/
+.env*.local

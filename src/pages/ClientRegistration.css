@@ -1,0 +1,59 @@
+.alta-page { background: #f6f7fa; min-height: 100vh; color: #171a36; }
+.alta-header { display:flex; align-items:center; justify-content:space-between; padding: 10px max(24px, calc((100vw - 1240px) / 2)); background:white; border-bottom:1px solid #e7e9ef; gap:20px; }
+.alta-header img { height:76px; width:auto; }
+.alta-header > span { font-size:11px; font-weight:800; letter-spacing:.16em; color:#62677a; }
+.alta-shell { max-width:1240px; margin:auto; padding:64px 24px 72px; display:grid; grid-template-columns: .8fr 1.35fr; gap:68px; align-items:start; }
+.alta-intro { padding-top:28px; position:sticky; top:40px; }
+.alta-eyebrow { font-size:10px; letter-spacing:.2em; font-weight:800; color:#555c77; }
+.alta-intro h1 { font-size:42px; line-height:1.17; font-weight:800; letter-spacing:-.045em; margin:22px 0; color:#0b0c49; }
+.alta-intro > p { font-size:16px; line-height:1.85; color:#606578; max-width:360px; }
+.alta-aside-note { border-top:1px solid #dcdfea; margin-top:45px; padding-top:26px; display:flex; gap:14px; }
+.alta-aside-note > span { background:#e8eaf3; border-radius:12px; padding:6px 12px; height:40px; color:#0b0c49; font-size:22px; }
+.alta-aside-note strong { font-size:13px; }
+.alta-aside-note p { font-size:12px; line-height:1.8; color:#606578; margin-top:6px; }
+.alta-card { background:white; border:1px solid #e4e6ee; border-radius:26px; padding:32px; box-shadow:0 18px 65px -45px #0b0c4944; min-width:0; }
+.alta-progress { display:flex; justify-content:space-between; padding:0 0 28px; margin:0 0 28px; border-bottom:1px solid #eceef3; list-style:none; gap:10px; }
+.alta-progress li { display:flex; align-items:center; gap:7px; color:#747a8a; }
+.alta-progress li > span { width:27px; height:27px; border-radius:50%; border:1px solid #d6dae5; display:grid; place-items:center; font-size:11px; font-weight:800; }
+.alta-progress li.active > span { background:#0b0c49; color:white; border-color:#0b0c49; }
+.alta-progress small { font-size:10px; font-weight:700; }
+.alta-progress .active { color:#0b0c49; }
+.alta-step-heading > p:first-child { color:#777d91; font-size:10px; letter-spacing:.16em; font-weight:800; }
+.alta-step-heading h2, .alta-success h2 { font-size:26px; font-weight:800; letter-spacing:-.03em; margin:10px 0; color:#0b0c49; }
+.alta-step-heading > p:last-child { font-size:12px; color:#676d80; margin-bottom:28px; }
+.alta-page fieldset { border:0; padding:0; min-width:0; }
+.alta-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px 18px; }
+.alta-field { display:flex; flex-direction:column; gap:8px; min-width:0; }
+.alta-wide { grid-column:1/-1; }
+.alta-field label { font-size:12px; font-weight:800; line-height:1.6; }
+.alta-field label span { color:#7b8194; }
+.alta-hint { font-size:11px; color:#676d80; line-height:1.6; margin-top:-4px; }
+.alta-field input,.alta-field select { border:1px solid #d7dce7; border-radius:11px; padding:12px; width:100%; min-height:49px; background:#fff; font-size:16px; color:#171a36; }
+.alta-page :is(input,select,button,a):focus-visible { outline:3px solid #929ad5; outline-offset:3px; }
+.alta-field [aria-invalid=true] { border-color:#be3843; }
+.alta-field-error,.alta-error { font-size:12px; color:#ae2633; line-height:1.7; }
+.alta-actions { display:flex; justify-content:flex-end; align-items:center; gap:18px; margin-top:32px; }
+.alta-primary { display:inline-flex; align-items:center; justify-content:center; background:#0b0c49; color:white; border-radius:12px; padding:16px 24px; font-size:13px; font-weight:800; min-height:50px; text-align:center; }
+.alta-primary:hover { background:#20236b; }
+.alta-back { margin-right:auto; padding:12px 0; font-size:13px; font-weight:700; }
+.alta-page fieldset:disabled { opacity:.7; }
+.alta-status,.alta-error { margin-top:18px; }
+.alta-status { font-size:12px; color:#5b627b; }
+.alta-trap { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+.alta-review section { border:1px solid #e4e6ee; border-radius:14px; padding:18px; margin-bottom:16px; }
+.alta-review section > div { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.alta-review h3 { font-size:13px; font-weight:800; }
+.alta-review button { font-size:12px; text-decoration:underline; padding:5px; }
+.alta-review dl { margin-top:14px; display:grid; gap:14px; }
+.alta-review dt { font-size:11px; color:#676d80; }
+.alta-review dd { font-size:13px; margin-top:3px; font-weight:600; white-space:pre-wrap; overflow-wrap:anywhere; }
+.alta-use { font-size:12px; color:#676d80; line-height:1.8; }
+.alta-success { text-align:center; padding:30px 0; }
+.alta-check { display:inline-grid; place-items:center; background:#e9f6ef; color:#267744; height:66px; width:66px; border-radius:50%; font-size:30px; margin-bottom:20px; }
+.alta-success p { font-size:14px; color:#606578; line-height:1.8; margin:16px 0; }
+.alta-receipt { background:#f6f7fa; padding:18px; border-radius:12px; margin:25px 0; }
+.alta-receipt span { display:block; font-size:10px; letter-spacing:.12em; margin-bottom:10px; }
+.alta-receipt strong { font-size:13px; overflow-wrap:anywhere; }
+.alta-footer { text-align:center; font-size:11px; color:#71778a; padding:0 24px 28px; }
+@media(max-width:960px) { .alta-shell { gap:32px; grid-template-columns:.7fr 1.3fr; } .alta-intro h1 { font-size:32px; } .alta-card { padding:24px; } .alta-progress small { display:none; } }
+@media(max-width:700px) { .alta-header { padding:8px 20px; } .alta-header img { height:58px; } .alta-header > span { font-size:9px; } .alta-shell { display:block; padding:30px 16px 40px; } .alta-intro { position:static; padding:0 8px; } .alta-intro h1 { font-size:32px; margin:14px 0; } .alta-intro > p { font-size:14px; max-width:none; } .alta-aside-note { display:none; } .alta-card { margin-top:28px; padding:22px 18px; border-radius:20px; } .alta-progress small { display:block; } .alta-progress { gap:5px; } .alta-progress li { gap:4px; } .alta-progress small { font-size:9px; } .alta-grid { grid-template-columns:1fr; gap:20px; } .alta-step-heading h2 { font-size:23px; } .alta-primary { padding:15px 18px; } .alta-actions .alta-primary { flex:1; } }

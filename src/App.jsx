@@ -4,6 +4,7 @@ import RouteTracker from './components/RouteTracker';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import ClientRegistration from './pages/ClientRegistration';
 import ServicesLanding from './pages/ServicesLanding';
 import NewsHome from './pages/NewsHome';
 import NewsArticle from './pages/NewsArticle';
@@ -24,6 +25,7 @@ function App() {
               <Route path="/index.html" element={<Navigate to="/" replace />} />
               <Route path="/trabaja-con-nosotros" element={<About />} />
               <Route path="/contacto" element={<Contact />} />
+              <Route path="/alta-cliente" element={<ClientRegistration />} />
               <Route path="/servicios" element={<ServicesLanding />} />
               <Route path="/noticias" element={<NewsHome />} />
               <Route path="/noticias/contact" element={<Navigate to="/contacto" replace />} />
