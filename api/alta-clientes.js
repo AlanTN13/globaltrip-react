@@ -2,7 +2,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 import { validateRegistration } from '../src/lib/clientRegistration.js';
 
 const sign = (text, secret) => createHmac('sha256', secret).update(text).digest('hex');
-const same = (a, b) => typeof a === 'string' && typeof b === 'string' && a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
+const same = (a, b) => typeof a === 'string' && /^[a-f\d]{64}$/.test(a) && timingSafeEqual(Buffer.from(a), Buffer.from(b));
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');

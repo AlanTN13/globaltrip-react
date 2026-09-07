@@ -39,6 +39,7 @@ test('API rejects bad requests and never treats HTML or unconfirmed writes as su
   const body = { token: session.body.token, requestId: randomUUID(), data: fixture };
   assert.equal((await call({ body, headers: { origin:'https://evil.example',host:'preview.example.com','content-type':'application/json' } })).status, 403);
   assert.equal((await call({ body: { ...body, token:'bad' } })).status, 403);
+  assert.equal((await call({ body: { ...body, token:Date.now() + '.' + 'é'.repeat(64) } })).status, 403);
   assert.equal((await call({ body: { ...body, data: {} } })).status, 422);
   assert.equal((await call({ body: { ...body, website:'spam' } })).status, 400);
   assert.equal((await call({ method:'DELETE' })).status, 405);
