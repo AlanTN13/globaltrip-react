@@ -51,8 +51,5 @@
 .alta-success { text-align:center; padding:30px 0; }
 .alta-check { display:inline-grid; place-items:center; background:#e9f6ef; color:#267744; height:66px; width:66px; border-radius:50%; font-size:30px; margin-bottom:20px; }
 .alta-success p { font-size:14px; color:#606578; line-height:1.8; margin:16px 0; }
-.alta-receipt { background:#f6f7fa; padding:18px; border-radius:12px; margin:25px 0; }
-.alta-receipt span { display:block; font-size:10px; letter-spacing:.12em; margin-bottom:10px; }
-.alta-receipt strong { font-size:13px; overflow-wrap:anywhere; }
 @media(max-width:960px) { .alta-shell { gap:32px; grid-template-columns:.7fr 1.3fr; } .alta-intro h1 { font-size:32px; } .alta-card { padding:24px; } .alta-progress small { display:none; } }
 @media(max-width:700px) { .alta-shell { display:block; padding:30px 16px 40px; } .alta-intro { position:static; padding:0 8px; } .alta-intro h1 { font-size:32px; margin:14px 0; } .alta-intro > p { font-size:14px; max-width:none; } .alta-aside-note { display:none; } .alta-card { margin-top:28px; padding:22px 18px; border-radius:20px; } .alta-progress small { display:block; } .alta-progress { gap:5px; } .alta-progress li { gap:4px; } .alta-progress small { font-size:9px; } .alta-grid { grid-template-columns:1fr; gap:20px; } .alta-step-heading h2 { font-size:23px; } .alta-primary { padding:15px 18px; } .alta-actions .alta-primary { flex:1; } }

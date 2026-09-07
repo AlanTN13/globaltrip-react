@@ -27,7 +27,7 @@ La fuente también menciona fichas individuales en Drive y correos (C24:C25). Se
 
 ## Arquitectura
 
-Cliente → React/Vite → `POST /api/alta-clientes` (Vercel Node) → Apps Script dedicado, solicitud firmada HMAC-SHA256 → `Hoja 1` de la Sheet destino → comprobante solo después de escribir, `flush()` y verificar ID/huella.
+Cliente → React/Vite → `POST /api/alta-clientes` (Vercel Node) → Apps Script dedicado, solicitud firmada HMAC-SHA256 → `Hoja 1` de la Sheet destino → confirmación al cliente solo después de escribir, `flush()` y verificar ID/huella. El identificador de registro se conserva internamente para confirmar el resultado y deduplicar; la pantalla muestra un agradecimiento y los próximos pasos con el asesor, sin exponer el comprobante.
 
 Se reutilizan React Router, diseño/logo/fuentes, Vercel y Apps Script como tecnología ya presente. No se agrega base de datos, cuenta de servicio ni dependencia de automatización manual. Las funciones Node en `/api` están soportadas en [Vite sobre Vercel](https://vercel.com/docs/frameworks/frontend/vite); [LockService](https://developers.google.com/apps-script/reference/lock) serializa la comprobación de duplicados y la escritura.
 
