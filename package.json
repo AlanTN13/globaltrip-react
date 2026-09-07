@@ -12,7 +12,9 @@
     "news:og": "node scripts/generate-news-og.mjs",
     "news:test": "node --test scripts/news.test.mjs",
     "news:validate": "node scripts/validate-news.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "alta:script": "node scripts/build-registration-script.mjs",
+    "alta:test": "node --test scripts/registration.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",

@@ -42,7 +42,7 @@ const Header = () => {
                 </Link>
 
                 <div className="flex items-center gap-3 md:gap-6">
-                    <nav className="hidden md:flex items-center gap-8">
+                    <nav className="hidden xl:flex items-center gap-8 whitespace-nowrap">
                         <Link className="text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" to="/">
                             {t('nav.home')}
                         </Link>
@@ -55,9 +55,12 @@ const Header = () => {
                         <Link className="text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" to="/noticias">
                             {t('nav.news')}
                         </Link>
+                        <Link className="text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" to="/alta-cliente" aria-current={location.pathname === '/alta-cliente' ? 'page' : undefined}>
+                            {t('nav.registration')}
+                        </Link>
                     </nav>
 
-                    <div className="hidden items-center gap-4 border-x border-slate-100 px-4 md:flex md:mx-2">
+                    <div className="hidden items-center gap-4 border-x border-slate-100 px-4 xl:flex xl:mx-2">
                         {languages.map((lang) => (
                             <button
                                 key={lang.code}
@@ -87,7 +90,7 @@ const Header = () => {
                         aria-expanded={isMobileMenuOpen}
                         aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
                         onClick={() => setIsMobileMenuOpen((current) => !current)}
-                        className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 text-slate-700 transition-colors hover:border-[#0b0c49] hover:text-[#0b0c49] md:hidden"
+                        className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 text-slate-700 transition-colors hover:border-[#0b0c49] hover:text-[#0b0c49] xl:hidden"
                     >
                         <span className="sr-only">{isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}</span>
                         <div className="flex flex-col gap-1.5">
@@ -100,7 +103,7 @@ const Header = () => {
             </div>
 
             {isMobileMenuOpen ? (
-                <div className="mt-4 rounded-[1.75rem] border border-slate-100 bg-white p-5 shadow-[0_20px_45px_-30px_rgba(15,23,42,0.45)] md:hidden">
+                <div className="mt-4 rounded-[1.75rem] border border-slate-100 bg-white p-5 shadow-[0_20px_45px_-30px_rgba(15,23,42,0.45)] xl:hidden">
                     <nav className="flex flex-col gap-2">
                         <Link
                             className="rounded-2xl px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-[#0b0c49]"
@@ -132,6 +135,14 @@ const Header = () => {
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             {t('nav.news')}
+                        </Link>
+                        <Link
+                            className="rounded-2xl px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-[#0b0c49]"
+                            to="/alta-cliente"
+                            aria-current={location.pathname === '/alta-cliente' ? 'page' : undefined}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            {t('nav.registration')}
                         </Link>
                         <Link
                             className="rounded-2xl bg-[#0b0c49] px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#161865]"

@@ -1,0 +1,107 @@
+// Runs separately from the web request: a mail failure never loses a saved registration.
+// Configure ALTA_CLIENTES_MAIL_TO in Script Properties; never use form input as recipients.
+const MAIL_HEADERS = ['ID de alta', 'Estado', 'Destinatarios', 'Inicio (UTC)', 'Enviado (UTC)'];
+
+function setupAltaNotifications() {
+  mailRecipients_();
+  const book = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('ALTA_CLIENTES_SHEET_ID'));
+  let outbox = book.getSheetByName('Avisos de alta');
+  if (!outbox) {
+    outbox = book.insertSheet('Avisos de alta');
+    outbox.getRange(1, 1, 1, MAIL_HEADERS.length).setValues([MAIL_HEADERS]);
+    outbox.setFrozenRows(1);
+  }
+  verifyMailSchema_(outbox);
+  // Authorize sending before installing the timer. No message is sent by setup.
+  MailApp.getRemainingDailyQuota();
+  if (!ScriptApp.getProjectTriggers().some(trigger => trigger.getHandlerFunction() === 'processAltaNotifications')) {
+    ScriptApp.newTrigger('processAltaNotifications').timeBased().everyMinutes(1).create();
+  }
+}
+
+function processAltaNotifications() { processAltaNotifications_('production'); }
+
+// Explicit acceptance check only; does not replay other historical preview registrations.
+function testAltaNotification() {
+  const id = PropertiesService.getScriptProperties().getProperty('ALTA_CLIENTES_MAIL_TEST_ID');
+  if (!/^[a-f\d-]{36}$/i.test(id || '')) throw new Error('Configure the acceptance registration ID first');
+  processAltaNotifications_('preview', id);
+}
+
+function mailRecipients_() {
+  const raw = PropertiesService.getScriptProperties().getProperty('ALTA_CLIENTES_MAIL_TO') || '';
+  const addresses = [...new Set(raw.split(',').map(address => address.trim()).filter(Boolean))];
+  if (!addresses.length || addresses.length > 10 || addresses.some(address => !/^[^\s@,<>]+@[^\s@,<>]+\.[^\s@,<>]+$/.test(address))) throw new Error('Invalid internal mail recipient configuration');
+  return addresses;
+}
+
+function verifyMailSchema_(sheet) {
+  if (!sheet || JSON.stringify(sheet.getRange(1, 1, 1, MAIL_HEADERS.length).getValues()[0]) !== JSON.stringify(MAIL_HEADERS)) throw new Error('Mail tracking sheet schema mismatch');
+}
+
+function processAltaNotifications_(environment, onlyId) {
+  const recipients = mailRecipients_();
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) return;
+  try {
+    const book = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('ALTA_CLIENTES_SHEET_ID'));
+    const source = book.getSheetByName('Hoja 1');
+    const outbox = book.getSheetByName('Avisos de alta');
+    verifyMailSchema_(outbox);
+    if (!source || JSON.stringify(source.getRange(1, 1, 1, HEADERS.length).getValues()[0]) !== JSON.stringify(HEADERS)) throw new Error('Registration sheet schema mismatch');
+    const tracked = outbox.getLastRow() > 1 ? outbox.getRange(2, 1, outbox.getLastRow() - 1, MAIL_HEADERS.length).getValues() : [];
+    // Persisted ENVIANDO/REVISAR entries are deliberately not retried: delivery may have
+    // succeeded before a timeout. This prevents silent duplicate mail after uncertain sends.
+    const seen = new Set(tracked.map(row => row[0]));
+    let sent = 0;
+    const started = Date.now();
+    for (let first = 2; first <= source.getLastRow(); first += 200) {
+      const count = Math.min(200, source.getLastRow() - first + 1);
+      const rows = source.getRange(first, 1, count, HEADERS.length).getValues();
+      for (let index = 0; index < rows.length; index++) {
+        const row = rows[index];
+        if (row[2] !== environment || (onlyId && row[0] !== onlyId) || seen.has(row[0])) continue;
+        if (sent >= 20 || Date.now() - started > 45000) return;
+        // Quota exhaustion leaves the registration pending for a later timer execution.
+        if (MailApp.getRemainingDailyQuota() < recipients.length) return;
+        const message = registrationMail_(row, book.getId(), source.getSheetId());
+        const mailRow = outbox.getLastRow() + 1;
+        if (mailRow > outbox.getMaxRows()) outbox.insertRowsAfter(outbox.getMaxRows(), 100);
+        const tracking = [row[0], 'ENVIANDO', recipients.join(', '), new Date().toISOString(), ''];
+        outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
+        SpreadsheetApp.flush();
+        try {
+          MailApp.sendEmail({ to: recipients.join(','), name: 'GlobalTrip', subject: message.subject, body: message.body, htmlBody: message.htmlBody });
+          tracking[1] = 'ENVIADO';
+          tracking[4] = new Date().toISOString();
+          outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
+          SpreadsheetApp.flush();
+          seen.add(row[0]);
+          sent++;
+        } catch {
+          tracking[1] = 'REVISAR';
+          outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
+          SpreadsheetApp.flush();
+          throw new Error('Mail delivery needs review in Avisos de alta; registration remains saved');
+        }
+      }
+    }
+  } finally { lock.releaseLock(); }
+}
+
+function registrationMail_(row, sheetId, tabId) {
+  const fields = [
+    ['Nombre / razón social', row[3]], ['CUIT/CUIL', row[4]], ['Condición frente al IVA', row[5]],
+    ['Importador registrado en Aduana', row[6]], ['Por dónde nos conocieron', row[7]],
+    ['Viene de un curso', row[8]], ['Cuál curso', row[9]], ['Teléfono', row[10]],
+    ['E-mail', row[11]], ['Domicilio', row[12]], ['Contacto para avances de la operación', row[13]],
+    ['Contacto para temas administrativos', row[14]], ['Asesor', row[15]]
+  ];
+  const escape = value => String(value == null ? '' : value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+  const name = String(row[3]).replace(/[\r\n]/g, ' ');
+  const date = Utilities.formatDate(new Date(row[1]), 'America/Argentina/Buenos_Aires', 'dd/MM/yyyy HH:mm');
+  const url = 'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(sheetId) + '/edit#gid=' + tabId;
+  const body = 'GLOBALTRIP — NUEVA ALTA DE CLIENTE\n\nSe registró el alta de ' + name + '.\n' + date + ' (Argentina)\n\n' + fields.map(field => field[0] + ': ' + field[1]).join('\n') + '\n\nVer registro en la hoja: ' + url;
+  const htmlBody = '<!doctype html><html lang="es"><body style="margin:0;background:#f6f7fa;font-family:Arial,sans-serif;color:#171a36"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px"><tr><td align="center"><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#fff;border:1px solid #e4e6ee;border-radius:16px"><tr><td style="padding:28px 32px;background:#0b0c49;color:white;border-radius:16px 16px 0 0"><div style="font-size:23px;font-weight:bold">GlobalTrip</div><div style="font-size:12px;margin-top:8px;letter-spacing:1px">AVISO INTERNO</div></td></tr><tr><td style="padding:28px 32px"><h1 style="font-size:25px;color:#0b0c49;margin:0 0 12px">Nueva alta de cliente</h1><p style="font-size:15px;line-height:1.6;margin:0 0 24px">Se registró el alta de <strong>' + escape(name) + '</strong>.<br><span style="color:#676d80;font-size:13px">' + escape(date) + ' · Argentina</span></p><table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">' + fields.map(field => '<tr><th align="left" valign="top" style="width:46%;padding:11px 12px 11px 0;border-bottom:1px solid #eceef3;font-size:12px;font-weight:normal;color:#676d80">' + escape(field[0]) + '</th><td valign="top" style="padding:11px 0;border-bottom:1px solid #eceef3;font-size:14px;line-height:1.45;overflow-wrap:anywhere">' + escape(field[1]) + '</td></tr>').join('') + '</table><p style="margin:26px 0 8px"><a href="' + escape(url) + '" style="display:inline-block;background:#0b0c49;color:#fff;text-decoration:none;padding:14px 20px;border-radius:9px;font-size:14px;font-weight:bold">Ver registro en la hoja</a></p></td></tr></table></td></tr></table></body></html>';
+  return { subject: 'Nueva alta de cliente — ' + name + ' | GlobalTrip', body, htmlBody };
+}

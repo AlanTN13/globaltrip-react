@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/useLanguage';
 import { trackEvent } from '../lib/gtm';
 
 const WhatsAppWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { t } = useLanguage();
+    const { pathname } = useLocation();
+    if (pathname.replace(/\/$/, '') === '/alta-cliente') return null;
 
     const phoneNumber = "5491131411755";
     const message = "Hola! vengo de la web y me gustaría realizar una consulta.";

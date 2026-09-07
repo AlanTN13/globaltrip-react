@@ -51,6 +51,7 @@ const Footer = () => {
                             <Link to="/trabaja-con-nosotros" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.about')}</Link>
                             <Link to="/servicios" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.services')}</Link>
                             <Link to="/noticias" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.news')}</Link>
+                            <Link to="/alta-cliente" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.registration')}</Link>
                             <Link to="/contacto" className="text-slate-500 text-[14px] font-semibold hover:text-primary">{t('nav.contact')}</Link>
                         </nav>
                     </div>
