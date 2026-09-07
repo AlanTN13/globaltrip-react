@@ -97,3 +97,34 @@ test('Apps Script durable dedup, conflict, signature, formula safety and lock re
   assert.ok(rows[2][3].startsWith("'="));
   assert.equal(held,false);
 });
+
+test('mail worker sends production only, escapes HTML, tracks delivery and preserves uncertain sends', async () => {
+  const prodId = randomUUID();
+  const rows = [[...HEADERS], [randomUUID(), new Date().toISOString(), 'preview', ...Array(14).fill('preview')], [prodId, new Date().toISOString(), 'production', '<img src=x onerror=alert(1)>', '20123456786', 'Consumidor final', 'No aplica', 'Redes', 'No', 'No aplica', '1133334444', 'client@example.com', 'Calle 123', 'Operación', 'Administración', 'German Jimenez', 'hash']];
+  const tracking = [['ID de alta', 'Estado', 'Destinatarios', 'Inicio (UTC)', 'Enviado (UTC)']];
+  const makeSheet = data => ({ getLastRow:()=>data.length, getMaxRows:()=>1000, getSheetId:()=>0, getRange:(r,c,n=1,w=1)=>({ getValues:()=>data.slice(r-1,r-1+n).map(row=>row.slice(c-1,c-1+w)), setValues:values=>{ for(let i=0;i<values.length;i++) data[r-1+i]=[...values[i]]; } }) });
+  const source=makeSheet(rows), outbox=makeSheet(tracking);
+  const sent=[]; let quota=10, fail=false, locked=false;
+  const context=vm.createContext({
+    PropertiesService:{getScriptProperties:()=>({getProperty:key=>({ALTA_CLIENTES_SHEET_ID:'sheet',ALTA_CLIENTES_MAIL_TO:'internal@example.com'})[key]})},
+    SpreadsheetApp:{openById:()=>({getId:()=> 'sheet',getSheetByName:name=>name==='Hoja 1'?source:outbox}),flush:()=>{}},
+    LockService:{getScriptLock:()=>({tryLock:()=>{if(locked)return false;locked=true;return true;},releaseLock:()=>{locked=false;}})},
+    Utilities:{formatDate:()=> '07/09/2026 19:51'},
+    MailApp:{getRemainingDailyQuota:()=>quota,sendEmail:mail=>{assert.equal(tracking.at(-1)[1],'ENVIANDO');if(fail)throw Error('unknown');sent.push(mail);}}
+  });
+  vm.runInContext(await readFile(new URL('../google-apps-script/alta-clientes.gs',import.meta.url),'utf8'),context);
+  context.processAltaNotifications();
+  assert.equal(sent.length,1); assert.equal(sent[0].to,'internal@example.com');
+  assert.ok(sent[0].htmlBody.includes('&lt;img')); assert.ok(!sent[0].htmlBody.includes('<img'));
+  assert.ok(!sent[0].subject.includes('[Prueba]')); assert.ok(!sent[0].body.includes('preview'));
+  assert.equal(tracking[1][1],'ENVIADO'); assert.equal(tracking[1][0],prodId);
+  context.processAltaNotifications(); assert.equal(sent.length,1);
+  rows.push([randomUUID(),...rows[2].slice(1)]); quota=0;
+  context.processAltaNotifications(); assert.equal(tracking.length,2);
+  quota=10; fail=true;
+  assert.throws(()=>context.processAltaNotifications(),/review/);
+  assert.equal(tracking[2][1],'REVISAR'); assert.equal(rows.length,4); assert.equal(locked,false);
+  fail=false; context.processAltaNotifications(); assert.equal(sent.length,1);
+  rows.push([randomUUID(),...rows[2].slice(1)]);
+  context.processAltaNotifications(); assert.equal(sent.length,2);
+});

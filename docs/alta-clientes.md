@@ -23,7 +23,7 @@ Se inspeccionó el archivo original `Ficha Alta de Clientes (Datos) - PARA ALAN.
 
 Se conservó literalmente `Matias Pricipato`, tal como aparece en D22. Los contactos permiten escribir nombre y medio de contacto sin imponer un esquema adicional. Todos los datos de la ficha son obligatorios cuando aplican. Campos condicionales ocultos se limpian y se registran como `No aplica`.
 
-La fuente también menciona fichas individuales en Drive y correos (C24:C25). Se consultó por separado ese alcance: esta implementación cubre el objetivo solicitado de formulario y persistencia en Sheet, sin enviar mensajes. La dirección de Yamila escrita en la fuente requiere confirmación antes de implementar correos.
+La fuente también menciona fichas individuales en Drive y correos (C24:C25). La implementación cubre el formulario, persistencia en Sheet y aviso interno por mail. Las fichas individuales en Drive quedan fuera del alcance. La dirección de Yamila escrita en la fuente requiere confirmación antes de implementar correos.
 
 ## Arquitectura
 
@@ -47,7 +47,7 @@ Se reutilizan React Router, diseño/logo/fuentes, Vercel y Apps Script como tecn
 
 ## Configuración
 
-Vercel, exclusivamente en `Preview` y rama `feat/alta-clientes-postventa`:
+Vercel: configurar estas variables de servidor en `Production` y en `Preview` para la rama `feat/alta-clientes-postventa`:
 
 - `ALTA_CLIENTES_WEBHOOK_URL`: URL `/exec` del receptor.
 - `ALTA_CLIENTES_SECRET`: secreto aleatorio de 32 bytes, idéntico al de Apps Script.
@@ -56,7 +56,7 @@ Apps Script, proyecto independiente `GlobalTrip - Alta clientes - Preview`:
 
 - Código: `google-apps-script/alta-clientes.gs`.
 - Manifiesto: `google-apps-script/alta-clientes-appsscript.json`.
-- Propiedades: `ALTA_CLIENTES_SECRET` y `ALTA_CLIENTES_SHEET_ID`.
+- Propiedades: `ALTA_CLIENTES_SECRET`, `ALTA_CLIENTES_SHEET_ID` y `ALTA_CLIENTES_MAIL_TO` (direcciones internas separadas por coma).
 - Implementar app web, ejecutar como cuenta desplegadora, accesible a cualquiera; el handler exige firma antes de acceder a datos. No editar el Apps Script comercial.
 - La Sheet debe tener exactamente los 17 encabezados de `HEADERS` en A1:Q1, pestaña `Hoja 1`. A = ID, B = fecha UTC, C = entorno, Q = huella HMAC. Un cambio de encabezados provoca error seguro, no escritura desalineada.
 
@@ -64,10 +64,20 @@ Apps Script, proyecto independiente `GlobalTrip - Alta clientes - Preview`:
 
 En error, mantener los datos y reintentar. Si hay demora o se perdió la respuesta, el reenvío recupera el comprobante ya existente. Si persiste un 502, revisar disponibilidad/versión del Apps Script, sus propiedades, permisos, cuotas y encabezados; no cargar manualmente una fila para compensar.
 
-Producción queda pendiente: aprobar PR, definir credenciales/receptor de producción y configurar variables de Production, verificar permisos y repetir un alta controlada. No promover este preview sin configurar explícitamente esas variables. Publicar código de frontend no publica automáticamente una nueva versión del Apps Script.
+Publicar después de configurar las variables de Production, autorizar el envío de correos, instalar el activador y verificar un alta controlada. No promover un preview: generar un despliegue de Production para que las filas queden marcadas correctamente. Publicar código de frontend no publica automáticamente una nueva versión del Apps Script.
 
 ## Pruebas
 
 `npm run build`, `npm run alta:test`, `npm run news:test`. Lint dirigido a archivos modificados pasa. `npm run lint` general tiene un error preexistente `react-hooks/set-state-in-effect` en `src/components/Header.jsx:29`.
 
 Las pruebas automatizadas cubren condicionales, normalización, errores, firma, origen, respuestas falsas, deduplicación durable, conflicto de ID, escape de fórmulas y liberación del bloqueo. El entorno de Apps Script está simulado en estas pruebas; la evidencia del envío real se registra por separado en el PR.
+
+## Aviso interno por correo
+
+La pantalla del cliente confirma la persistencia; el correo se procesa de forma independiente, normalmente en el siguiente minuto. `setupAltaNotifications` prepara la pestaña «Avisos de alta» y crea un único activador de `processAltaNotifications`. Usa MailApp con permiso de envío solamente, más el permiso para administrar el activador. El remitente es la cuenta que instala el activador.
+
+El procesador solo toma filas `production`; el destinatario se obtiene de `ALTA_CLIENTES_MAIL_TO`, nunca de campos enviados por el cliente. El correo incluye los 13 datos de la ficha, fecha de Argentina y enlace a la hoja, con el diseño aprobado y sin leyendas de prueba. El texto libre se escapa para HTML. No envía un correo al cliente ni copia direcciones de su ficha.
+
+El estado se guarda por ID en «Avisos de alta»: ENVIANDO antes de llamar al correo y ENVIADO cuando el proveedor acepta el mensaje. Reejecutar no repite IDs procesados. Si falta cuota, se retoma en una ejecución posterior. Si el proveedor falla o se interrumpe la ejecución después de iniciar el envío, queda REVISAR o ENVIANDO: verificar Enviados antes de reintentar manualmente. Google Sheets y MailApp no comparten una transacción, por lo que no se promete entrega exactamente una vez ante una caída en ese intervalo. El alta siempre permanece registrada.
+
+No editar ni reordenar la pestaña de seguimiento mientras se procesa. El historial de correos y el ID de cada fila deben conservarse. `testAltaNotification` solo procesa el ID de preview explícito configurado en `ALTA_CLIENTES_MAIL_TEST_ID`; no se agenda y no reproduce el resto de las pruebas.
