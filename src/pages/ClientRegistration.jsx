@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { ADVISOR_OPTIONS, FIELDS, IVA_OPTIONS, validateRegistration } from '../lib/clientRegistration';
 import './ClientRegistration.css';
 
@@ -87,8 +89,7 @@ export default function ClientRegistration() {
       </div>
     </div>;
   };
-  return <div className="alta-page" lang="es">
-    <header className="alta-header"><Link to="/" aria-label="GlobalTrip, inicio"><img src="/logogt.png" alt="GlobalTrip" /></Link><span>ALTA DE CLIENTE</span></header>
+  return <><Header /><div className="alta-page" lang="es">
     <div className="alta-shell">
       <aside className="alta-intro"><span className="alta-eyebrow">BIENVENIDO A GLOBALTRIP</span><h1>El primer paso<br />para trabajar juntos.</h1><p>Completá tus datos para que podamos dar de alta tu cuenta y acompañarte en tu operación.</p><div className="alta-aside-note"><span aria-hidden="true">↗</span><div><strong>Tu operación, en buenas manos.</strong><p>Si necesitás ayuda con algún dato, consultá a tu asesor comercial.</p></div></div></aside>
       <section className="alta-card" aria-label="Ficha de alta de cliente">
@@ -105,6 +106,6 @@ export default function ClientRegistration() {
           <p className={busy ? 'alta-status' : 'alta-error'} role={busy ? 'status' : 'alert'} aria-live="polite">{status}</p>
         </>}
       </section>
-    </div><footer className="alta-footer">GlobalTrip · Comercio exterior y logística</footer>
-  </div>;
+    </div>
+  </div><Footer /></>;
 }

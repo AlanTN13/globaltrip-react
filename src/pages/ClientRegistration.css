@@ -1,9 +1,6 @@
-.alta-page { background: #f6f7fa; min-height: 100vh; color: #171a36; }
-.alta-header { display:flex; align-items:center; justify-content:space-between; padding: 10px max(24px, calc((100vw - 1240px) / 2)); background:white; border-bottom:1px solid #e7e9ef; gap:20px; }
-.alta-header img { height:76px; width:auto; }
-.alta-header > span { font-size:11px; font-weight:800; letter-spacing:.16em; color:#62677a; }
+.alta-page { background: #f6f7fa; color: #171a36; }
 .alta-shell { max-width:1240px; margin:auto; padding:64px 24px 72px; display:grid; grid-template-columns: .8fr 1.35fr; gap:68px; align-items:start; }
-.alta-intro { padding-top:28px; position:sticky; top:40px; }
+.alta-intro { padding-top:28px; position:sticky; top:144px; }
 .alta-eyebrow { font-size:10px; letter-spacing:.2em; font-weight:800; color:#555c77; }
 .alta-intro h1 { font-size:42px; line-height:1.17; font-weight:800; letter-spacing:-.045em; margin:22px 0; color:#0b0c49; }
 .alta-intro > p { font-size:16px; line-height:1.85; color:#606578; max-width:360px; }
@@ -18,6 +15,7 @@
 .alta-progress li.active > span { background:#0b0c49; color:white; border-color:#0b0c49; }
 .alta-progress small { font-size:10px; font-weight:700; }
 .alta-progress .active { color:#0b0c49; }
+.alta-step-heading h2 { scroll-margin-top:144px; }
 .alta-step-heading > p:first-child { color:#777d91; font-size:10px; letter-spacing:.16em; font-weight:800; }
 .alta-step-heading h2, .alta-success h2 { font-size:26px; font-weight:800; letter-spacing:-.03em; margin:10px 0; color:#0b0c49; }
 .alta-step-heading > p:last-child { font-size:12px; color:#676d80; margin-bottom:28px; }
@@ -56,6 +54,5 @@
 .alta-receipt { background:#f6f7fa; padding:18px; border-radius:12px; margin:25px 0; }
 .alta-receipt span { display:block; font-size:10px; letter-spacing:.12em; margin-bottom:10px; }
 .alta-receipt strong { font-size:13px; overflow-wrap:anywhere; }
-.alta-footer { text-align:center; font-size:11px; color:#71778a; padding:0 24px 28px; }
 @media(max-width:960px) { .alta-shell { gap:32px; grid-template-columns:.7fr 1.3fr; } .alta-intro h1 { font-size:32px; } .alta-card { padding:24px; } .alta-progress small { display:none; } }
-@media(max-width:700px) { .alta-header { padding:8px 20px; } .alta-header img { height:58px; } .alta-header > span { font-size:9px; } .alta-shell { display:block; padding:30px 16px 40px; } .alta-intro { position:static; padding:0 8px; } .alta-intro h1 { font-size:32px; margin:14px 0; } .alta-intro > p { font-size:14px; max-width:none; } .alta-aside-note { display:none; } .alta-card { margin-top:28px; padding:22px 18px; border-radius:20px; } .alta-progress small { display:block; } .alta-progress { gap:5px; } .alta-progress li { gap:4px; } .alta-progress small { font-size:9px; } .alta-grid { grid-template-columns:1fr; gap:20px; } .alta-step-heading h2 { font-size:23px; } .alta-primary { padding:15px 18px; } .alta-actions .alta-primary { flex:1; } }
+@media(max-width:700px) { .alta-shell { display:block; padding:30px 16px 40px; } .alta-intro { position:static; padding:0 8px; } .alta-intro h1 { font-size:32px; margin:14px 0; } .alta-intro > p { font-size:14px; max-width:none; } .alta-aside-note { display:none; } .alta-card { margin-top:28px; padding:22px 18px; border-radius:20px; } .alta-progress small { display:block; } .alta-progress { gap:5px; } .alta-progress li { gap:4px; } .alta-progress small { font-size:9px; } .alta-grid { grid-template-columns:1fr; gap:20px; } .alta-step-heading h2 { font-size:23px; } .alta-primary { padding:15px 18px; } .alta-actions .alta-primary { flex:1; } }

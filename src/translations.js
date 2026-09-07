@@ -5,6 +5,7 @@ export const translations = {
             about: "Trabajá con nosotros",
             services: "Servicios",
             news: "Noticias",
+            registration: "Alta de cliente",
             contact: "Contacto"
         },
         hero: {
@@ -284,6 +285,7 @@ export const translations = {
             about: "Careers",
             services: "Services",
             news: "News",
+            registration: "Client registration",
             contact: "Contact"
         },
         hero: {
@@ -563,6 +565,7 @@ export const translations = {
             about: "Trabalhe conosco",
             services: "Serviços",
             news: "Notícias",
+            registration: "Cadastro de cliente",
             contact: "Contato"
         },
         hero: {

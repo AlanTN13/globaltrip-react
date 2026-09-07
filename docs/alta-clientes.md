@@ -1,6 +1,6 @@
 # Alta de clientes postventa
 
-Ruta compartible: `/alta-cliente`. No aparece en el menú ni en el sitemap. No comparte formulario, handler ni credenciales con contacto/newsletter.
+Ruta compartible: `/alta-cliente`. Usa el header y footer compartidos del sitio, con acceso «Alta de cliente» en la navegación de escritorio, menú móvil y enlaces del footer. No aparece en el sitemap. No comparte formulario, handler ni credenciales con contacto/newsletter.
 
 ## Fuente y correspondencia
 
