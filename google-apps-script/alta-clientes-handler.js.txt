@@ -49,12 +49,9 @@ function doPost(e) {
       SpreadsheetApp.flush();
       const saved = range.getValues()[0];
       if (saved[0] !== body.requestId || saved[HEADERS.length - 1] !== hash) return output_({ ok: false, error: 'write_unconfirmed' });
-      // The final row is flushed and verified before any mail is attempted.
-      // Keep the same lock as the fallback worker to prevent competing sends.
-      if (body.environment === 'production') {
-        try { notifySavedRegistration_(saved); }
-        catch { console.error('Registration saved; notification needs review or fallback processing'); }
-      }
+      // The confirmed row is the durable queue for processAltaNotifications.
+      // Return now: Excel generation and mail delivery run in the existing timer,
+      // independently of this request and of whether the client keeps the page open.
       return output_({ ok: true, registrationId: body.requestId, duplicate: false });
     } finally { lock.releaseLock(); }
   } catch { return output_({ ok: false, error: 'persistence_unconfirmed' }); }
