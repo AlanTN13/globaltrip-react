@@ -91,3 +91,8 @@ El aviso adjunta un único .xlsx con logo y los doce renglones de la ficha de Ge
 La plantilla versionada `scripts/templates/alta-cliente.xlsx` fue creada con Artifact Tool. `alta:script` la incorpora al receptor. `registrationExcel_` reemplaza campos como texto XML escapado, adapta alturas para textos largos y genera el paquete en memoria con Utilities.zip. No usa Drive, archivos temporales ni permisos nuevos. Se genera antes de marcar ENVIANDO; si falla, no se envía un aviso incompleto y el procesador puede reintentar. La confirmación del alta no se pierde.
 
 `verifyAltaExcelTemplate` comprueba el paquete usando servicios reales de Google con datos ficticios, sin leer clientes ni enviar mails. Las pruebas de alta verifican también adjunto obligatorio, privacidad del archivo, condiciones del curso, texto literal y fallo de generación. La ficha de ejemplo abre en Microsoft Excel sin reparación y conserva logo y formato.
+
+
+### Horario de los avisos
+
+La pestaña «Avisos de alta» guarda Inicio y Enviado como fechas nativas, con formato `dd/MM/yyyy HH:mm:ss`. Se muestran en la zona horaria Argentina de la hoja destino (`America/Buenos_Aires`). El worker convierte automáticamente los valores ISO UTC históricos, conservando el instante y los milisegundos internos, bajo el bloqueo existente; cambia únicamente D:E y sus títulos. La conversión es repetible si se interrumpe, preserva celdas vacías y rechaza fechas históricas inválidas antes de escribir. Los estados y destinatarios históricos no se modifican ni se reenvían por esta migración. El cuerpo del mail ya utiliza hora argentina.

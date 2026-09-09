@@ -102,8 +102,8 @@ test('Apps Script durable dedup, conflict, signature, formula safety and lock re
 test('mail worker sends production only, escapes HTML, tracks delivery and preserves uncertain sends', async () => {
   const prodId = randomUUID();
   const rows = [[...HEADERS], [randomUUID(), new Date().toISOString(), 'preview', ...Array(14).fill('preview')], [prodId, new Date().toISOString(), 'production', '<img src=x onerror=alert(1)>', '20123456786', 'Consumidor final', 'No aplica', 'Redes', 'No', 'No aplica', '1133334444', 'client@example.com', 'Calle 123', 'Operación', 'Administración', 'German Jimenez', 'hash']];
-  const tracking = [['ID de alta', 'Estado', 'Destinatarios', 'Inicio (UTC)', 'Enviado (UTC)']];
-  const makeSheet = data => ({ getLastRow:()=>data.length, getMaxRows:()=>1000, getSheetId:()=>0, getRange:(r,c,n=1,w=1)=>({ getValues:()=>data.slice(r-1,r-1+n).map(row=>row.slice(c-1,c-1+w)), setValues:values=>{ for(let i=0;i<values.length;i++) data[r-1+i]=[...values[i]]; } }) });
+  const tracking = [['ID de alta', 'Estado', 'Destinatarios', 'Inicio (Argentina)', 'Enviado (Argentina)']];
+  const makeSheet = data => ({ getLastRow:()=>data.length, getMaxRows:()=>1000, getSheetId:()=>0, getRange:(r,c,n=1,w=1)=>({ getValues:()=>data.slice(r-1,r-1+n).map(row=>row.slice(c-1,c-1+w)), setNumberFormat:()=>{}, setValues:values=>{ for(let i=0;i<values.length;i++) data[r-1+i]=[...values[i]]; } }) });
   const source=makeSheet(rows), outbox=makeSheet(tracking);
   const sent=[]; let quota=10, fail=false, locked=false;
   const context=vm.createContext({
@@ -213,4 +213,35 @@ test('confirmed writes return before Excel or mail; durable worker handles failu
   assert.equal(tracking.at(-1)[1],'REVISAR');mailFail=false;context.processAltaNotifications();assert.equal(sent.length,1);
   quota=0;assert.equal(send(randomUUID(),{...fixture,nombre:'Quota fallback'}).ok,true);assert.equal(sent.length,1);
   quota=10;context.processAltaNotifications();assert.equal(sent.length,2);assert.equal(held,false);
+});
+
+test('notification history converts UTC strings once, preserving instants, statuses and recipients', async () => {
+  const legacy = ['ID de alta','Estado','Destinatarios','Inicio (UTC)','Enviado (UTC)'];
+  const rows = [[...legacy], ['saved-id','ENVIADO','team@example.com','2026-09-09T13:43:18.970Z','2026-09-09T13:43:26.147Z'], ['pending-id','REVISAR','team@example.com','2026-09-09T01:30:00.000Z','']];
+  const formats=[];
+  const sheet={getLastRow:()=>rows.length,getRange:(r,c,n=1,w=1)=>({
+    getValues:()=>rows.slice(r-1,r-1+n).map(row=>row.slice(c-1,c-1+w)),
+    setValues:values=>values.forEach((row,i)=>row.forEach((value,j)=>{rows[r-1+i][c-1+j]=value;})),
+    setNumberFormat:format=>formats.push({r,c,n,w,format})
+  })};
+  const context=vm.createContext({});
+  vm.runInContext(await readFile(new URL('../google-apps-script/alta-clientes.gs',import.meta.url),'utf8'),context);
+  context.verifyMailSchema_(sheet);
+  assert.deepEqual(rows[0],['ID de alta','Estado','Destinatarios','Inicio (Argentina)','Enviado (Argentina)']);
+  assert.deepEqual(rows[1].slice(0,3),['saved-id','ENVIADO','team@example.com']);
+  assert.equal(rows[1][3].toISOString(),'2026-09-09T13:43:18.970Z');
+  assert.equal(rows[1][4].toISOString(),'2026-09-09T13:43:26.147Z');
+  const local=new Intl.DateTimeFormat('es-AR',{timeZone:'America/Argentina/Buenos_Aires',dateStyle:'short',timeStyle:'medium',hour12:false});
+  assert.match(local.format(rows[1][3]),/10:43:18/);
+  assert.match(local.format(rows[2][3]),/8\/9\/26,? 22:30:00/);
+  assert.equal(rows[2][4],'');
+  assert.equal(formats[0].format,'dd/MM/yyyy HH:mm:ss');
+  rows[0]=[...legacy]; // Simulate interruption after dates were written, before headers.
+  context.verifyMailSchema_(sheet);
+  assert.equal(rows[1][3].toISOString(),'2026-09-09T13:43:18.970Z');
+  context.verifyMailSchema_(sheet);
+  assert.equal(formats.length,2);
+  rows[0]=[...legacy]; rows[1][3]='invalid';
+  assert.throws(()=>context.verifyMailSchema_(sheet),/Invalid historical/);
+  assert.deepEqual(rows[0],legacy);
 });
