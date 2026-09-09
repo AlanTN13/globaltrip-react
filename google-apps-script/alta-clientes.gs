@@ -85,12 +85,9 @@ function doPost(e) {
       SpreadsheetApp.flush();
       const saved = range.getValues()[0];
       if (saved[0] !== body.requestId || saved[HEADERS.length - 1] !== hash) return output_({ ok: false, error: 'write_unconfirmed' });
-      // The final row is flushed and verified before any mail is attempted.
-      // Keep the same lock as the fallback worker to prevent competing sends.
-      if (body.environment === 'production') {
-        try { notifySavedRegistration_(saved); }
-        catch { console.error('Registration saved; notification needs review or fallback processing'); }
-      }
+      // The confirmed row is the durable queue for processAltaNotifications.
+      // Return now: Excel generation and mail delivery run in the existing timer,
+      // independently of this request and of whether the client keeps the page open.
       return output_({ ok: true, registrationId: body.requestId, duplicate: false });
     } finally { lock.releaseLock(); }
   } catch { return output_({ ok: false, error: 'persistence_unconfirmed' }); }
@@ -99,7 +96,8 @@ function hmac_(value, secret) { return Utilities.computeHmacSha256Signature(valu
 function equal_(a, b) { if (typeof a !== 'string' || a.length !== b.length) return false; let difference = 0; for (let i = 0; i < a.length; i++) difference |= a.charCodeAt(i) ^ b.charCodeAt(i); return difference === 0; }
 function output_(payload) { return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON); }
 
-// Send after final persistence; the timer is a fallback. Mail failure never loses a saved registration.
+// The timer processes confirmed registrations independently of the browser request.
+// Mail failure never loses a saved registration.
 // Configure ALTA_CLIENTES_MAIL_TO in Script Properties; never use form input as recipients.
 const MAIL_HEADERS = ['ID de alta', 'Estado', 'Destinatarios', 'Inicio (UTC)', 'Enviado (UTC)'];
 
@@ -171,17 +169,6 @@ function processAltaNotifications_(environment, onlyId) {
       }
     }
   } finally { lock.releaseLock(); }
-}
-
-// Called only while the registration handler holds the script lock.
-function notifySavedRegistration_(row) {
-  const recipients = mailRecipients_();
-  const book = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('ALTA_CLIENTES_SHEET_ID'));
-  const outbox = book.getSheetByName('Avisos de alta');
-  verifyMailSchema_(outbox);
-  const tracked = outbox.getLastRow() > 1 ? outbox.getRange(2, 1, outbox.getLastRow() - 1, 1).getValues() : [];
-  if (tracked.some(entry => entry[0] === row[0]) || MailApp.getRemainingDailyQuota() < recipients.length) return;
-  sendRegistrationMail_(row, book, book.getSheetByName('Hoja 1'), outbox, recipients);
 }
 
 function sendRegistrationMail_(row, book, source, outbox, recipients) {

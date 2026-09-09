@@ -21,6 +21,7 @@ export default function ClientRegistration() {
   const inFlight = useRef(false);
   const request = useRef(null);
   const heading = useRef(null);
+  const savingHeading = useRef(null);
   const website = useRef(null);
 
   useEffect(() => {
@@ -28,6 +29,10 @@ export default function ClientRegistration() {
     document.title = 'Alta de cliente | GlobalTrip';
     return () => { document.title = previousTitle; };
   }, []);
+
+  useEffect(() => {
+    if (busy) savingHeading.current?.focus();
+  }, [busy]);
 
   const goTo = next => { setStep(next); setErrors({}); setStatus(''); setTimeout(() => heading.current?.focus(), 0); };
   const showErrors = nextErrors => {
@@ -55,7 +60,7 @@ export default function ClientRegistration() {
     if (!result.valid) { setStep(groups.findIndex(group => group.includes(Object.keys(result.errors)[0]))); return showErrors(result.errors); }
     inFlight.current = true;
     setBusy(true);
-    setStatus('Estamos registrando tu alta. Esperá la confirmación.');
+    setStatus('');
     const serialized = JSON.stringify(result.data);
     if (!request.current || request.current.serialized !== serialized) request.current = { id: crypto.randomUUID(), serialized };
     try {
@@ -72,6 +77,7 @@ export default function ClientRegistration() {
       setTimeout(() => heading.current?.focus(), 0);
     } catch (error) {
       setStatus(error.message === 'rate_limit' ? 'Recibimos varios intentos. Esperá 10 minutos y volvé a intentar.' : 'No pudimos confirmar el registro. Tus datos siguen en pantalla: podés reintentar el envío sin duplicar el alta. Si el problema continúa, contactá a tu asesor.');
+      setTimeout(() => heading.current?.focus(), 0);
     } finally { inFlight.current = false; setBusy(false); }
   };
   const field = key => {
@@ -94,6 +100,8 @@ export default function ClientRegistration() {
       <aside className="alta-intro"><span className="alta-eyebrow">BIENVENIDO A GLOBALTRIP</span><h1>El primer paso<br />para trabajar juntos.</h1><p>Completá tus datos para que podamos dar de alta tu cuenta y acompañarte en tu operación.</p><div className="alta-aside-note"><span aria-hidden="true">↗</span><div><strong>Tu operación, en buenas manos.</strong><p>Si necesitás ayuda con algún dato, consultá a tu asesor comercial.</p></div></div></aside>
       <section className="alta-card" aria-label="Ficha de alta de cliente">
         {receipt ? <div className="alta-success"><span className="alta-check" aria-hidden="true">✓</span><h2 ref={heading} tabIndex={-1}>¡Gracias por confiar en GlobalTrip!</h2><p>Recibimos tus datos correctamente. Tu asesor continuará con la gestión de tu alta y te acompañará en los próximos pasos de tu operación.</p><Link to="/" className="alta-primary">Volver al inicio</Link></div> : <>
+          {busy && <div className="alta-success alta-saving" role="status"><span className="alta-spinner" aria-hidden="true" /><h2 ref={savingHeading} tabIndex={-1}>Estamos registrando tus datos</h2><p>Puede tardar unos segundos. Mantené esta página abierta hasta ver la confirmación.</p></div>}
+          <div hidden={busy}>
           <ol className="alta-progress" aria-label="Progreso del alta">{[...sections, 'Revisar y enviar'].map((title, i) => <li key={title} aria-current={step === i ? 'step' : undefined} className={i <= step ? 'active' : ''}><span>{i < step ? '✓' : i + 1}</span><small>{['Cliente', 'Origen', 'Contacto', 'Revisión'][i]}</small></li>)}</ol>
           <div className="alta-step-heading"><p>PASO {step + 1} DE 4</p><h2 ref={heading} tabIndex={-1}>{sections[step] || 'Revisá tu ficha'}</h2><p>{step < 3 ? 'Los campos con * son obligatorios.' : 'Confirmá que los datos estén correctos antes de enviarlos.'}</p></div>
           <form noValidate onSubmit={step < 3 ? next : submit}>
@@ -104,6 +112,7 @@ export default function ClientRegistration() {
             </fieldset>
           </form>
           <p className={busy ? 'alta-status' : 'alta-error'} role={busy ? 'status' : 'alert'} aria-live="polite">{status}</p>
+          </div>
         </>}
       </section>
     </div>

@@ -161,7 +161,7 @@ test('Excel contains only the saved customer fields, literal text, safe filename
   assert.throws(()=>context.registrationExcel_([]),/Incomplete/);
 });
 
-test('final confirmed production write sends immediately; failed writes, previews and duplicates never send', async () => {
+test('confirmed writes return before Excel or mail; durable worker handles failures and duplicates', async () => {
   const rows = [[...HEADERS]], tracking = [['ID de alta','Estado','Destinatarios','Inicio (UTC)','Enviado (UTC)']];
   let held=false, flushed=false, writeFail=false, mailFail=false, quota=10;
   const sent=[];
@@ -199,11 +199,17 @@ test('final confirmed production write sends immediately; failed writes, preview
   assert.equal(send(randomUUID(),{...fixture,email:'invalid'}).ok,false);assert.equal(sent.length,0);
   writeFail=true;assert.equal(send(randomUUID()).ok,false);assert.equal(sent.length,0);writeFail=false;
   assert.equal(send(randomUUID(),fixture,'preview').ok,true);assert.equal(sent.length,0);
-  const id=randomUUID();assert.equal(send(id).ok,true);assert.equal(sent.length,1);
+  const generate=context.registrationExcel_; let generated=0;
+  context.registrationExcel_=row=>{generated++;return generate(row);};
+  const id=randomUUID();assert.equal(send(id).ok,true);assert.equal(sent.length,0);
+  assert.equal(generated,0);assert.equal(tracking.length,1);assert.equal(held,false);assert.equal(flushed,true);
+  assert.equal(rows.at(-1)[0],id);
+  context.processAltaNotifications();assert.equal(sent.length,1);assert.equal(generated,1);
   assert.equal(tracking[1][1],'ENVIADO');assert.equal(sent[0].to,'one@example.com,two@example.com,three@example.com');
   assert.equal(send(id).duplicate,true);assert.equal(send(randomUUID()).duplicate,true);
   context.processAltaNotifications();assert.equal(sent.length,1);
   mailFail=true;assert.equal(send(randomUUID(),{...fixture,nombre:'Mail failure'}).ok,true);
+  assert.equal(sent.length,1);assert.throws(()=>context.processAltaNotifications(),/review/);
   assert.equal(tracking.at(-1)[1],'REVISAR');mailFail=false;context.processAltaNotifications();assert.equal(sent.length,1);
   quota=0;assert.equal(send(randomUUID(),{...fixture,nombre:'Quota fallback'}).ok,true);assert.equal(sent.length,1);
   quota=10;context.processAltaNotifications();assert.equal(sent.length,2);assert.equal(held,false);
