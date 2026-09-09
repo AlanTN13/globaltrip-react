@@ -1,7 +1,9 @@
 // The timer processes confirmed registrations independently of the browser request.
 // Mail failure never loses a saved registration.
 // Configure ALTA_CLIENTES_MAIL_TO in Script Properties; never use form input as recipients.
-const MAIL_HEADERS = ['ID de alta', 'Estado', 'Destinatarios', 'Inicio (UTC)', 'Enviado (UTC)'];
+const MAIL_HEADERS = ['ID de alta', 'Estado', 'Destinatarios', 'Inicio (Argentina)', 'Enviado (Argentina)'];
+const LEGACY_MAIL_HEADERS = ['ID de alta', 'Estado', 'Destinatarios', 'Inicio (UTC)', 'Enviado (UTC)'];
+const MAIL_DATE_FORMAT = 'dd/MM/yyyy HH:mm:ss';
 
 function setupAltaNotifications() {
   mailRecipients_();
@@ -37,7 +39,24 @@ function mailRecipients_() {
 }
 
 function verifyMailSchema_(sheet) {
-  if (!sheet || JSON.stringify(sheet.getRange(1, 1, 1, MAIL_HEADERS.length).getValues()[0]) !== JSON.stringify(MAIL_HEADERS)) throw new Error('Mail tracking sheet schema mismatch');
+  if (!sheet) throw new Error('Mail tracking sheet schema mismatch');
+  const headers = JSON.stringify(sheet.getRange(1, 1, 1, MAIL_HEADERS.length).getValues()[0]);
+  if (headers === JSON.stringify(MAIL_HEADERS)) return;
+  if (headers !== JSON.stringify(LEGACY_MAIL_HEADERS)) throw new Error('Mail tracking sheet schema mismatch');
+  // Called under the worker lock. Native dates keep the exact instant and display
+  // in the destination spreadsheet's Argentina timezone. Convert only D:E.
+  if (sheet.getLastRow() > 1) {
+    const range = sheet.getRange(2, 4, sheet.getLastRow() - 1, 2);
+    const values = range.getValues().map(row => row.map(value => {
+      if (value === '' || value instanceof Date) return value;
+      if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T[\d:.]+Z$/.test(value) || !Number.isFinite(Date.parse(value))) throw new Error('Invalid historical notification timestamp');
+      return new Date(value);
+    }));
+    range.setValues(values);
+    range.setNumberFormat(MAIL_DATE_FORMAT);
+  }
+  // Write headers last so an interrupted migration is safe to repeat.
+  sheet.getRange(1, 1, 1, MAIL_HEADERS.length).setValues([MAIL_HEADERS]);
 }
 
 function processAltaNotifications_(environment, onlyId) {
@@ -79,13 +98,14 @@ function sendRegistrationMail_(row, book, source, outbox, recipients) {
   const attachment = registrationExcel_(row);
   const mailRow = outbox.getLastRow() + 1;
   if (mailRow > outbox.getMaxRows()) outbox.insertRowsAfter(outbox.getMaxRows(), 100);
-  const tracking = [row[0], 'ENVIANDO', recipients.join(', '), new Date().toISOString(), ''];
+  const tracking = [row[0], 'ENVIANDO', recipients.join(', '), new Date(), ''];
+  outbox.getRange(mailRow, 4, 1, 2).setNumberFormat(MAIL_DATE_FORMAT);
   outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
   SpreadsheetApp.flush();
   try {
     MailApp.sendEmail({ to: recipients.join(','), name: 'GlobalTrip', subject: message.subject, body: message.body, htmlBody: message.htmlBody, attachments: [attachment] });
     tracking[1] = 'ENVIADO';
-    tracking[4] = new Date().toISOString();
+    tracking[4] = new Date();
     outbox.getRange(mailRow, 1, 1, MAIL_HEADERS.length).setValues([tracking]);
     SpreadsheetApp.flush();
   } catch {
