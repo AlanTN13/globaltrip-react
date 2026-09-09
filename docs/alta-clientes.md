@@ -23,7 +23,7 @@ Se inspeccionó el archivo original `Ficha Alta de Clientes (Datos) - PARA ALAN.
 
 Se conservó literalmente `Matias Pricipato`, tal como aparece en D22. Los contactos permiten escribir nombre y medio de contacto sin imponer un esquema adicional. Todos los datos de la ficha son obligatorios cuando aplican. Campos condicionales ocultos se limpian y se registran como `No aplica`.
 
-La fuente también menciona fichas individuales en Drive y correos (C24:C25). La implementación cubre el formulario, persistencia en Sheet y aviso interno por mail. Las fichas individuales en Drive quedan fuera del alcance. La dirección de Yamila escrita en la fuente requiere confirmación antes de implementar correos.
+La fuente también menciona fichas individuales en Drive y correos (C24:C25). La implementación cubre el formulario, persistencia en Sheet y aviso interno por mail. La ficha individual ahora se adjunta al aviso como Excel. El equipo la archiva manualmente en OneDrive; no se crean archivos en Drive. Yamila fue confirmada por el usuario como yamila.vazquez@globaltriplog.com.
 
 ## Arquitectura
 
@@ -76,8 +76,16 @@ Las pruebas automatizadas cubren condicionales, normalización, errores, firma, 
 
 Al confirmar el último paso, el receptor escribe, hace flush y verifica la fila definitiva; recién entonces intenta enviar el aviso antes de devolver la confirmación al navegador. Navegar entre pasos no guarda ni envía correos. El mismo bloqueo serializa el envío inmediato y el proceso de respaldo para evitar duplicados. Un fallo del mail no revierte el alta ni produce un falso error de persistencia. El activador queda como respaldo para filas todavía sin intento de envío, por ejemplo ante falta de cuota. `setupAltaNotifications` prepara la pestaña «Avisos de alta» y crea un único activador de `processAltaNotifications`. Usa MailApp con permiso de envío solamente, más el permiso para administrar el activador. El remitente es la cuenta que ejecuta la app web y el activador.
 
-El procesador solo toma filas `production`; el destinatario se obtiene de `ALTA_CLIENTES_MAIL_TO`, nunca de campos enviados por el cliente. El correo incluye los 13 datos de la ficha, fecha de Argentina y enlace a la hoja, con el diseño aprobado y sin leyendas de prueba. El texto libre se escapa para HTML. No envía un correo al cliente ni copia direcciones de su ficha.
+El procesador solo toma filas `production`; el destinatario se obtiene de `ALTA_CLIENTES_MAIL_TO`, nunca de campos enviados por el cliente. El correo incluye los 13 datos de la ficha, fecha de Argentina y ficha Excel individual adjunta, con el diseño aprobado y sin leyendas de prueba. El texto libre se escapa para HTML. No envía un correo al cliente ni copia direcciones de su ficha.
 
 El estado se guarda por ID en «Avisos de alta»: ENVIANDO antes de llamar al correo y ENVIADO cuando el proveedor acepta el mensaje. Reejecutar no repite IDs procesados. Si falta cuota, se retoma en una ejecución posterior. Si el proveedor falla o se interrumpe la ejecución después de iniciar el envío, queda REVISAR o ENVIANDO: verificar Enviados antes de reintentar manualmente. Google Sheets y MailApp no comparten una transacción, por lo que no se promete entrega exactamente una vez ante una caída en ese intervalo. El alta siempre permanece registrada.
 
 No editar ni reordenar la pestaña de seguimiento mientras se procesa. El historial de correos y el ID de cada fila deben conservarse. `testAltaNotification` solo procesa el ID de preview explícito configurado en `ALTA_CLIENTES_MAIL_TEST_ID`; no se agenda y no reproduce el resto de las pruebas.
+
+## Ficha Excel individual
+
+El aviso adjunta un único .xlsx con logo y los doce renglones de la ficha de Germán (curso y nombre del curso en un mismo renglón). Solo contiene los datos de esa alta, sin historial, credenciales, ID interno, huella, enlaces externos ni macros. CUIT/CUIL y teléfono se conservan como texto. El nombre identifica razón social y CUIT y elimina caracteres incompatibles con OneDrive. El mail conserva su aviso y reemplaza el enlace a la Sheet por la explicación del adjunto.
+
+La plantilla versionada `scripts/templates/alta-cliente.xlsx` fue creada con Artifact Tool. `alta:script` la incorpora al receptor. `registrationExcel_` reemplaza campos como texto XML escapado, adapta alturas para textos largos y genera el paquete en memoria con Utilities.zip. No usa Drive, archivos temporales ni permisos nuevos. Se genera antes de marcar ENVIANDO; si falla, no se envía un aviso incompleto y el respaldo puede reintentar. La confirmación del alta no se pierde.
+
+`verifyAltaExcelTemplate` comprueba el paquete usando servicios reales de Google con datos ficticios, sin leer clientes ni enviar mails. Las pruebas de alta verifican también adjunto obligatorio, privacidad del archivo, condiciones del curso, texto literal y fallo de generación. La ficha de ejemplo abre en Microsoft Excel sin reparación y conserva logo y formato.

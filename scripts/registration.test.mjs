@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import handler from '../api/alta-clientes.js';
 import { validateRegistration, HEADERS } from '../src/lib/clientRegistration.js';
+import { excelUtilities } from './registration-excel-test-utils.mjs';
 
 const fixture = { nombre: 'PRUEBA QA NEXOPS - NO ES CLIENTE', cuit: '20-12345678-6', condicionIva: 'Responsable inscripto', importador: 'Sí', origen: 'Prueba técnica', vieneDeCurso: 'Sí', curso: 'Curso de prueba', telefono: '+54 11 5555 0100', email: 'qa@example.com', domicilio: 'Domicilio ficticio de prueba 123', contactoOperacion: 'Contacto ficticio QA', contactoAdministracion: 'Administración ficticia QA', asesor: 'German Jimenez' };
 const secret = 'test-secret-'.repeat(6);
@@ -109,12 +110,15 @@ test('mail worker sends production only, escapes HTML, tracks delivery and prese
     PropertiesService:{getScriptProperties:()=>({getProperty:key=>({ALTA_CLIENTES_SHEET_ID:'sheet',ALTA_CLIENTES_MAIL_TO:'internal@example.com'})[key]})},
     SpreadsheetApp:{openById:()=>({getId:()=> 'sheet',getSheetByName:name=>name==='Hoja 1'?source:outbox}),flush:()=>{}},
     LockService:{getScriptLock:()=>({tryLock:()=>{if(locked)return false;locked=true;return true;},releaseLock:()=>{locked=false;}})},
-    Utilities:{formatDate:()=> '07/09/2026 19:51'},
+    Utilities:{...excelUtilities(),formatDate:()=> '07/09/2026 19:51'},
     MailApp:{getRemainingDailyQuota:()=>quota,sendEmail:mail=>{assert.equal(tracking.at(-1)[1],'ENVIANDO');if(fail)throw Error('unknown');sent.push(mail);}}
   });
   vm.runInContext(await readFile(new URL('../google-apps-script/alta-clientes.gs',import.meta.url),'utf8'),context);
   context.processAltaNotifications();
   assert.equal(sent.length,1); assert.equal(sent[0].to,'internal@example.com');
+  assert.equal(sent[0].attachments.length,1);
+  assert.ok(sent[0].attachments[0].name.endsWith('_20123456786.xlsx'));
+  assert.ok(!sent[0].body.includes('docs.google.com'));
   assert.ok(sent[0].htmlBody.includes('&lt;img')); assert.ok(!sent[0].htmlBody.includes('<img'));
   assert.ok(!sent[0].subject.includes('[Prueba]')); assert.ok(!sent[0].body.includes('preview'));
   assert.equal(tracking[1][1],'ENVIADO'); assert.equal(tracking[1][0],prodId);
@@ -127,6 +131,34 @@ test('mail worker sends production only, escapes HTML, tracks delivery and prese
   fail=false; context.processAltaNotifications(); assert.equal(sent.length,1);
   rows.push([randomUUID(),...rows[2].slice(1)]);
   context.processAltaNotifications(); assert.equal(sent.length,2);
+  rows.push([randomUUID(),...rows[2].slice(1)]);
+  const before = tracking.length;
+  const generate = context.registrationExcel_;
+  context.registrationExcel_ = () => { throw new Error('Attachment generation failed'); };
+  assert.throws(() => context.processAltaNotifications(), /Attachment/);
+  assert.equal(tracking.length,before); assert.equal(sent.length,2);
+  context.registrationExcel_ = generate;
+  context.processAltaNotifications(); assert.equal(sent.length,3);
+});
+
+test('Excel contains only the saved customer fields, literal text, safe filename and course conditions', async () => {
+  const context=vm.createContext({Utilities:excelUtilities()});
+  vm.runInContext(await readFile(new URL('../google-apps-script/alta-clientes.gs',import.meta.url),'utf8'),context);
+  const row=[randomUUID(),'2026-09-08T12:00:00Z','production',"'=HYPERLINK(\"https://example.com\")",'00123456789','Responsable inscripto','Sí','Redes & recomendaciones','Sí','Curso <importación>','+54 11 5555 0100','cliente@example.com','Domicilio '.repeat(60),'Contacto operación','Contacto administración','German Jimenez','PRIVATE_HASH'];
+  const result=context.registrationExcel_(row);
+  assert.equal(result.type,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  assert.ok(!/[<>:"/\\|?*]/.test(result.name));
+  const xml=result.parts[0].getDataAsString();
+  assert.ok(xml.includes('=HYPERLINK(&quot;https://example.com&quot;)'));
+  assert.ok(xml.includes('00123456789'));
+  assert.ok(xml.includes('Sí — Curso &lt;importación&gt;'));
+  assert.ok(xml.includes('Redes &amp; recomendaciones'));
+  assert.ok(!xml.includes('PRIVATE_HASH')); assert.ok(!xml.includes(row[0]));
+  assert.ok(!xml.includes('<f>')); assert.ok(!xml.includes('__ALTA_FIELD_'));
+  assert.ok(/r="17"[^>]+ht="(?:1\d\d|2\d\d)"/.test(xml));
+  row[8]='No';row[9]='No aplica';
+  assert.ok(!context.registrationExcel_(row).parts[0].getDataAsString().includes('Curso &lt;'));
+  assert.throws(()=>context.registrationExcel_([]),/Incomplete/);
 });
 
 test('final confirmed production write sends immediately; failed writes, previews and duplicates never send', async () => {
@@ -146,7 +178,7 @@ test('final confirmed production write sends immediately; failed writes, preview
   const context=vm.createContext({
     console:{error:()=>{}},
     PropertiesService:{getScriptProperties:()=>({getProperty:key=>({ALTA_CLIENTES_SECRET:secret,ALTA_CLIENTES_SHEET_ID:'sheet',ALTA_CLIENTES_MAIL_TO:'one@example.com,two@example.com,three@example.com'})[key]})},
-    Utilities:{Charset:{UTF_8:'utf8'},computeHmacSha256Signature:(text,key)=>[...createHmac('sha256',key).update(text).digest()],formatDate:()=> '07/09/2026'},
+    Utilities:{...excelUtilities(),Charset:{UTF_8:'utf8'},computeHmacSha256Signature:(text,key)=>[...createHmac('sha256',key).update(text).digest()],formatDate:()=> '07/09/2026'},
     ContentService:{MimeType:{JSON:'json'},createTextOutput:text=>({setMimeType:()=>JSON.parse(text)})},
     LockService:{getScriptLock:()=>({tryLock:()=>{if(held)return false;held=true;return true;},releaseLock:()=>{held=false;}})},
     SpreadsheetApp:{openById:()=>({getId:()=> 'sheet',getSheetByName:name=>name==='Hoja 1'?source:outbox}),flush:()=>{flushed=true;}},

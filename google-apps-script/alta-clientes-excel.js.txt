@@ -1,0 +1,53 @@
+// A single-customer XLSX, built in memory from the versioned template.
+// Utilities.zip/unzip need no Drive access, temporary Google files, or new OAuth scopes.
+function registrationExcel_(row) {
+  if (!Array.isArray(row) || row.length !== HEADERS.length || !row[3] || !row[4]) throw new Error('Incomplete registration for Excel attachment');
+  const text = value => String(value == null ? '' : value).replace(/^'(?=[=+@-])/, '');
+  const fields = [row[3], row[4], row[5], row[6], row[7],
+    row[8] === 'Sí' ? 'Sí — ' + text(row[9]) : row[8],
+    row[10], row[11], row[12], row[13], row[14], row[15]].map(text);
+  const xml = value => value
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, '')
+    .replace(/_x[\da-f]{4}_/gi, match => '_x005F_' + match.slice(1))
+    .replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
+  const counts = Array(12).fill(0);
+  const source = Utilities.newBlob(Utilities.base64Decode(ALTA_EXCEL_TEMPLATE_BASE64), 'application/zip', 'template.zip');
+  const parts = Utilities.unzip(source).map(part => {
+    const path = part.getName();
+    if (!/\.xml$/.test(path)) return part;
+    let content = part.getDataAsString('UTF-8');
+    content = content.replace(/__ALTA_FIELD_(\d+)__/g, (_match, rawIndex) => {
+      const index = Number(rawIndex);
+      if (index >= fields.length) throw new Error('Unknown Excel template field');
+      counts[index]++;
+      return xml(fields[index]);
+    });
+    if (path === 'xl/worksheets/sheet1.xml') {
+      content = content.replace(/<row\b[^>]*>/g, tag => {
+        const rowNumber = Number((tag.match(/\br="(\d+)"/) || [])[1]);
+        if (rowNumber < 9 || rowNumber > 20) return tag;
+        const value = fields[rowNumber - 9];
+        const lines = value.split(/\r\n|\r|\n/).reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / 68)), 0);
+        const height = Math.min(409, Math.max([9,12,18,19].includes(rowNumber) ? 48 : 38, lines * 16 + 14));
+        return tag.replace(/\s(?:ht|customHeight)="[^"]*"/g, '').replace(/>$/, ' ht="' + height + '" customHeight="1">');
+      });
+    }
+    return Utilities.newBlob(content, 'application/xml', path);
+  });
+  if (counts.some(count => count !== 1)) throw new Error('Excel template field mapping mismatch');
+  const name = text(row[3]).normalize('NFKC').replace(/[\u0000-\u001F<>:"/\\|?*#%]/g, ' ').replace(/\s+/g, ' ').trim().replace(/[. ]+$/, '').slice(0,90) || 'Cliente';
+  const cuit = text(row[4]).replace(/\D/g, '');
+  return Utilities.zip(parts, 'Ficha_cliente_' + name + '_' + cuit + '.xlsx')
+    .setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+}
+
+// Manual, side-effect-free acceptance check. Does not read a customer or send a mail.
+function verifyAltaExcelTemplate() {
+  const row = ['qa', '', 'preview', 'Cliente de ejemplo S.A.', '20123456786', 'Responsable inscripto', 'Sí', 'Recomendación', 'Sí', 'Curso de ejemplo', '+54 11 5555 0100', 'cliente@example.com', 'Domicilio de ejemplo', 'Operaciones de ejemplo', 'Administración de ejemplo', 'German Jimenez', ''];
+  const attachment = registrationExcel_(row);
+  const parts = Utilities.unzip(attachment.copyBlob().setContentType('application/zip'));
+  const sheet = parts.find(part => part.getName() === 'xl/worksheets/sheet1.xml').getDataAsString('UTF-8');
+  if (!sheet.includes('Cliente de ejemplo S.A.') || !sheet.includes('20123456786') || sheet.includes('__ALTA_FIELD_') || /<f[ >]/.test(sheet)) throw new Error('Excel acceptance failed');
+  if (!parts.some(part => part.getName().startsWith('xl/media/'))) throw new Error('Excel logo missing');
+  console.log(JSON.stringify({check:'alta_excel',ok:true,bytes:attachment.getBytes().length,files:parts.length}));
+}
