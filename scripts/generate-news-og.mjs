@@ -1,10 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { getNewsMetadata, SITE_URL } from '../src/lib/newsMetadata.js';
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
 const NEWS_DIR = path.join(ROOT, 'src/data/news');
-const SITE_URL = 'https://globaltriplog.com';
+const ASSET_ORIGIN = process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}` : SITE_URL;
 
 const escapeHtml = (value = '') => String(value)
   .replaceAll('&', '&amp;')
@@ -12,12 +14,6 @@ const escapeHtml = (value = '') => String(value)
   .replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;')
   .replaceAll("'", '&#039;');
-
-function absoluteUrl(value) {
-  if (!value) return `${SITE_URL}/favicon-globaltrip.png`;
-  if (/^https?:\/\//i.test(value)) return value;
-  return `${SITE_URL}${value.startsWith('/') ? value : `/${value}`}`;
-}
 
 function cleanHead(html) {
   return html
@@ -28,24 +24,12 @@ function cleanHead(html) {
 }
 
 function injectMetadata(template, article) {
-  const canonical = `${SITE_URL}/noticias/${article.slug}`;
-  const title = article.seoTitle || article.title;
-  const description = article.metaDescription || article.excerpt;
-  const image = absoluteUrl(article.coverImage);
+  const { title, canonical, tags: metadataTags } = getNewsMetadata(article, ASSET_ORIGIN);
   const tags = [
     `<title>${escapeHtml(title)}</title>`,
-    `<meta name="description" content="${escapeHtml(description)}">`,
     `<link rel="canonical" href="${escapeHtml(canonical)}">`,
-    '<meta property="og:type" content="article">',
-    `<meta property="og:title" content="${escapeHtml(title)}">`,
-    `<meta property="og:description" content="${escapeHtml(description)}">`,
-    `<meta property="og:url" content="${escapeHtml(canonical)}">`,
-    `<meta property="og:image" content="${escapeHtml(image)}">`,
-    '<meta name="twitter:card" content="summary_large_image">',
-    `<meta name="twitter:title" content="${escapeHtml(title)}">`,
-    `<meta name="twitter:description" content="${escapeHtml(description)}">`,
-    `<meta name="twitter:image" content="${escapeHtml(image)}">`,
-    `<meta property="article:published_time" content="${escapeHtml(article.publishedAt)}">`,
+    ...metadataTags.map(([attribute, name, content]) =>
+      `<meta ${attribute}="${name}" content="${escapeHtml(content)}">`),
   ].join('\n    ');
   return cleanHead(template).replace('</head>', `    ${tags}\n  </head>`);
 }

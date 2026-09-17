@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0b0c49"/>
+  <g fill="none" stroke="#787fbb" stroke-opacity=".22">
+    <circle cx="1080" cy="240" r="290"/>
+    <circle cx="1080" cy="240" r="220"/>
+    <circle cx="1080" cy="240" r="150"/>
+    <path d="M690 0C610 240 950 320 1200 420M710 630C650 400 880 190 1200 150"/>
+  </g>
+  <rect x="80" y="112" width="52" height="5" rx="2" fill="#91b9e5"/>
+  <text x="80" y="193" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#fff">GlobalTrip</text>
+  <text x="82" y="235" font-family="Arial, sans-serif" font-size="18" letter-spacing="4" fill="#b9c5e5">COMERCIO EXTERIOR</text>
+  <text x="80" y="393" font-family="Arial, sans-serif" font-size="78" font-weight="700" fill="#fff">Noticias</text>
+  <text x="83" y="448" font-family="Arial, sans-serif" font-size="25" fill="#c5cce4">Actualidad del comercio exterior</text>
+  <path d="M80 514H1120" stroke="#fff" stroke-opacity=".18"/>
+  <text x="82" y="556" font-family="Arial, sans-serif" font-size="19" fill="#b9c5e5">globaltriplog.com</text>
+</svg>

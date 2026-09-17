@@ -1,5 +1,6 @@
-const FALLBACK_NEWS_IMAGE =
-  'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&q=80&w=1600';
+export const FALLBACK_NEWS_IMAGE = '/news/globaltrip-editorial-default.png';
+
+export const getNewsCover = (post) => post.coverImage?.trim() || FALLBACK_NEWS_IMAGE;
 
 const localeByLanguage = {
   es: 'es-AR',
@@ -20,7 +21,9 @@ export const createSlug = (value = '') =>
 export const normalizeNewsPost = (post) => ({
   ...post,
   slug: post.slug || createSlug(post.title),
-  coverImage: post.coverImage || FALLBACK_NEWS_IMAGE,
+  coverImage: getNewsCover(post),
+  coverImageAlt: post.coverImageAlt || (post.coverImage?.trim()
+    ? post.title : 'GlobalTrip — Noticias de comercio exterior'),
 });
 
 export const sortNewsPosts = (posts) =>

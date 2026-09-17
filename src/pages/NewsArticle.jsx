@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import NewsMetadata from '../components/NewsMetadata';
 import { useLanguage } from '../context/useLanguage';
 import { newsPosts } from '../data/newsPosts';
 import {
@@ -88,6 +89,7 @@ const NewsArticle = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <NewsMetadata post={post} />
       <Header />
 
       <main>
@@ -95,7 +97,7 @@ const NewsArticle = () => {
           <div className="absolute inset-0">
             <img
               src={post.coverImage}
-              alt={post.title}
+              alt={post.coverImageAlt}
               className="h-full w-full object-cover"
               fetchPriority="high"
               decoding="async"
