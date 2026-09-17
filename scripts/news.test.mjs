@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { getNewsMetadata, SITE_URL } from '../src/lib/newsMetadata.js';
 import {
+  FALLBACK_NEWS_IMAGE,
   getAllNewsPosts,
   getFeaturedNewsPost,
   normalizeNewsPost,
@@ -28,7 +30,7 @@ const validPost = {
 
 test('acepta una noticia normalizada válida sin imagen', () => {
   assert.deepEqual(validateNewsPost(validPost), []);
-  assert.match(normalizeNewsPost(validPost).coverImage, /^https:\/\//);
+  assert.equal(normalizeNewsPost(validPost).coverImage, FALLBACK_NEWS_IMAGE);
 });
 
 test('rechaza contenido mal formado y fechas inexistentes', () => {
@@ -140,4 +142,38 @@ test('usa una portada generada con lineamientos cuando no hay explícita válida
   assert.equal(selection.strategy, 'generated-from-guidelines');
   assert.equal(selection.coverImage, '/news/cruce-andino.jpg');
   assert.equal(selection.rejectedImages.length, 1);
+});
+
+
+test('sin portada o con espacios: página y metadata comparten el respaldo neutro', () => {
+  for (const coverImage of [undefined, null, '', '   ']) {
+    const post = { ...validPost, coverImage };
+    const normalized = normalizeNewsPost(post);
+    const { tags } = getNewsMetadata(post);
+    assert.equal(normalized.coverImage, FALLBACK_NEWS_IMAGE);
+    for (const name of ['og:image', 'twitter:image']) {
+      assert.equal(tags.find((tag) => tag[1] === name)[2], SITE_URL + normalized.coverImage);
+    }
+    assert.equal(tags.find((tag) => tag[1] === 'og:image:width')[2], '1200');
+    assert.equal(tags.find((tag) => tag[1] === 'og:image:height')[2], '630');
+  }
+});
+
+test('preview sirve la portada real desde preview y conserva el canonical público', () => {
+  const post = { ...validPost, coverImage: '/news/pilas.jpg', coverImageWidth: 1200,
+    coverImageHeight: 630, coverImageType: 'image/jpeg', coverImageAlt: 'Pilas en un puerto' };
+  const metadata = getNewsMetadata(post, 'https://preview.vercel.app');
+  assert.equal(metadata.canonical, SITE_URL + '/noticias/' + post.slug);
+  for (const name of ['og:image', 'twitter:image']) {
+    assert.equal(metadata.tags.find((tag) => tag[1] === name)[2], 'https://preview.vercel.app/news/pilas.jpg');
+    assert.equal(getNewsMetadata(post).tags.find((tag) => tag[1] === name)[2], SITE_URL + '/news/pilas.jpg');
+  }
+  assert.equal(metadata.tags.find((tag) => tag[1] === 'og:title')[2], post.seoTitle);
+  assert.equal(metadata.tags.find((tag) => tag[1] === 'og:description')[2], post.metaDescription);
+});
+
+test('conserva portadas externas y no inventa sus dimensiones', () => {
+  const metadata = getNewsMetadata({ ...validPost, coverImage: 'https://example.com/photo.jpg' });
+  assert.equal(metadata.tags.find((tag) => tag[1] === 'og:image')[2], 'https://example.com/photo.jpg');
+  assert.equal(metadata.tags.some((tag) => tag[1] === 'og:image:width'), false);
 });
