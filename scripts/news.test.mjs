@@ -7,12 +7,14 @@ import {
   getFeaturedNewsPost,
   normalizeNewsPost,
 } from '../src/lib/news.js';
-import { validateNewsCollection, validateNewsPost } from './news-validation.mjs';
+import { validateNewsCollection, validateNewsPost, validatePublicationCover, validateForwardCovers } from './news-validation.mjs';
 import {
   extractImageGuidelines,
   getImageRejectionReasons,
   selectNewsCover,
 } from './news-cover.mjs';
+
+const reviewFor = (image) => ({ image, relevant: true, cropSafe: true, noTextOrBranding: true, reason: 'Escena de cargas acorde al contenido y recorte comprobado.' });
 
 const validPost = {
   title: 'Noticia de prueba',
@@ -97,6 +99,7 @@ test('prioriza una imagen explícita válida por sobre una generada', () => {
     images: [{
       source: 'attachment',
       url: '/news/imagen-enviada.jpg',
+      coverReview: reviewFor('/news/imagen-enviada.jpg'),
       filename: 'operacion-aerea.jpg',
       mimeType: 'image/jpeg',
       width: 1600,
@@ -131,6 +134,7 @@ test('usa una portada generada con lineamientos cuando no hay explícita válida
     }],
     generatedImage: {
       url: '/news/cruce-andino.jpg',
+      coverReview: reviewFor('/news/cruce-andino.jpg'),
       filename: 'cruce-andino.jpg',
       mimeType: 'image/jpeg',
       width: 1672,
@@ -176,4 +180,29 @@ test('conserva portadas externas y no inventa sus dimensiones', () => {
   const metadata = getNewsMetadata({ ...validPost, coverImage: 'https://example.com/photo.jpg' });
   assert.equal(metadata.tags.find((tag) => tag[1] === 'og:image')[2], 'https://example.com/photo.jpg');
   assert.equal(metadata.tags.some((tag) => tag[1] === 'og:image:width'), false);
+});
+
+
+test('nueva publicación bloqueada sin portada o con institucional, incluso con fecha antigua', () => {
+  for (const coverImage of [undefined, '/news/globaltrip-editorial-default.png']) {
+    const post = { ...validPost, publishedAt: '2020-01-01', coverImage, coverReview: reviewFor(coverImage) };
+    assert.ok(validateForwardCovers([{ post, label: 'nueva.json' }]).length > 0);
+  }
+});
+
+test('revisión vinculada a la imagen: rechaza tema ajeno, recorte roto, branding y evidencia obsoleta', () => {
+  const post = { ...validPost, coverImage: '/news/puerto.png', coverReview: reviewFor('/news/puerto.png') };
+  assert.deepEqual(validatePublicationCover(post), []);
+  for (const delta of [{ relevant: false }, { cropSafe: false }, { noTextOrBranding: false }, { image: '/otra.png' }, { reason: '' }]) {
+    assert.ok(validatePublicationCover({ ...post, coverReview: { ...post.coverReview, ...delta } }).length > 0);
+  }
+});
+
+test('selector no confunde tamaño válido con pertinencia y nunca devuelve fallback publicable', () => {
+  const candidate = { url: '/news/puerto.png', mimeType: 'image/png', width: 1672, height: 941, byteSize: 300_000 };
+  assert.equal(selectNewsCover({ images: [candidate] }).strategy, 'needs-image');
+  assert.equal(selectNewsCover().coverImage, null);
+  const selected = selectNewsCover({ bodyText: 'Exportaciones de bienes', generatedImage: { ...candidate, coverReview: reviewFor(candidate.url) } });
+  assert.equal(selected.strategy, 'generated-from-content');
+  assert.equal(selected.coverImage, candidate.url);
 });

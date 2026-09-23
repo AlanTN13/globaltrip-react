@@ -45,3 +45,16 @@ STOP y señal de BUDGET_RISK:
 ## Cierre
 
 Toda entrega no trivial debe dejar evidencia durable y `EXECUTION RECEIPT`/checkpoint según el contrato vigente, con qué se hizo, qué se validó realmente, qué quedó fuera y dónde detenerse.
+
+
+## Noticias nuevas: portada obligatoria
+
+Antes de publicar una noticia nueva, leer `docs/news-automation.md`. La portada debe
+representar directamente el tema; inspeccionar la imagen y su recorte en preview
+(tarjeta destacada y artículo, escritorio y móvil). Si no cumple, reemplazarla.
+No publicar fallback institucional, logos grandes, texto incrustado ni recursos ajenos.
+Registrar `coverReview` sólo después de inspección visual real; los booleanos no son
+un clasificador de imágenes. No copiar una revisión de otra imagen/noticia.
+`npm run news:add` y el build bloquean publicaciones nuevas sin esa evidencia.
+Preservar validación, preview, merge, producción y URL pública antes de marcar Gmail.
+No revisar ni corregir noticias históricas ni ampliar la lista cerrada de exenciones.

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run news:og",
+    "build": "npm run news:validate && vite build && npm run news:og",
     "lint": "eslint .",
     "news:add": "node scripts/add-news.mjs",
     "news:cover": "node scripts/select-news-cover.mjs",
