@@ -11,7 +11,9 @@ if (!inputPath) {
 
 try {
   const input = await readJsonFile(inputPath);
-  console.log(JSON.stringify(selectNewsCover(input), null, 2));
+  const selection = selectNewsCover(input);
+  console.log(JSON.stringify(selection, null, 2));
+  if (!selection.coverImage) process.exitCode = 1;
 } catch (error) {
   console.error(`No se pudo seleccionar la portada: ${error.message}`);
   process.exit(1);

@@ -25,8 +25,7 @@ La automatización externa debe preparar un JSON con esta forma:
 }
 ```
 
-`coverImage` es opcional y debe ser una URL `https` o una ruta pública absoluta. Si se
-omite, la UI usa el fallback actual. `featured` también
+`coverImage` es obligatorio para noticias nuevas y debe ser una URL `https` o una ruta pública absoluta. El fallback de la UI se conserva sólo para compatibilidad histórica. `featured` también
 es opcional y, cuando se incluye, debe ser booleano. Las categorías admitidas son
 `aduana`, `economia`, `exportacion`, `importacion` y `logistica`. Los bloques de
 contenido admiten `paragraph`, `heading`, `quote` (con `text`) y `list` (con `items`).
@@ -64,7 +63,7 @@ La selección aplica este orden:
 
 1. imagen explícita válida enviada con el contenido;
 2. imagen generada o preparada a partir de `ANEXO — LINEAMIENTOS PARA LA IMAGEN`;
-3. fallback del frontend, únicamente cuando no existe una opción mejor.
+3. si no hay imagen válida, buscar o generar una pertinente a partir del contenido; si no se consigue, detener la publicación (sin marcar Gmail). Nunca usar fallback para noticias nuevas.
 
 Se rechazan candidatos menores a 640 × 360 px o 50 KB, proporciones extremas típicas
 de banners o íconos y nombres/metadatos asociados a firmas, logos, branding, redes
@@ -74,3 +73,38 @@ pero nunca por el solo hecho de ser inline: debe superar los mismos controles.
 `extractImageGuidelines()` conserva el texto del anexo para usarlo como instrucción
 principal al preparar la imagen. `selectNewsCover()` devuelve la estrategia aplicada,
 la portada elegida y los descartes con sus motivos para permitir auditoría del flujo.
+
+
+## Revisión visual obligatoria — 2026-09-23
+
+Además de tamaño/formato, inspeccionar realmente cada candidata contra título y cuerpo:
+¿representa de forma directa la noticia?, ¿el foco sobrevive al recorte?, ¿está libre
+de texto incrustado, logos grandes y placas institucionales? Reemplazar si alguna falla.
+No hace falta un anexo para preparar una imagen temática desde el contenido.
+El agente normalizador realiza esta revisión; no requiere intervención manual de Alan.
+
+Enviar en cada candidata al selector, y guardar junto a `coverImage` en la noticia:
+
+```json
+"coverReview": {
+  "image": "/news/portada-elegida.png",
+  "relevant": true,
+  "cropSafe": true,
+  "noTextOrBranding": true,
+  "reason": "Qué muestra la imagen y por qué representa esta nota; recorte verificado."
+}
+```
+
+`image` debe coincidir exactamente con la imagen revisada. No completar por defecto:
+esta evidencia registra una inspección real, no prueba automática de comprensión visual.
+El selector rechaza candidatos no revisados y devuelve `needs-image` con salida no cero
+si no hay portada publicable. `news:add` exige la revisión incluso para notas con fecha
+antigua. `news:validate` se ejecuta antes de Vite en el build y aplica el mismo gate a
+todas las noticias fuera de la lista cerrada de slugs anteriores al cambio. Esa lista
+se obtuvo sólo de nombres de archivos: no implica auditoría ni aceptación visual histórica.
+No agregar nuevas excepciones.
+
+En preview verificar portada cargada y pertinente tanto en `/noticias` como en la URL
+del artículo, en escritorio y móvil; luego merge, deploy productivo y verificación
+pública. Si falla cualquier gate, detener sin etiquetar el correo como publicado.
+No modificar cron, remitente, deduplicación, etiquetas ni diseño de la sección.

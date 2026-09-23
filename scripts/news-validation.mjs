@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { FALLBACK_NEWS_IMAGE } from '../src/lib/news.js';
 
 export const NEWS_DIRECTORY = path.resolve('src/data/news');
 
@@ -138,3 +139,48 @@ export const validateNewsCollection = (entries) => {
 
   return errors;
 };
+
+// Closed pre-policy inventory at c53ad2a. Do not add new posts here.
+// Keeps historical articles untouched; publication dates cannot bypass the new gate.
+const LEGACY_COVER_SLUGS = new Set([
+  "actualizan-regulaciones-mercosur-para-cosmeticos-y-productos-domisanitarios",
+  "aduana-deja-de-intervenir-control-especifico-pilas-baterias",
+  "aduana-permitira-garantias-mediante-declaracion-jurada-digital",
+  "amplian-el-regimen-de-aduana-en-factoria",
+  "argentina-abrio-el-mercado-de-indonesia-para-carne-bovina-y-lacteos",
+  "argentina-aprobo-acuerdo-mercosur-singapur-2026",
+  "argentina-bate-record-de-exportaciones-y-proyecta-un-fuerte-saldo-comercial-en-2026",
+  "aumentan-controles-y-requisitos-para-productos-controlados",
+  "cambios-en-exporta-simple-suben-limites-y-beneficios",
+  "cambios-en-reintegro-de-iva-a-turistas-extranjeros",
+  "compras-puerta-a-puerta-unifican-beneficios-con-el-regimen-courier",
+  "control-de-alimentos-el-senasa-asume-las-funciones-operativas-del-inal",
+  "eliminan-el-antidumping-para-calzado-deportivo-desmontado-importado-desde-china",
+  "estados-unidos-aplicara-a-la-argentina-su-arancel-general-mas-bajo",
+  "modifican-requisitos-para-depositos-fiscales-y-cargas-de-exportacion-en-planta",
+  "nuevo-regimen-para-medianas-inversiones-con-impacto-aduanero",
+  "nuevos-aranceles-anmat-para-importacion-de-productos-medicos-y-cosmeticos",
+  "paso-cristo-redentor-cerrado-agosto-2026",
+  "rosario-primera-importacion-aerea-alimentos",
+  "suspenden-antidumping-crucetas-tricetas-china-2026"
+]);
+
+export const validatePublicationCover = (post, label = 'noticia') => {
+  const errors = [];
+  if (!isNonEmptyString(post?.coverImage) ||
+      !COVER_IMAGE_PATTERN.test(post.coverImage) ||
+      post.coverImage.includes('globaltrip-editorial-default') ||
+      post.coverImage === FALLBACK_NEWS_IMAGE) {
+    errors.push(`${label}: se requiere una portada temática; no publicar sin imagen ni con fallback institucional`);
+  }
+  const review = post?.coverReview;
+  if (!review || review.image !== post.coverImage ||
+      review.relevant !== true || review.cropSafe !== true ||
+      review.noTextOrBranding !== true || !isNonEmptyString(review.reason)) {
+    errors.push(`${label}: falta revisión visual de la portada elegida (tema, recorte, sin texto/branding)`);
+  }
+  return errors;
+};
+
+export const validateForwardCovers = (entries) => entries.flatMap(({ post, label }) =>
+  LEGACY_COVER_SLUGS.has(post?.slug) ? [] : validatePublicationCover(post, label));

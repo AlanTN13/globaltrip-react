@@ -43,6 +43,13 @@ export const getImageRejectionReasons = (candidate) => {
     reasons.push('proporción típica de banner, ícono o firma');
   }
 
+  const review = candidate.coverReview;
+  if (!review || review.image !== candidate.url ||
+      review.relevant !== true || review.cropSafe !== true ||
+      review.noTextOrBranding !== true || !normalizeText(review.reason)) {
+    reasons.push('falta revisión visual: pertinencia, recorte y ausencia de texto/branding');
+  }
+
   return reasons;
 };
 
@@ -61,12 +68,13 @@ export const selectNewsCover = ({ bodyText = '', images = [], generatedImage = n
     return {
       coverImage: explicitImage.candidate.url,
       strategy: 'explicit-image',
+      coverReview: explicitImage.candidate.coverReview,
       imageGuidelines,
       rejectedImages: assessedImages.filter(({ rejectionReasons }) => rejectionReasons.length > 0),
     };
   }
 
-  if (imageGuidelines && generatedImage) {
+  if (generatedImage) {
     const rejectionReasons = getImageRejectionReasons({
       ...generatedImage,
       source: 'generated',
@@ -74,7 +82,8 @@ export const selectNewsCover = ({ bodyText = '', images = [], generatedImage = n
     if (rejectionReasons.length === 0) {
       return {
         coverImage: generatedImage.url,
-        strategy: 'generated-from-guidelines',
+        strategy: imageGuidelines ? 'generated-from-guidelines' : 'generated-from-content',
+        coverReview: generatedImage.coverReview,
         imageGuidelines,
         rejectedImages: assessedImages.filter(({ rejectionReasons: reasons }) => reasons.length > 0),
       };
@@ -83,7 +92,7 @@ export const selectNewsCover = ({ bodyText = '', images = [], generatedImage = n
 
   return {
     coverImage: null,
-    strategy: 'fallback',
+    strategy: 'needs-image',
     imageGuidelines,
     rejectedImages: assessedImages.filter(({ rejectionReasons }) => rejectionReasons.length > 0),
   };

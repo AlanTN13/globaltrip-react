@@ -74,5 +74,17 @@
       "text": "Global Trip acompaña operaciones de exportación con servicios de logística internacional, gestión aduanera y coordinación integral de embarques hacia distintos mercados."
     }
   ],
-  "gmailMessageId": "1a0c3feb8dfb5597"
+  "gmailMessageId": "1a0c3feb8dfb5597",
+  "coverImage": "/news/exportaciones-argentinas-agosto-2026.png",
+  "coverImageAlt": "Imagen ilustrativa de un buque portacontenedores y grúas en una terminal de cargas",
+  "coverImageWidth": 1672,
+  "coverImageHeight": 941,
+  "coverImageType": "image/png",
+  "coverReview": {
+    "image": "/news/exportaciones-argentinas-agosto-2026.png",
+    "relevant": true,
+    "cropSafe": true,
+    "noTextOrBranding": true,
+    "reason": "Buque, contenedores y grúas representan el comercio de bienes exportados de la nota. Escena ilustrativa generada, sin afirmar puerto o evento real; foco central reconocible, sin textos ni logos."
+  }
 }
