@@ -1,9 +1,9 @@
 import { loadNewsEntries } from './news-files.mjs';
-import { validateNewsCollection, validateForwardCovers } from './news-validation.mjs';
+import { validateNewsCollection, validateForwardCovers, validateForwardUniqueCovers } from './news-validation.mjs';
 
 try {
   const entries = await loadNewsEntries();
-  const errors = [...validateNewsCollection(entries), ...validateForwardCovers(entries)];
+  const errors = [...validateNewsCollection(entries), ...validateForwardCovers(entries), ...validateForwardUniqueCovers(entries)];
 
   if (errors.length > 0) {
     console.error(`Validación fallida (${errors.length} error${errors.length === 1 ? '' : 'es'}):`);

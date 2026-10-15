@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { loadNewsEntries, readJsonFile } from './news-files.mjs';
-import { NEWS_DIRECTORY, validateNewsCollection, validatePublicationCover } from './news-validation.mjs';
+import { NEWS_DIRECTORY, validateNewsCollection, validatePublicationCover, validateUniquePublicationCover } from './news-validation.mjs';
 
 const inputPath = process.argv[2] && path.resolve(process.argv[2]);
 
@@ -22,6 +22,7 @@ try {
   ]);
 
   errors.push(...validatePublicationCover(candidate, candidateLabel));
+  errors.push(...validateUniquePublicationCover(candidate, entries, candidateLabel));
 
   if (errors.length > 0) {
     console.error('La noticia no fue incorporada:');
