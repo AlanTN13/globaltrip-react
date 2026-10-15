@@ -7,7 +7,7 @@ import {
   getFeaturedNewsPost,
   normalizeNewsPost,
 } from '../src/lib/news.js';
-import { validateNewsCollection, validateNewsPost, validatePublicationCover, validateForwardCovers } from './news-validation.mjs';
+import { validateNewsCollection, validateNewsPost, validatePublicationCover, validateForwardCovers, validateUniquePublicationCover, validateForwardUniqueCovers } from './news-validation.mjs';
 import {
   extractImageGuidelines,
   getImageRejectionReasons,
@@ -205,4 +205,20 @@ test('selector no confunde tamaño válido con pertinencia y nunca devuelve fall
   const selected = selectNewsCover({ bodyText: 'Exportaciones de bienes', generatedImage: { ...candidate, coverReview: reviewFor(candidate.url) } });
   assert.equal(selected.strategy, 'generated-from-content');
   assert.equal(selected.coverImage, candidate.url);
+});
+
+
+test('portada nueva rechaza reutilización incluso con URL absoluta o parámetros distintos', () => {
+  const entries = [{label:'anterior.json',post:{...validPost,slug:'anterior',coverImage:'/news/usada.jpg'}}];
+  for (const coverImage of ['/news/usada.jpg','https://globaltriplog.com/news/usada.jpg?v=2']) {
+    assert.match(validateUniquePublicationCover({...validPost,coverImage},entries)[0], /portada ya utilizada/);
+  }
+  assert.deepEqual(validateUniquePublicationCover({...validPost,coverImage:'/news/distinta.jpg'},entries),[]);
+});
+
+test('build conserva repeticiones históricas y bloquea una publicación nueva repetida', () => {
+  const entries = ['historica-1','historica-2'].map(slug=>({label:slug,post:{...validPost,slug,coverImage:'/news/historica.jpg'}}));
+  assert.deepEqual(validateForwardUniqueCovers(entries),[]);
+  entries.push({label:'nueva',post:{...validPost,slug:'nueva',publishedAt:'2026-10-15',coverImage:'/news/historica.jpg'}});
+  assert.match(validateForwardUniqueCovers(entries)[0], /portada ya utilizada/);
 });

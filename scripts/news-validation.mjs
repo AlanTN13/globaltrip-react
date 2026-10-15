@@ -184,3 +184,24 @@ export const validatePublicationCover = (post, label = 'noticia') => {
 
 export const validateForwardCovers = (entries) => entries.flatMap(({ post, label }) =>
   LEGACY_COVER_SLUGS.has(post?.slug) ? [] : validatePublicationCover(post, label));
+
+// Forward-only publication gate; historical reuse remains unchanged.
+const UNIQUE_COVER_FROM = '2026-10-15';
+const coverIdentity = (image) => {
+  if (!isNonEmptyString(image)) return null;
+  try {
+    const url = new URL(image, 'https://globaltriplog.com');
+    return `${url.origin}${url.pathname}`;
+  } catch { return null; }
+};
+
+export const validateUniquePublicationCover = (post, entries, label = 'noticia') => {
+  const identity = coverIdentity(post?.coverImage);
+  if (!identity) return [];
+  const owner = entries.find(({ post: existing }) =>
+    existing?.slug !== post.slug && coverIdentity(existing?.coverImage) === identity);
+  return owner ? [`${label}: portada ya utilizada en ${owner.label}; elegir otra imagen temática`] : [];
+};
+
+export const validateForwardUniqueCovers = (entries) => entries.flatMap(({ post, label }) =>
+  post?.publishedAt >= UNIQUE_COVER_FROM ? validateUniquePublicationCover(post, entries, label) : []);

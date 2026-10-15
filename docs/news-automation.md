@@ -108,3 +108,13 @@ En preview verificar portada cargada y pertinente tanto en `/noticias` como en l
 del artículo, en escritorio y móvil; luego merge, deploy productivo y verificación
 pública. Si falla cualquier gate, detener sin etiquetar el correo como publicado.
 No modificar cron, remitente, deduplicación, etiquetas ni diseño de la sección.
+
+
+## Prevención de portada repetida — 2026-10-15
+
+`news:add` rechaza una portada cuya URL de imagen ya pertenece a otra noticia,
+incluso si se presenta como ruta local, URL pública absoluta o cambia parámetros de
+transformación. El build exige el mismo control a publicaciones con fecha desde
+2026-10-15. La reutilización histórica previa no dispara una auditoría ni requiere
+modificar sus contenidos. No copiar ni renombrar un asset para eludir el control.
+La identidad de contenido y deduplicación por Gmail ID/slug no cambian.

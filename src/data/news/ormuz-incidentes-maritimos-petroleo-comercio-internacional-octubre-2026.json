@@ -1,0 +1,79 @@
+{
+  "title": "Ormuz: nuevos incidentes marítimos elevan la atención sobre el petróleo y las cargas",
+  "slug": "ormuz-incidentes-maritimos-petroleo-comercio-internacional-octubre-2026",
+  "category": "logistica",
+  "publishedAt": "2026-10-15",
+  "coverImage": "/news/ormuz-transporte-maritimo-petroleo-2026.jpg",
+  "coverImageAlt": "Imagen ilustrativa de un petrolero y un portacontenedores en un paso marítimo de costas áridas; no corresponde a los incidentes reportados",
+  "coverImageWidth": 1672,
+  "coverImageHeight": 941,
+  "coverImageType": "image/jpeg",
+  "coverReview": {
+    "image": "/news/ormuz-transporte-maritimo-petroleo-2026.jpg",
+    "relevant": true,
+    "cropSafe": true,
+    "noTextOrBranding": true,
+    "reason": "Ilustración de transporte de petróleo y contenedores por un estrecho; no simula ataques ni se presenta como foto del hecho. Buque central reconocible en escritorio y móvil, sin texto ni logos."
+  },
+  "excerpt": "La autoridad marítima de Singapur confirmó incidentes con dos portacontenedores. Qué está verificado y qué riesgos conviene evaluar al planificar cargas internacionales.",
+  "sourceName": "MPA Singapur; Reuters vía Euronext; La Nación",
+  "sourceUrl": "https://www.lanacion.com.ar/el-mundo/aumentan-los-ataques-en-el-estrecho-de-ormuz-se-hunden-dos-buques-y-aumenta-el-precio-del-petroleo-nid14102026/",
+  "seoTitle": "Ormuz: incidentes marítimos, petróleo y riesgos logísticos",
+  "metaDescription": "Incidentes confirmados en Ormuz y reacción del petróleo: hechos, riesgos para el transporte marítimo y puntos a revisar antes de embarcar.",
+  "gmailMessageId": "1a13cc23be6628ab",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Los incidentes de seguridad en el estrecho de Ormuz volvieron a poner bajo atención la continuidad de los embarques y el costo de la energía. El enlace enviado por Germán el 14 de octubre reúne novedades que merecen seguimiento al planificar operaciones internacionales."
+    },
+    {
+      "type": "heading",
+      "text": "Qué está confirmado"
+    },
+    {
+      "type": "paragraph",
+      "text": "En su comunicado del 14 de octubre, la Autoridad Marítima y Portuaria de Singapur (MPA) informó que los portacontenedores GFS Pride y GFS Giselle habrían sido alcanzados por proyectiles no identificados durante su tránsito los días 13 y 14. El Pride sufrió un incendio y se hundió; sus 21 tripulantes fueron evacuados sin lesiones. El Giselle tuvo daños en el casco y llegó por sus propios medios a un fondeadero seguro, con sus 22 tripulantes a salvo. El comunicado no determina la autoría de los impactos."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fuente primaria: https://www.mpa.gov.sg/media-centre/details/two-singapore-registered-vessels-struck-in-strait-of-hormuz"
+    },
+    {
+      "type": "heading",
+      "text": "Petróleo: una reacción de mercado, no un aumento permanente confirmado"
+    },
+    {
+      "type": "paragraph",
+      "text": "Reuters informó que, a las 17:25 GMT del 14 de octubre, el Brent avanzaba 0,82%, a USD 106,56 por barril, y el WTI subía 1,55%, a USD 95,60. El reporte vinculó la tensión con los ataques al transporte marítimo y otros incidentes regionales. Son valores intradiarios de esa fecha: no representan el cierre ni una cotización vigente al momento de contratar un embarque."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fuente de mercado: https://live.euronext.com/en/financial-news/oil-prices-gain-attacks-saudi-arabia-irans-new-tactics-target-tankers"
+    },
+    {
+      "type": "heading",
+      "text": "Qué podría implicar para una operación de comercio exterior"
+    },
+    {
+      "type": "paragraph",
+      "text": "Como análisis operativo de GlobalTrip, una mayor exposición al riesgo podría llevar a revisar itinerarios, disponibilidad de espacio, seguros y recargos. Una variación del petróleo también podría trasladarse a costos de combustible. Estos son escenarios posibles: las fuentes citadas no acreditan un incremento uniforme de los fletes, un cierre general del paso ni una demora específica para una carga argentina."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Confirmar con el transportista la ruta efectiva y las escalas del embarque, sin asumir que toda operación pasa por Ormuz.",
+        "Solicitar vigencia de la tarifa y detalle de eventuales recargos antes de confirmar la reserva.",
+        "Revisar la cobertura aplicable y sus exclusiones con el asegurador.",
+        "Verificar los avisos operativos de la naviera y ajustar compromisos de entrega sólo con información de la operación concreta."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "GlobalTrip puede acompañar la revisión de alternativas logísticas según origen, destino y condiciones reales de cada envío. La prioridad es tomar decisiones con información actualizada, diferenciando un riesgo regional de un impacto confirmado sobre la propia carga."
+    },
+    {
+      "type": "paragraph",
+      "text": "Lectura periodística de origen enviada el 14/10: https://www.lanacion.com.ar/el-mundo/aumentan-los-ataques-en-el-estrecho-de-ormuz-se-hunden-dos-buques-y-aumenta-el-precio-del-petroleo-nid14102026/ La portada es una ilustración temática y no una fotografía de los buques afectados."
+    }
+  ]
+}
