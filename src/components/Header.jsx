@@ -1,11 +1,55 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/useLanguage';
+import styles from './Header.module.css';
 
 const Header = () => {
     const { language, setLanguage, t } = useLanguage();
     const location = useLocation();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+
+    const usefulLinksCopy = {
+        es: { title: 'Enlaces útiles', registration: 'Alta de clientes', courier: 'Cotizador courier' },
+        en: { title: 'Useful links', registration: 'Client registration', courier: 'Courier calculator' },
+        pt: { title: 'Links úteis', registration: 'Cadastro de clientes', courier: 'Cotador courier' }
+    }[language] || { title: 'Enlaces útiles', registration: 'Alta de clientes', courier: 'Cotizador courier' };
+
+    const closeUsefulLinks = (event) => {
+        event.currentTarget.closest('details')?.removeAttribute('open');
+        setIsMobileMenuOpen(false);
+    };
+
+    const renderUsefulLinks = (mobile = false) => (
+        <details
+            className={`${styles.usefulLinks} ${mobile ? styles.mobileLinks : ''}`}
+            onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false;
+            }}
+            onKeyDown={(event) => {
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    event.currentTarget.open = false;
+                    event.currentTarget.querySelector('summary')?.focus();
+                }
+            }}
+        >
+            <summary className={styles.trigger}>
+                <span>{usefulLinksCopy.title}</span>
+                <svg className={styles.chevron} viewBox="0 0 12 12" aria-hidden="true">
+                    <path d="m2 4 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            </summary>
+            <div className={styles.menu}>
+                <Link to="/alta-cliente" aria-current={location.pathname === '/alta-cliente' ? 'page' : undefined} onClick={closeUsefulLinks}>
+                    {usefulLinksCopy.registration}
+                </Link>
+                <a href="https://cotizador.globaltriplog.com/cotizador" aria-current={location.pathname === '/cotizador' ? 'page' : undefined} onClick={closeUsefulLinks}>
+                    {usefulLinksCopy.courier}
+                </a>
+            </div>
+        </details>
+    );
 
     const languages = [
         { code: 'es', flag: 'https://flagcdn.com/w40/ar.png', alt: 'Español' },
@@ -55,9 +99,7 @@ const Header = () => {
                         <Link className="text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" to="/noticias">
                             {t('nav.news')}
                         </Link>
-                        <Link className="text-[15px] font-bold text-slate-600 transition-colors hover:text-primary" to="/alta-cliente" aria-current={location.pathname === '/alta-cliente' ? 'page' : undefined}>
-                            {t('nav.registration')}
-                        </Link>
+                        {renderUsefulLinks()}
                     </nav>
 
                     <div className="hidden items-center gap-4 border-x border-slate-100 px-4 xl:flex xl:mx-2">
@@ -136,14 +178,7 @@ const Header = () => {
                         >
                             {t('nav.news')}
                         </Link>
-                        <Link
-                            className="rounded-2xl px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-[#0b0c49]"
-                            to="/alta-cliente"
-                            aria-current={location.pathname === '/alta-cliente' ? 'page' : undefined}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            {t('nav.registration')}
-                        </Link>
+                        {renderUsefulLinks(true)}
                         <Link
                             className="rounded-2xl bg-[#0b0c49] px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#161865]"
                             to="/contacto"
