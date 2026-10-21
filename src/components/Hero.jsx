@@ -98,7 +98,7 @@ const Hero = () => {
                 type="button"
                 onClick={toggleVideo}
                 aria-label={isPaused ? videoLabels.play : videoLabels.pause}
-                className="absolute bottom-4 right-6 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/30 text-white transition-colors hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                className="absolute bottom-4 left-6 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/30 text-white transition-colors hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
                 <span aria-hidden="true" className="material-symbols-outlined text-lg">
                     {isPaused ? 'play_arrow' : 'pause'}
