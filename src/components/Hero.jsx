@@ -44,7 +44,7 @@ const Hero = () => {
     };
 
     return (
-        <section className="relative h-[80svh] min-h-[600px] w-full overflow-hidden flex items-center justify-center">
+        <section className="relative mx-3 my-3 h-[85svh] min-h-[640px] w-[calc(100%-24px)] overflow-hidden rounded-2xl md:h-[840px] md:min-h-0 md:rounded-[30px] flex items-center justify-center">
             {/* Decorative background video with a static loading fallback. */}
             <div className="absolute inset-0 z-0">
                 <video
