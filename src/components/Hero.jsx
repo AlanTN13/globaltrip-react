@@ -60,7 +60,7 @@ const Hero = () => {
                     onPlay={() => setIsPaused(false)}
                     onPause={() => setIsPaused(true)}
                 />
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
+                <div className="absolute inset-0 bg-black/40"></div>
             </div>
 
             {/* Content centered over video/image */}
