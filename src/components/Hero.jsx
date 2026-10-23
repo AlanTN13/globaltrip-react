@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/useLanguage';
 
-const HERO_VIDEO = '/videos/globaltrip-hero.mp4';
-const HERO_POSTER = '/videos/globaltrip-hero-poster.jpg';
+const HERO_VIDEO = '/videos/globaltrip-hero-mobile.mp4';
+const HERO_POSTER = '/videos/globaltrip-hero-mobile-poster.jpg';
 const DESKTOP_VIDEO = '/videos/globaltrip-hero-desktop.mp4';
 const DESKTOP_POSTER = '/videos/globaltrip-hero-desktop-poster.jpg';
 const DESKTOP_QUERY = '(min-width: 768px)';
@@ -56,6 +56,9 @@ const Hero = () => {
 
     return (
         <section className="relative mx-3 my-3 h-[85svh] min-h-[640px] w-[calc(100%-24px)] overflow-hidden rounded-2xl md:h-[840px] md:min-h-0 md:rounded-[30px] flex items-center justify-center">
+            {!isDesktop && (
+                <link rel="preload" as="image" href={HERO_POSTER} fetchPriority="high" />
+            )}
             {/* Decorative background video with a static loading fallback. */}
             <div className="absolute inset-0 z-0">
                 <video
