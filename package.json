@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/prepare-hero-video.mjs",
     "build": "npm run news:validate && vite build && npm run news:og",
     "lint": "eslint .",
     "news:add": "node scripts/add-news.mjs",

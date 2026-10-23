@@ -4,6 +4,9 @@ import { useLanguage } from '../context/useLanguage';
 
 const HERO_VIDEO = '/videos/globaltrip-hero.mp4';
 const HERO_POSTER = '/videos/globaltrip-hero-poster.jpg';
+const DESKTOP_VIDEO = '/videos/globaltrip-hero-desktop.mp4';
+const DESKTOP_POSTER = '/videos/globaltrip-hero-desktop-poster.jpg';
+const DESKTOP_QUERY = '(min-width: 768px)';
 const VIDEO_LABELS = {
     es: { play: 'Reproducir video de fondo', pause: 'Pausar video de fondo' },
     en: { play: 'Play background video', pause: 'Pause background video' },
@@ -14,7 +17,15 @@ const Hero = () => {
     const { t, language } = useLanguage();
     const videoRef = useRef(null);
     const [isPaused, setIsPaused] = useState(true);
+    const [isDesktop, setIsDesktop] = useState(() => window.matchMedia(DESKTOP_QUERY).matches);
     const videoLabels = VIDEO_LABELS[language] || VIDEO_LABELS.es;
+
+    useEffect(() => {
+        const viewport = window.matchMedia(DESKTOP_QUERY);
+        const updateViewport = (event) => setIsDesktop(event.matches);
+        viewport.addEventListener('change', updateViewport);
+        return () => viewport.removeEventListener('change', updateViewport);
+    }, []);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -32,7 +43,7 @@ const Hero = () => {
             motionPreference.removeEventListener('change', applyMotionPreference);
             video.pause();
         };
-    }, []);
+    }, [isDesktop]);
 
     const toggleVideo = () => {
         const video = videoRef.current;
@@ -49,8 +60,8 @@ const Hero = () => {
             <div className="absolute inset-0 z-0">
                 <video
                     ref={videoRef}
-                    src={HERO_VIDEO}
-                    poster={HERO_POSTER}
+                    src={isDesktop ? DESKTOP_VIDEO : HERO_VIDEO}
+                    poster={isDesktop ? DESKTOP_POSTER : HERO_POSTER}
                     muted
                     loop
                     playsInline
