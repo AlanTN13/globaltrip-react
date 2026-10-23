@@ -1,24 +1,80 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/useLanguage';
 
-const HERO_IMAGE =
-    'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1800';
+const HERO_VIDEO = '/videos/globaltrip-hero-mobile.mp4';
+const HERO_POSTER = '/videos/globaltrip-hero-mobile-poster.jpg';
+const DESKTOP_VIDEO = '/videos/globaltrip-hero-desktop.mp4';
+const DESKTOP_POSTER = '/videos/globaltrip-hero-desktop-poster.jpg';
+const DESKTOP_QUERY = '(min-width: 768px)';
+const VIDEO_LABELS = {
+    es: { play: 'Reproducir video de fondo', pause: 'Pausar video de fondo' },
+    en: { play: 'Play background video', pause: 'Pause background video' },
+    pt: { play: 'Reproduzir vídeo de fundo', pause: 'Pausar vídeo de fundo' },
+};
 
 const Hero = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    const videoRef = useRef(null);
+    const [isPaused, setIsPaused] = useState(true);
+    const [isDesktop, setIsDesktop] = useState(() => window.matchMedia(DESKTOP_QUERY).matches);
+    const videoLabels = VIDEO_LABELS[language] || VIDEO_LABELS.es;
+
+    useEffect(() => {
+        const viewport = window.matchMedia(DESKTOP_QUERY);
+        const updateViewport = (event) => setIsDesktop(event.matches);
+        viewport.addEventListener('change', updateViewport);
+        return () => viewport.removeEventListener('change', updateViewport);
+    }, []);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const applyMotionPreference = () => {
+            if (motionPreference.matches) {
+                video.pause();
+            } else {
+                video.play().catch(() => {});
+            }
+        };
+        applyMotionPreference();
+        motionPreference.addEventListener('change', applyMotionPreference);
+        return () => {
+            motionPreference.removeEventListener('change', applyMotionPreference);
+            video.pause();
+        };
+    }, [isDesktop]);
+
+    const toggleVideo = () => {
+        const video = videoRef.current;
+        if (video.paused) {
+            video.play().catch(() => {});
+        } else {
+            video.pause();
+        }
+    };
 
     return (
-        <section className="relative h-[60vh] min-h-[500px] w-full overflow-hidden flex items-center justify-center">
-            {/* Background Image Overlay */}
+        <section className="relative mx-3 my-3 h-[65svh] min-h-[640px] max-h-[680px] w-[calc(100%-24px)] overflow-hidden rounded-2xl md:h-[840px] md:min-h-0 md:max-h-none md:rounded-[30px] flex items-center justify-center">
+            {!isDesktop && (
+                <link rel="preload" as="image" href={HERO_POSTER} fetchPriority="high" />
+            )}
+            {/* Decorative background video with a static loading fallback. */}
             <div className="absolute inset-0 z-0">
-                <img
-                    src={HERO_IMAGE}
-                    alt="Global Logistics Background"
+                <video
+                    ref={videoRef}
+                    src={isDesktop ? DESKTOP_VIDEO : HERO_VIDEO}
+                    poster={isDesktop ? DESKTOP_POSTER : HERO_POSTER}
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    aria-hidden="true"
                     className="w-full h-full object-cover"
-                    fetchPriority="high"
-                    decoding="async"
+                    onPlay={() => setIsPaused(false)}
+                    onPause={() => setIsPaused(true)}
                 />
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
+                <div className="absolute inset-0 bg-black/40"></div>
             </div>
 
             {/* Content centered over video/image */}
@@ -52,6 +108,16 @@ const Hero = () => {
                     </div>
                 </div>
             </div>
+            <button
+                type="button"
+                onClick={toggleVideo}
+                aria-label={isPaused ? videoLabels.play : videoLabels.pause}
+                className="absolute bottom-4 left-6 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/30 text-white transition-colors hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+                <span aria-hidden="true" className="material-symbols-outlined text-lg">
+                    {isPaused ? 'play_arrow' : 'pause'}
+                </span>
+            </button>
         </section>
     );
 };
